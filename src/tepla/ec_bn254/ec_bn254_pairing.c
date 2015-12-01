@@ -165,12 +165,12 @@ void ec_bn254_pairing_dob_aranha(EC_POINT T, Element l0, Element l2, Element l4,
     bn254_fp2_sub(t[3], t[3], t[5]);           //t3 = t3-t5
     bn254_fp2_sub(t[6], t[6], t[8]);           //T0 = T0-T2
     bn254_fp2_OP2(t[6], t[6]);
-    bn254_fp2_mod(ycoord(T), t[6]);            //y3 = T0 mod...
+    bn254_fp2_mod(ycoord(T), t[6]);            //y3 = T0 mod p
     bn254_fp2_mul(zcoord(T), t[1], t[3]);      //z3 = t1*t3
     bn254_fp2_sub(t[2], t[2], t[1]);           //t2 = t2-t1
     bn254_fp2_xi_mul(l0, t[2]);                //l0 = xi*t2
     bn254_fp2_mul_p(l2, l2, xcoord(P));        //l2 = l2*Px
-    bn254_fp2_mul_p(l4, l4, ycoord(P));        //l4 = l4*Py
+    bn254_fp2_mul_p(l4, l4, ycoord(P));        //l4 = l4*(-Py)
 }
 
 //-------------------------------------------
@@ -244,46 +244,41 @@ void ec_bn254_pairing_add_beuchat(EC_POINT T, Element l0, Element l2, Element l4
 void ec_bn254_pairing_add_aranha(EC_POINT T, Element l0, Element l2, Element l4, const EC_POINT Q, const EC_POINT P)
 {
 	Element *t = field(T)->tmp;
-	Element *k = field(P)->tmp;
-	//printf("add\n");
 
 	// T + Q = R
-	bn254_fp2_sqr(t[1], zcoord(T));        		// t1 = Tz^2
-	bn254_fp2_mul(t[3], xcoord(Q), t[1]); 		// t3 = Qx*t1
-	bn254_fp2_mul(t[1], t[1], zcoord(T));  		// t1 = t1*Tz
-	bn254_fp2_sub(t[3], t[3], xcoord(T));  		// t3 = t3-Tx
-	bn254_fp2_mul(t[4], t[1], ycoord(Q));  		// t4 = t1*Qy
-	bn254_fp2_mul(zcoord(T), zcoord(T), t[3]); 	// Rz = Z1*t3
-	bn254_fp2_sub(t[0], t[4], ycoord(T));  		// t0 = t4-Ty
-	bn254_fp2_sqr(t[1], t[3]);             		// t1 = t3^2
-	bn254_fp2_mul(t[4], t[1], t[3]);	   		// t4 = t1*t3
-	bn254_fp2_mul(t[1], t[1], xcoord(T));  		// t1 = t1*Tx
-	bn254_fp2_sqr(xcoord(T), t[0]);		   		// Rx = t0^2
-	bn254_fp2_dob(t[3], t[1]);			   		// t3 = 2*t1
-	bn254_fp2_sub(xcoord(T), xcoord(T), t[3]); 	// Rx = Rx-t3
-	bn254_fp2_sub(xcoord(T), xcoord(T), t[4]); 	// Rx = Rx-t4
-	bn254_fp2_sub(t[1], t[1], xcoord(T));  		// t1 = t1-Rx
-	bn254_fp2_muln(t[2], t[0], t[1]); 			// t2 = t0*t1
-	bn254_fp2_OP1_2(t[2], t[2]);
-	bn254_fp2_muln(t[3], t[4], ycoord(T)); 		// t3 = t4*Ty
-	bn254_fp2_OP1_2(t[3], t[3]);
-	bn254_fp2_sub(t[2], t[2], t[3]); 			// t2 = t2-t3
-	bn254_fp2_OP2(t[2], t[2]);
-	bn254_fp2_mod(ycoord(T), t[2]);  			// Ry = t2 mod p
-	
-	bn254_fp_neg(k[0], xcoord(P));
-	bn254_fp2_mul_p(l2, t[0], k[0]); 		// l2 = l_(1,0) = t0*Px
-	//bn254_fp2_mul_p(l2, t[0], xcoord(P)); 		// l2 = l_(1,0) = t0*Px	
-	//bn254_fp2_neg(l2,l2);
-	
-	bn254_fp2_muln(t[2], t[0], xcoord(Q)); 		// t2 = t0*Qx
-	bn254_fp2_OP1_2(t[2], t[2]);
-	bn254_fp2_muln(t[3], zcoord(T), ycoord(Q)); // t3 = Rz*Qy
-	bn254_fp2_OP1_2(t[3], t[3]);
-	bn254_fp2_sub(t[2], t[2], t[3]); 			// t2 = t2-t3
-	bn254_fp2_OP2(t[2], t[2]);
-	bn254_fp2_mod(l4, t[2]);					// l4 = l_(1,1) = t2 mod p
-	bn254_fp2_mul_p(l0, zcoord(T), ycoord(P)); 	// l0 = l_(0,0) = Rz*Py
+    bn254_fp2_mul(t[1], zcoord(T), xcoord(Q));  //t1 = Tz*Qx
+    bn254_fp2_mul(t[2], zcoord(T), ycoord(Q));  //t2 = Tz*Qy
+    bn254_fp2_sub(t[1], xcoord(T), t[1]);       //t1 = Tx-t1
+    bn254_fp2_sub(t[2], ycoord(T), t[2]);       //t2 = Ty-t2
+    bn254_fp2_sqr(t[3], t[1]);                  //t3 = t1^2
+    bn254_fp2_mul(xcoord(T), t[3], xcoord(T));  //Rx = t3*Tx
+    bn254_fp2_sqr(t[4], t[2]);                  //t4 = t2^2
+    bn254_fp2_mul(t[3], t[1], t[3]);            //t3 = t1*t3
+    bn254_fp2_mul(t[4], t[4], zcoord(T));       //t4 = t4*Tz
+    bn254_fp2_add(t[4], t[3], t[4]);            //t4 = t3+t4
+    bn254_fp2_sub(t[4], t[4], xcoord(T));       //t4 = t4-Rx
+    bn254_fp2_sub(t[4], t[4], xcoord(T));       //t4 = t4-Rx
+    bn254_fp2_sub(xcoord(T), xcoord(T), t[4]);  //Rx = Rx-t4
+    bn254_fp2_muln(t[6], t[2], xcoord(T));      //T1 = t2*Rx
+    bn254_fp2_muln(t[7], t[3], ycoord(T));      //T2 = t3*Ty
+    bn254_fp2_OP1_2(t[6], t[6]);
+    bn254_fp2_OP1_2(t[7], t[7]);
+    bn254_fp2_sub(t[7], t[6], t[7]);            //T2 = T1-T2
+    bn254_fp2_OP2(t[7]);
+    bn254_fp2_mod(ycoord(T), t[7]);             //Ry = T2 mod p
+    bn254_fp2_mul(xcoord(T), t[1], t[4]);       //Rx = t1*t4
+    bn254_fp2_mul(zcoord(T), t[3], zcoord(T));  //Rz = t3*Tz
+    bn254_fp2_mul_p(l2, t[2], xcoord(P));       //l2 = t3*Px
+    bn254_fp2_neg(l2, l2);                      //l2 = -l2
+    bn254_fp2_muln(t[6], t[2], xcoord(Q));      //T1 = t2*Qx
+    bn254_fp2_muln(t[7], t[1], ycoord(Q));      //T2 = t1*Qy
+    bn254_fp2_OP1_2(t[6], t[6]);
+    bn254_fp2_OP1_2(t[7], t[7]);
+    bn254_fp2_sub(t[6], t[6], t[7]);            //T1 = T1-T2
+    bn254_fp2_OP2(t[6], t[6]);
+    bn254_fp2_mod(t[2], t[6]);                  //t2 = T1 mod p
+    bn254_fp2_xi_mul(l0, t[2]);                 //l0 = xi*t2
+    bn254_fp2_mul_p(l4, t[1], ycoord(P));       //t4 = t1*(-Py)
 }
 
 //-------------------------------------------
