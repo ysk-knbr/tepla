@@ -133,42 +133,44 @@ void ec_bn254_pairing_dob_beuchat(EC_POINT T, Element l0, Element l2, Element l4
 //-------------------------------------------
 void ec_bn254_pairing_dob_aranha(EC_POINT T, Element l0, Element l2, Element l4, const EC_POINT P)
 {
-	//printf("dob\n");
 	Element *t = field(T)->tmp;
-	Element *k = field(P)->tmp;
 	// 2T = R
  	// calculate R and l
- 	bn254_fp2_sqr(t[0], xcoord(T)); 			// t0 = Tx^2
- 	bn254_fp2_sqr(t[2], zcoord(T)); 			// t2 = Tz^2
- 	bn254_fp2_dob(t[1], t[0]);      			// t1 = 2*t0 
- 	bn254_fp2_mul(zcoord(T), ycoord(T), zcoord(T)); // Tz = Ty*Tz
- 	bn254_fp2_add(t[0], t[0], t[1]); 			// t0 = t0+t1
- 	bn254_fp2_sqr(t[3], ycoord(T));  			// t3 = Ty^2
- 	bn254_fp2_div_2(t[0], t[0]);				// t0 = t0/2
- 	bn254_fp2_mul(t[1], t[0], t[2]); 			// t1 = t0*t2
- 	bn254_fp2_mul(t[4], t[0], xcoord(T)); 		// t4 = t0*Tx 
- 	
- 	bn254_fp_neg(k[0], xcoord(P)); 				// k0 = -Px
- 	bn254_fp2_mul_p(l2, t[1], k[0]);	 	// l2 = l_(1,0) = t1*k0
- 	//bn254_fp2_mul_p(l2, t[1], xcoord(P));	 	// l2 = l_(1,0) = t1*k0
- 	//bn254_fp2_neg(l2,l2);
- 	
- 	bn254_fp2_sub(l4, t[4], t[3]);        		// l4 = l_(1,1) = t4-t3
- 	bn254_fp2_mul(t[2], zcoord(T), t[2]); 		// t2 = Rz*t2
- 	bn254_fp2_mul(t[1], t[3], xcoord(T)); 		// t1 = t3*Tx
- 	bn254_fp2_mul_p(l0, t[2], ycoord(P));   	// l0 = l_(0,0) = t2*Py
- 	bn254_fp2_dob(ycoord(T), t[1]); 	  		// Ty = 2*t1
- 	bn254_fp2_sqr(xcoord(T), t[0]);       		// Tx = t0^2
- 	bn254_fp2_sub(xcoord(T), xcoord(T), ycoord(T)); // Rx = Tx-Ty
- 	bn254_fp2_sub(t[1], t[1], xcoord(T)); 		// t1 = t1-Rx
- 	
- 	bn254_fp2_muln(t[2], t[3], t[3]); 			// t2 = t3^2
- 	bn254_fp2_OP1_2(t[2], t[2]);
- 	bn254_fp2_muln(t[1], t[0], t[1]);			// t1 = t0*t1
- 	bn254_fp2_OP1_2(t[1], t[1]);
- 	bn254_fp2_subn(t[1], t[1], t[2]); 			// t1 = t1-t2
- 	bn254_fp2_OP2(t[1], t[1]);
- 	bn254_fp2_mod(ycoord(T), t[1]); 			// Ry = t1 mod p
+    bn254_fp2_mul(t[0], zcoord(T), zcoord(T)); //t0 = z1*z1
+    bn254_fp2_mul(t[4], xcoord(T), ycoord(T)); //t4 = x1*y1
+    bn254_fp2_sqr(t[1], ycoord(T));            //t1 = y1^2 
+    bn254_fp2_add(t[3], t[0], t[0]);           //t3 = t0+t0
+    bn254_fp2_div_2(t[4], t[4]);               //t4 = t4/2
+    bn254_fp2_add(t[5], t[0], t[1]);           //t5 = t0+t1
+    bn254_fp2_add(t[0], t[0], t[3]);           //t0 = t0+t3
+    bn254_fp2_xi_mul_inv(t[2], t[0]);          //t2 = b'*t0
+    bn254_fp2_sqr(t[0], xcoord(T));            //t0 = x1^2
+    bn254_fp2_add(t[3], t[2], t[2]);           //t3 = t2+t2
+    bn254_fp2_add(t[3], t[2], t[3]);           //t3 = t2+t3
+    bn254_fp2_addn(l2, t[0], t[0]);            //l2 = t0+t0
+    bn254_fp2_add(t[3], t[1], t[3]);           //t3 = t1+t3
+    bn254_fp2_sub(xcoord(T), t[1], t[3]);      //x3 = t1-t3
+    bn254_fp2_addn(l2, l2, t[0]);              //l2 = l2+t0
+    bn254_fp2_add(t[3], t[1], t[3]);           //t3 = t1+t3
+    bn254_fp2_mul(xcoord(T), t[4], xcoord(T)); //x3 = t4*x3
+    bn254_fp2_div_2(t[3], t[3]);               //t3 = t3/2
+    bn254_fp2_sqrn(t[6], t[3]);                //T0 = t3^2
+    bn254_fp2_sqrn(t[7], t[2]);                //T1 = t2^2
+    bn254_fp2_OP1_2(t[6], t[6]);
+    bn254_fp2_OP1_2(t[7], t[7]);            
+    bn254_fp2_addn(t[8], t[7], t[7]);          //T2 = T1+T1
+    bn254_fp2_add(t[3], ycoord(T), zcoord(T)); //t3 = y1+z1
+    bn254_fp2_addn(t[8], t[7], t[8]);          //T2 = T1+T2
+    bn254_fp2_sqr(t[3], t[3]);                 //t3 = t3^2
+    bn254_fp2_sub(t[3], t[3], t[5]);           //t3 = t3-t5
+    bn254_fp2_sub(t[6], t[6], t[8]);           //T0 = T0-T2
+    bn254_fp2_OP2(t[6], t[6]);
+    bn254_fp2_mod(ycoord(T), t[6]);            //y3 = T0 mod...
+    bn254_fp2_mul(zcoord(T), t[1], t[3]);      //z3 = t1*t3
+    bn254_fp2_sub(t[2], t[2], t[1]);           //t2 = t2-t1
+    bn254_fp2_xi_mul(l0, t[2]);                //l0 = xi*t2
+    bn254_fp2_mul_p(l2, l2, xcoord(P));        //l2 = l2*Px
+    bn254_fp2_mul_p(l4, l4, ycoord(P));        //l4 = l4*Py
 }
 
 //-------------------------------------------
@@ -403,7 +405,8 @@ void ec_bn254_pairing_miller_aranha(Element z, const EC_POINT Q, const EC_POINT 
 	s = ((pairing_precomp_p)(p->precomp))->si;
 
 	ec_bn254_fp2_point_set(T, Q);
-	bn254_fp12_set_one(d);
+	ec_bn254_fp_point_inv(P,P);
+    bn254_fp12_set_one(d);
 	bn254_fp12_set_one(e);
 
 	ec_bn254_pairing_dob_aranha(T, l0, l2, l4, P); // T = 2Q, l = l(P) 		
