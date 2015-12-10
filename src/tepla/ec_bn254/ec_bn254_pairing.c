@@ -129,7 +129,7 @@ void ec_bn254_pairing_dob_beuchat(EC_POINT T, Element l0, Element l2, Element l4
 
 //-------------------------------------------
 //  pairing (Aranha)
-//  point doubling in Jacobian coordinates
+//  point doubling in Homogeneous coordinates
 //-------------------------------------------
 void ec_bn254_pairing_dob_aranha(EC_POINT T, Element l0, Element l2, Element l4, const EC_POINT P)
 {
@@ -239,7 +239,7 @@ void ec_bn254_pairing_add_beuchat(EC_POINT T, Element l0, Element l2, Element l4
 
 //-------------------------------------------
 //  pairing (Aranha)
-//  point addition in Jacobian coordinates
+//  point addition in Homogeneous coordinates
 //-------------------------------------------
 void ec_bn254_pairing_add_aranha(EC_POINT T, Element l0, Element l2, Element l4, const EC_POINT Q, const EC_POINT P)
 {
