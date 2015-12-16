@@ -93,7 +93,7 @@ void test_pairing(const EC_PAIRING p)
 
     mpz_set(order, *pairing_get_order(p));
 
-    for(i=0; i<10; i++)
+    for (i = 0; i < 10; i++)
     {
         //-------------------
         //  random
@@ -114,7 +114,7 @@ void test_pairing(const EC_PAIRING p)
 
         element_pow(d, g, order);
 
-        assert( element_is_one(d) );
+        assert(element_is_one(d));
 
         pairing_map(f, R, Q, p);  // f = e( Q, aP)
         pairing_map(h, P, S, p);  // h = e(bQ,  P)

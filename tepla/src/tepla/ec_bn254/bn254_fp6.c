@@ -22,9 +22,9 @@
 //-------------------------------------------
 void bn254_fp6_init(Element x)
 {
-    x->data = (void *)malloc(sizeof(Element)*3);
+    x->data = (void *)malloc(sizeof(Element) * 3);
 
-    if( x->data == NULL ) {
+    if (x->data == NULL) {
         fprintf(stderr, "fail: allocate in bn254_fp6 init\n");
         exit(100);
     }
@@ -36,7 +36,7 @@ void bn254_fp6_init(Element x)
 
 void bn254_fp6_clear(Element x)
 {
-    if( x->data != NULL )
+    if (x->data != NULL)
     {
         element_clear(rep0(x));
         element_clear(rep1(x));
@@ -63,12 +63,12 @@ void bn254_fp6_set_fp2(Element z, const Element w, const Element x, const Elemen
 
 void bn254_fp6_set_str(Element x, const char *s)
 {
-    int i=0;
+    int i = 0;
     int len = strlen(s);
 
     char msg[400], *p, *c[5];
 
-    if( len > 400 ) {
+    if (len > 400) {
         fprintf(stderr, "error: input string is too long, string must be smaller than 400\n");
         exit(200);
     }
@@ -77,19 +77,19 @@ void bn254_fp6_set_str(Element x, const char *s)
 
     p = msg;
 
-    while( (*p) != '\0' )
+    while ((*p) != '\0')
     {
-        if( (*p)==' ' ) {
-            if( i<5 ) {
-                c[i]=p;
+        if ((*p) == ' ') {
+            if (i < 5) {
+                c[i] = p;
             }
             i++;
         }
         p++;
     }
 
-    if( i != 5 ) {
-        fprintf(stderr,"error: input string is not correct\n");
+    if (i != 5) {
+        fprintf(stderr, "error: input string is not correct\n");
         exit(200);
     }
 
@@ -270,7 +270,7 @@ void bn254_fp6_muln(Element z, const Element x, const Element y)
 //--------------------------------------------------------
 void bn254_fp6_gm_mul(Element z, const Element x)
 {
-    if( z == x ) {
+    if (z == x) {
         fprintf(stderr, "fail gm mul\n");
         exit(500);
     }
@@ -285,7 +285,7 @@ void bn254_fp6_gm_mul(Element z, const Element x)
 //--------------------------------------------------------
 void bn254_fp6_mul_fp2(Element z, const Element x, const Element y)
 {
-    if( field(y)->ID != bn254_fp2 )
+    if (field(y)->ID != bn254_fp2)
     {
         fprintf(stderr, "error: input should be element in bn254_fp6\n");
         exit(200);
@@ -303,7 +303,7 @@ void bn254_fp6_mul_fp2_2(Element z, const Element x, const Element y1, const Ele
 {
     Element *v = field(z)->base->tmp;
 
-    if( field(y1)->ID != bn254_fp2 || field(y2)->ID != bn254_fp2 )
+    if (field(y1)->ID != bn254_fp2 || field(y2)->ID != bn254_fp2)
     {
         fprintf(stderr, "error: input should be element in bn254_fp6\n");
         exit(200);
@@ -503,6 +503,12 @@ void bn254_fp6_sqr(Element z, const Element x)
     bn254_fp2_set(rep1(z), t[2]);
 }
 
+/*
+void bn254_fp6_frob_p(Element z, const Element x)
+{
+}
+*/
+
 void bn254_fp6_conj(Element z, const Element x)
 {
     bn254_fp2_conj(rep0(z), rep0(x));
@@ -515,7 +521,7 @@ void bn254_fp6_conj(Element z, const Element x)
 //---------------------------------------------------------
 void bn254_fp6_precomp(Field f)
 {
-    field_precomp_p precomp=NULL;
+    field_precomp_p precomp = NULL;
 
     precomp = (field_precomp_p)malloc(sizeof(struct ec_field_precomp_st));
 
@@ -532,11 +538,11 @@ void bn254_fp6_precomp(Field f)
 //-------------------------------------------
 int bn254_fp6_is_zero(const Element x)
 {
-    if ( bn254_fp2_is_zero(rep2(x)) )
+    if (bn254_fp2_is_zero(rep2(x)))
     {
-        if ( bn254_fp2_is_zero(rep1(x)) )
+        if (bn254_fp2_is_zero(rep1(x)))
         {
-            if ( bn254_fp2_is_zero(rep0(x)) ) {
+            if (bn254_fp2_is_zero(rep0(x))) {
                 return TRUE;
             }
         }
@@ -546,11 +552,11 @@ int bn254_fp6_is_zero(const Element x)
 
 int bn254_fp6_is_one(const Element x)
 {
-    if ( bn254_fp2_is_zero(rep2(x)) )
+    if (bn254_fp2_is_zero(rep2(x)))
     {
-        if ( bn254_fp2_is_zero(rep1(x)) )
+        if (bn254_fp2_is_zero(rep1(x)))
         {
-            if( bn254_fp2_is_one(rep0(x)) ) {
+            if (bn254_fp2_is_one(rep0(x))) {
                 return TRUE;
             }
         }
@@ -560,11 +566,11 @@ int bn254_fp6_is_one(const Element x)
 
 int bn254_fp6_cmp(const Element x, const Element y)
 {
-    if ( bn254_fp2_cmp(rep2(x), rep2(y)) == 0 )
+    if (bn254_fp2_cmp(rep2(x), rep2(y)) == 0)
     {
-        if ( bn254_fp2_cmp(rep1(x), rep1(y)) == 0 )
+        if (bn254_fp2_cmp(rep1(x), rep1(y)) == 0)
         {
-            if( bn254_fp2_cmp(rep0(x), rep0(y)) == 0 ) {
+            if (bn254_fp2_cmp(rep0(x), rep0(y)) == 0) {
                 return 0;
             }
         }
@@ -578,11 +584,11 @@ int bn254_fp6_is_sqr(const Element x)
 
     Element *t = field(x)->base->tmp;
 
-    if( element_is_zero(x) ) {
+    if (element_is_zero(x)) {
         return FALSE;
     }
 
-    k *= bn254_fp2_is_sqr(rep2(x))? 1: -1;
+    k *= bn254_fp2_is_sqr(rep2(x)) ? 1 : -1;
 
     bn254_fp2_sqr(t[1], rep1(x));
     bn254_fp2_mul(t[2], rep0(x), rep2(x));
@@ -602,7 +608,7 @@ int bn254_fp6_is_sqr(const Element x)
     bn254_fp2_mul(t[2], t[2], rep0(x));
     bn254_fp2_sub(t[2], t[2], t[3]);      // t2 = (x0/x2)-t3
 
-    k *= bn254_fp2_is_sqr(t[2])? 1: -1;
+    k *= bn254_fp2_is_sqr(t[2]) ? 1 : -1;
 
     return (k == 1);
 }
@@ -643,12 +649,12 @@ void bn254_fp6_to_oct(unsigned char *os, size_t *size, const Element x)
 
     mpz_init(z);
 
-    bn254_fp6_to_mpz(z,x);
+    bn254_fp6_to_mpz(z, x);
     mpz_export(b0, &s0, 1, sizeof(*b0), 1, 0, z);
 
     memset(os, 0x00, 190);
 
-    memcpy(&os[190-(int)s0], b0, s0);
+    memcpy(&os[190 - (int)s0], b0, s0);
 
     (*size) = 190;
 
@@ -659,7 +665,7 @@ void bn254_fp6_from_oct(Element x, const unsigned char *os, const size_t size)
 {
     mpz_t quo, rem;
 
-    if( size < 190 ) {
+    if (size < 190) {
         fprintf(stderr, "error: please set up the enought buffer for element\n");
         exit(300);
     }

@@ -31,7 +31,7 @@ void ec_bn254_pairing_precomp_beuchat(EC_PAIRING p)
     memcpy(sbuff, s, sizeof(s));
 
     precomp->si = sbuff;
-    precomp->slen = sizeof(s)/sizeof(*s);
+    precomp->slen = sizeof(s) / sizeof(*s);
 
     tbuff = (int *)malloc(sizeof(t));
     memcpy(tbuff, t, sizeof(t));
@@ -72,7 +72,7 @@ void ec_bn254_pairing_precomp_aranha(EC_PAIRING p)
 //  pairing (Beuchat)
 //  point doubling
 //-------------------------------------------
-void ec_bn254_pairing_dob_beuchat(EC_POINT T, Element l0, Element l2, Element l4, const EC_POINT P)
+void ec_bn254_pairing_dob_beuchat(EC_POINT T, Element l0, Element l3, Element l4, const EC_POINT P)
 {
     Element *t = field(T)->tmp;
 
@@ -82,11 +82,11 @@ void ec_bn254_pairing_dob_beuchat(EC_POINT T, Element l0, Element l2, Element l4
     bn254_fp2_sqr(t[0], ycoord(T)); //tmp0 = YT^0
     bn254_fp2_sqr(t[1], t[0]);      //tmp1 = tmp0^2
 
-    bn254_fp2_add(l2, xcoord(T), t[0]); //l2 = XT + tmp0
-    bn254_fp2_sqr(l2, l2);       //l2 = l2^3
-    bn254_fp2_sub(l2, l2, l0);   //l2 = l2 - l0
-    bn254_fp2_sub(l2, l2, t[1]); //l2 = l2 - tmp1
-    bn254_fp2_add(l2, l2, l2);   //l2 = 2*l2
+    bn254_fp2_add(l3, xcoord(T), t[0]); //l3 = XT + tmp0
+    bn254_fp2_sqr(l3, l3);       //l3 = l3^3
+    bn254_fp2_sub(l3, l3, l0);   //l3 = l3 - l0
+    bn254_fp2_sub(l3, l3, t[1]); //l3 = l3 - tmp1
+    bn254_fp2_add(l3, l3, l3);   //l3 = 2*l3
 
     bn254_fp2_add(t[2], l0, l0);   //tmp2 = 3*l0
     bn254_fp2_add(t[2], t[2], l0); //tmp2 = 3*l0
@@ -96,26 +96,26 @@ void ec_bn254_pairing_dob_beuchat(EC_POINT T, Element l0, Element l2, Element l4
     bn254_fp2_sqr(l4, l4);       //l4 = l4^2
     bn254_fp2_sub(l4, l4, l0);   //l4 = l4 - l0
     bn254_fp2_sub(l4, l4, t[3]); //l4 = l4 - tmp3
-    bn254_fp2_sub(xcoord(T), t[3], l2); //XT = tmp3 - l2
-    bn254_fp2_sub(xcoord(T), xcoord(T), l2); //XT = XT - l2
+    bn254_fp2_sub(xcoord(T), t[3], l3); //XT = tmp3 - l3
+    bn254_fp2_sub(xcoord(T), xcoord(T), l3); //XT = XT - l3
 
     bn254_fp2_add(zcoord(T), ycoord(T), zcoord(T)); //ZT = YT + ZT
     bn254_fp2_sqr(zcoord(T), zcoord(T));       //ZT = ZT^2
     bn254_fp2_sub(zcoord(T), zcoord(T), t[0]); //ZT = ZT - tmp0
     bn254_fp2_sub(zcoord(T), zcoord(T), t[4]); //ZT = ZT - ZT_2
 
-    bn254_fp2_sub(ycoord(T), l2, xcoord(T));   //YT = l2 - XT
+    bn254_fp2_sub(ycoord(T), l3, xcoord(T));   //YT = l3 - XT
     bn254_fp2_mul(ycoord(T), ycoord(T), t[2]); //YT = YT*tmp2
     bn254_fp2_add(t[1], t[1], t[1]);   //tmp1 = 2*tmp1
     bn254_fp2_add(t[1], t[1], t[1]);   //tmp1 = 2*tmp1
     bn254_fp2_add(t[1], t[1], t[1]);   //tmp1 = 2*tmp1
     bn254_fp2_sub(ycoord(T), ycoord(T), t[1]); //YT = YT - tmp1
 
-    bn254_fp2_mul(l2, t[2], t[4]);      //l2 = tmp2*ZT
+    bn254_fp2_mul(l3, t[2], t[4]);      //l3 = tmp2*ZT
     bn254_fp2_mul(l0, zcoord(T), t[4]); //l0 = ZT*ZT_2
 
-    bn254_fp2_neg(l2, l2);   //l2 = -l2
-    bn254_fp2_mul_p(l2, l2, xcoord(P)); //l2 = l2*XP
+    bn254_fp2_neg(l3, l3);   //l3 = -l3
+    bn254_fp2_mul_p(l3, l3, xcoord(P)); //l3 = l3*XP
 
     bn254_fp2_add(t[1], t[0], t[0]); //tmp1 = 2*tmp0
     bn254_fp2_add(t[1], t[1], t[1]); //tmp1 = 2*tmp1
@@ -124,7 +124,7 @@ void ec_bn254_pairing_dob_beuchat(EC_POINT T, Element l0, Element l2, Element l4
     bn254_fp2_mul_p(l0, l0, ycoord(P)); //l0 = l0*YP
 
     bn254_fp2_add(l0, l0, l0);
-    bn254_fp2_add(l2, l2, l2);
+    bn254_fp2_add(l3, l3, l3);
 }
 
 //-------------------------------------------
@@ -175,7 +175,7 @@ void ec_bn254_pairing_dob_aranha(EC_POINT T, Element l0, Element l2, Element l4,
 //  pairing (Beuchat)
 //  point addition
 //-------------------------------------------
-void ec_bn254_pairing_add_beuchat(EC_POINT T, Element l0, Element l2, Element l4, const EC_POINT Q, const EC_POINT P)
+void ec_bn254_pairing_add_beuchat(EC_POINT T, Element l0, Element l3, Element l4, const EC_POINT Q, const EC_POINT P)
 {
     Element *t = field(T)->tmp;
 
@@ -183,11 +183,11 @@ void ec_bn254_pairing_add_beuchat(EC_POINT T, Element l0, Element l2, Element l4
     bn254_fp2_sqr(t[6], ycoord(Q));   //YQ2 = YQ^2
 
     bn254_fp2_mul(t[0], xcoord(Q), t[5]);    //t0 = XQ*ZT^2
-    bn254_fp2_add(l2, ycoord(Q), zcoord(T)); //l2 = YQ*ZT
-    bn254_fp2_sqr(l2, l2);         //l2 = l2^2
-    bn254_fp2_sub(l2, l2, t[6]);   //l2 = l2 - YQ^2
-    bn254_fp2_sub(l2, l2, t[5]);   //l2 = l2 - ZT^2
-    bn254_fp2_mul(l2, l2, t[5]);   //l2 = l2*ZT^2
+    bn254_fp2_add(l3, ycoord(Q), zcoord(T)); //l3 = YQ*ZT
+    bn254_fp2_sqr(l3, l3);         //l3 = l3^2
+    bn254_fp2_sub(l3, l3, t[6]);   //l3 = l3 - YQ^2
+    bn254_fp2_sub(l3, l3, t[5]);   //l3 = l3 - ZT^2
+    bn254_fp2_mul(l3, l3, t[5]);   //l3 = l3*ZT^2
 
     bn254_fp2_sub(t[0], t[0], xcoord(T)); //tmp0 = tmp0 - XT
     bn254_fp2_sqr(t[1], t[0]);            //tmp1 = tmp0^2
@@ -197,7 +197,7 @@ void ec_bn254_pairing_add_beuchat(EC_POINT T, Element l0, Element l2, Element l4
 
     bn254_fp2_mul(t[3], t[0], t[2]); //tmp3 = tmp0*tmp2
 
-    bn254_fp2_sub(t[4], l2, ycoord(T));   //tmp4 = l2 - YT
+    bn254_fp2_sub(t[4], l3, ycoord(T));   //tmp4 = l3 - YT
     bn254_fp2_sub(t[4], ycoord(T), t[4]); //tmp4 = YT - tmp4
 
     bn254_fp2_mul(l4, t[4], xcoord(Q));   //l4 = tmp4*XQ
@@ -229,10 +229,10 @@ void ec_bn254_pairing_add_beuchat(EC_POINT T, Element l0, Element l2, Element l4
     bn254_fp2_sub(l4, t[1], l4); //l4 = tmp1 - l4
 
     bn254_fp2_mul_p(l0, zcoord(T), ycoord(P)); // l0 = ZT * YP
-    bn254_fp2_mul_p(l2, t[4], xcoord(P));      // l2 = tmp4 * XP
+    bn254_fp2_mul_p(l3, t[4], xcoord(P));      // l3 = tmp4 * XP
 
     bn254_fp2_add(l0, l0, l0);
-    bn254_fp2_add(l2, l2, l2);
+    bn254_fp2_add(l3, l3, l3);
 }
 
 //-------------------------------------------
@@ -295,7 +295,7 @@ void ec_bn254_pairing_miller_beuchat(Element z, const EC_POINT Q, const EC_POINT
     EC_POINT T, R, S;
 
     Element xq, yq;
-    Element f, l0, l2, l4;
+    Element f, l0, l3, l4;
 
     //--------------------------------
     //   init
@@ -309,7 +309,7 @@ void ec_bn254_pairing_miller_beuchat(Element z, const EC_POINT Q, const EC_POINT
     point_init(S, curve(Q));
 
     element_init(l0, field(Q));
-    element_init(l2, field(Q));
+    element_init(l3, field(Q));
     element_init(l4, field(Q));
 
     len = ((pairing_precomp_p)(p->precomp))->slen;  // s = PAIRING->precomp->si
@@ -324,23 +324,23 @@ void ec_bn254_pairing_miller_beuchat(Element z, const EC_POINT Q, const EC_POINT
     //-------------------------------
     for (i =len-2; i >= 0; i--)
     {
-        ec_bn254_pairing_dob_beuchat(T, l0, l2, l4, P);   //T = 2T, l = l(P)
+        ec_bn254_pairing_dob_beuchat(T, l0, l3, l4, P);   //T = 2T, l = l(P)
 
         bn254_fp12_sqr(f, f);             // f = f^2*l
-        bn254_fp12_mul_L(f, l0, l2, l4);  //
+        bn254_fp12_mul_L(f, l0, l3, l4);  //
 
         if ( s[i] )
         {
             if ( s[i] < 0 )
             {
-                ec_bn254_pairing_add_beuchat(T, l0, l2, l4, R, P);   // T = T - Q, l = l(P)
+                ec_bn254_pairing_add_beuchat(T, l0, l3, l4, R, P);   // T = T - Q, l = l(P)
             }
             else
             {
-                ec_bn254_pairing_add_beuchat(T, l0, l2, l4, Q, P);   // T = T + Q, l = l(P)
+                ec_bn254_pairing_add_beuchat(T, l0, l3, l4, Q, P);   // T = T + Q, l = l(P)
             }
 
-            bn254_fp12_mul_L(f, l0, l2, l4);
+            bn254_fp12_mul_L(f, l0, l3, l4);
         }
     }
 
@@ -348,13 +348,13 @@ void ec_bn254_pairing_miller_beuchat(Element z, const EC_POINT Q, const EC_POINT
     //   addition part
     //--------------------------------
     ec_bn254_tw_frob(S, Q);
-    ec_bn254_pairing_add_beuchat(T, l0, l2, l4, S, P);   //addtion part 2
-    bn254_fp12_mul_L(f, l0, l2, l4);
+    ec_bn254_pairing_add_beuchat(T, l0, l3, l4, S, P);   //addtion part 2
+    bn254_fp12_mul_L(f, l0, l3, l4);
 
     ec_bn254_tw_frob2(S, Q);
     ec_bn254_fp2_neg(S, S);
-    ec_bn254_pairing_add_beuchat(T, l0, l2, l4, S, P);   //addtion part 2
-    bn254_fp12_mul_L(f, l0, l2, l4);
+    ec_bn254_pairing_add_beuchat(T, l0, l3, l4, S, P);   //addtion part 2
+    bn254_fp12_mul_L(f, l0, l3, l4);
 
     bn254_fp12_set(z, f);
 
@@ -363,7 +363,7 @@ void ec_bn254_pairing_miller_beuchat(Element z, const EC_POINT Q, const EC_POINT
     //--------------------------------
     element_clear(f);
     element_clear(l0);
-    element_clear(l2);
+    element_clear(l3);
     element_clear(l4);
     element_clear(xq);
     element_clear(yq);

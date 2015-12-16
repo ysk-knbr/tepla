@@ -94,7 +94,7 @@ void field_clear(Field f)
 //============================================
 const mpz_t* field_get_char(const Field f)
 {
-    if( f->base != NULL ) {
+    if (f->base != NULL) {
         return field_get_char(f->base);
     }
     return &(f->order);
@@ -102,7 +102,7 @@ const mpz_t* field_get_char(const Field f)
 
 int field_get_degree(const Field f)
 {
-    if( f->base != NULL ) {
+    if (f->base != NULL) {
         return f->irre_poly_deg * field_get_degree(f->base);
     }
     return f->irre_poly_deg;
@@ -278,7 +278,7 @@ void curve_init(EC_GROUP ec, const char *param)
     }
     else
     {
-        fprintf(stderr,"We donot support the identity : %s\n", param);
+        fprintf(stderr, "We donot support the identity : %s\n", param);
         exit(200);
     }
 
@@ -469,8 +469,6 @@ void pairing_double_map(Element g, const EC_POINT P1, const EC_POINT Q1, const E
 {
     p->pairing_double(g, Q1, P1, Q2, P2, p);
 }
-
-
 
 const mpz_t* pairing_get_order(const EC_PAIRING p)
 {

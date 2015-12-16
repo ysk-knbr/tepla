@@ -4,15 +4,14 @@
 //   2015.xx.xx
 //===================================================
 #pragma once
-#include <gmp.h>
+
+#include <tepla/ec/field.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-#include <tepla/ec/field.h>
-
-//---------------------------------------------------
+/aaaa/---------------------------------------------------
 // Elliptic Curve Type
 //---------------------------------------------------
 typedef enum
@@ -124,7 +123,7 @@ typedef struct ec_pairing_st
     EC_GROUP g1;
     EC_GROUP g2;
 
-    Field g3;
+    Field    g3;
 
     void* precomp;
 

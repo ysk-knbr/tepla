@@ -76,11 +76,11 @@ void IHF1_SHA(mpz_t v, const unsigned char *s, size_t slen, const mpz_t n, int t
 
     selectHash(&H, &size, t);
 
-    t1 = (unsigned char *)malloc(sizeof(unsigned char)*(size+(int)slen));
-    t2 = (unsigned char *)malloc(sizeof(unsigned char)*(size+(int)slen));
+    t1 = (unsigned char *)malloc(sizeof(unsigned char) * (size + (int)slen));
+    t2 = (unsigned char *)malloc(sizeof(unsigned char) * (size + (int)slen));
 
-    h1 = (unsigned char *)malloc(sizeof(unsigned char)*(size));
-    h2 = (unsigned char *)malloc(sizeof(unsigned char)*(size));
+    h1 = (unsigned char *)malloc(sizeof(unsigned char) * (size));
+    h2 = (unsigned char *)malloc(sizeof(unsigned char) * (size));
 
     mpz_set_ui(v0, 0);
 
@@ -93,12 +93,12 @@ void IHF1_SHA(mpz_t v, const unsigned char *s, size_t slen, const mpz_t n, int t
     //-----------------------------
     //  h1 = Hash(t1)
     //-----------------------------
-    (*H)(t1, size+(int)slen, h1);
+    (*H)(t1, size + (int)slen, h1);
 
     //-----------------------------
     //  a1 = OS2IP(h1)
     //-----------------------------
-    mpz_import(a1, size, 1, sizeof(*h1), 0, 0, h1);
+    mpz_import(a1, size, 1, sizeof(*h1), 1, 0, h1);
 
     //-----------------------------
     //  t2 = h1 || s
@@ -109,17 +109,17 @@ void IHF1_SHA(mpz_t v, const unsigned char *s, size_t slen, const mpz_t n, int t
     //-----------------------------
     //  h2 = Hash(t2)
     //-----------------------------
-    (*H)(t2, size+(int)slen, h2);
+    (*H)(t2, size + (int)slen, h2);
 
     //-----------------------------
     //  a2 = OS2IP(h2)
     //-----------------------------
-    mpz_import(a2, size, 1, sizeof(*h2), 0, 0, h2);
+    mpz_import(a2, size, 1, sizeof(*h2), 1, 0, h2);
 
     //-----------------------------
     //  v2 = 2^{2t}*a1 + a2
     //-----------------------------
-    mpz_mul_2exp(v1, a1, 2*t);
+    mpz_mul_2exp(v1, a1, 2 * t);
     mpz_add(v2, v1, a2);
 
     //-----------------------------
@@ -151,7 +151,7 @@ void IHF1_SHA(mpz_t v, const unsigned char *s, size_t slen, const mpz_t n, int t
 //      A size of d
 //	A size of d
 //------------------------------------------------------------------
-void mIHF_SHA(unsigned char *d, size_t *dlen, const char *s, size_t slen ,int t)
+void mIHF_SHA(unsigned char *d, size_t *dlen, const char *s, size_t slen, int t)
 {
     Hash H = NULL;
 

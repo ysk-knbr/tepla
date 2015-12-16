@@ -5,7 +5,11 @@
 //===================================================
 #pragma once
 
-//#include <gmp.h>
+#include <gmp.h>
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 //---------------------------------------------------
 // Field type
@@ -133,3 +137,7 @@ int  element_get_str_length(const Element x);
 int  element_get_oct_length(const Element x);
 
 void element_print(const Element x);
+
+#ifdef __cplusplus
+}
+#endif

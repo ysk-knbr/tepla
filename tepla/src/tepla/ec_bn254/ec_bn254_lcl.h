@@ -212,7 +212,6 @@ void bn254_fp2_precomp(Field f);
 void bn254_fp2_random(Element z);
 void bn254_fp2_to_oct(unsigned char *os, size_t *size, const Element x);
 void bn254_fp2_from_oct(Element z, const unsigned char *os, const size_t size);
-void bn254_fp2_FE2IP(mpz_t dst, const Element x);
 
 //----------------------------------------------
 // declaration function of field bn254_fp6
@@ -258,7 +257,6 @@ void bn254_fp6_precomp(Field f);
 void bn254_fp6_random(Element z);
 void bn254_fp6_to_oct(unsigned char *os, size_t *size, const Element x);
 void bn254_fp6_from_oct(Element z, const unsigned char *os, const size_t size);
-void bn254_fp6_FE2IP(mpz_t dst, const Element x);
 
 //----------------------------------------------
 // declaration function of field bn254_fp12
@@ -303,7 +301,6 @@ void bn254_fp12_precomp(Field f);
 void bn254_fp12_random(Element z);
 void bn254_fp12_to_oct(unsigned char *os, size_t *size, const Element x);
 void bn254_fp12_from_oct(Element z, const unsigned char *os, const size_t size);
-void bn254_fp12_FE2IP(mpz_t dst, const Element x);
 
 //----------------------------------------------
 // declaration function of elliptic curve

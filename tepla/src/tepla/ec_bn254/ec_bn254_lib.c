@@ -14,7 +14,7 @@ void set_field_name(Field f, const char* name)
 {
     int len = strlen(name) + 1;
 
-    f->field_name = (char*)malloc(sizeof(char)*len);
+    f->field_name = (char*)malloc(sizeof(char) * len);
 
     strcpy(f->field_name, name);
 }
@@ -23,7 +23,7 @@ void set_curve_name(EC_GROUP ec, const char* name)
 {
     int len = strlen(name) + 1;
 
-    ec->curve_name = (char*)malloc(sizeof(char)*len);
+    ec->curve_name = (char*)malloc(sizeof(char) * len);
 
     strcpy(ec->curve_name, name);
 }
@@ -100,7 +100,6 @@ void ec_bn254_fpa_new(Field f)
     mpz_init_set_str(f->OP1_2, "0", 16);
     mpz_init_set_str(f->OP2, "0", 16);
 
-
     //-----------------------------------------
     //  irreducible polynomial
     //-----------------------------------------
@@ -116,8 +115,8 @@ void ec_bn254_fpa_new(Field f)
     //----------------------------------
     //  temporary element init
     //----------------------------------
-    f->tmp = (Element *)malloc(sizeof(Element)*TMP_NUM);
-    for(i=0; i<TMP_NUM; i++) {
+    f->tmp = (Element *)malloc(sizeof(Element) * TMP_NUM);
+    for (i = 0; i < TMP_NUM; i++) {
         element_init(f->tmp[i], f);
     }
 
@@ -303,8 +302,8 @@ void ec_bn254_fp6a_new(Field f)
     //----------------------------------
     //  temporary element init
     //----------------------------------
-    f->tmp = (Element *)malloc(sizeof(Element)*TMP_NUM);
-    for(i=0; i<TMP_NUM; i++) {
+    f->tmp = (Element *)malloc(sizeof(Element) * TMP_NUM);
+    for (i = 0; i < TMP_NUM; i++) {
         element_init(f->tmp[i], f);
     }
 
@@ -762,8 +761,8 @@ void ec_bn254_fp12b_new(Field f)
     //----------------------------------
     //  temporary element init
     //----------------------------------
-    f->tmp = (Element *)malloc(sizeof(Element)*TMP_NUM);
-    for(i=0; i<TMP_NUM; i++) {
+    f->tmp = (Element *)malloc(sizeof(Element) * TMP_NUM);
+    for (i = 0; i < TMP_NUM; i++) {
         element_init(f->tmp[i], f);
     }
 
@@ -777,29 +776,29 @@ void ec_bn254_field_clear(Field f)
 {
     unsigned int i, j;
 
-    if( f->precomp != NULL )
+    if (f->precomp != NULL)
     {
         field_precomp_p precomp = (field_precomp_p)(f->precomp);
 
         field_precomp_sqrt_p ps = precomp->ps;
         field_precomp_frob_p pf = precomp->pf;
 
-        if( ps != NULL )
+        if (ps != NULL)
         {
             element_clear(ps->n_v);
             mpz_clear(ps->v);
             free(ps);
         }
 
-        if( pf != NULL )
+        if (pf != NULL)
         {
-            for(i=0; i<pf->glen1; i++) {
+            for (i = 0; i < pf->glen1; i++) {
                 element_clear(pf->gamma1[i]);
             }
-            for(i=0; i<pf->glen2; i++) {
+            for (i = 0; i < pf->glen2; i++) {
                 element_clear(pf->gamma2[i]);
             }
-            for(i=0; i<pf->glen3; i++) {
+            for (i = 0; i < pf->glen3; i++) {
                 element_clear(pf->gamma3[i]);
             }
             free(pf->gamma1);
@@ -810,9 +809,9 @@ void ec_bn254_field_clear(Field f)
         SAFE_FREE(f->precomp);
     }
 
-    if( f->irre_poly != NULL )
+    if (f->irre_poly != NULL)
     {
-        for(i=0, j=f->irre_poly_num; i<j; i++) {
+        for (i = 0, j = f->irre_poly_num; i < j; i++) {
             element_clear(f->irre_poly[i]);
         }
         f->irre_poly_num = 0;
@@ -820,15 +819,15 @@ void ec_bn254_field_clear(Field f)
         SAFE_FREE(f->irre_poly);
     }
 
-    if( f->tmp != NULL )
+    if (f->tmp != NULL)
     {
-        for(i=0; i<TMP_NUM; i++) {
+        for (i = 0; i < TMP_NUM; i++) {
             element_clear(f->tmp[i]);
         }
         SAFE_FREE(f->tmp);
     }
 
-    if( f->base != NULL )
+    if (f->base != NULL)
     {
         field_clear(f->base);
         SAFE_FREE(f->base);
@@ -975,8 +974,6 @@ void ec_bn254_fpb_group_new(EC_GROUP ec)
     ec_bn254_fp_init_ec_data(ec);
 }
 
-
-
 //----------------------------------------------
 //  function generating elliptic curve method
 //----------------------------------------------
@@ -1077,6 +1074,9 @@ void ec_bn254_twb_group_new(EC_GROUP ec)
     mpz_init_set_str(ec->trace, "25236482400000024D9B12000000000DB6360000000000244800000000000025", 16);
     mpz_init_set_str(ec->cofactor, "2523648240000001ba344d8000000008c2a2800000000016ad00000000000019", 16);
     ec_bn254_fp2_init_ec_data_aranha(ec);
+    ec_bn254_fp2_init_ec_data(ec);
+
+    point_set_str(ec->generator, "[19b0bea4afe4c330da93cc3533da38a9f430b471c6f8a536e81962ed967909b5 a1cf585585a61c6e9880b1f2a5c539f7d906fff238fa6341e1de1a2e45c3f72,17abd366ebbd65333e49c711a80a0cf6d24adf1b9b3990eedcc91731384d2627 0ee97d6de9902a27d00e952232a78700863bc9aa9be960C32f5bf9fd0a32d345]");
 }
 
 //----------------------------------------------
@@ -1093,11 +1093,11 @@ void ec_bn254_group_clear(EC_GROUP ec)
     mpz_clear(ec->trace);
     mpz_clear(ec->cofactor);
 
-    if( ec->ID == ec_bn254_fp )
+    if (ec->ID == ec_bn254_fp)
     {
         ec_bn254_fp_clear_ec_data(ec);
     }
-    else if( ec->ID == ec_bn254_fp2 )
+    else if (ec->ID == ec_bn254_fp2)
     {
         ec_bn254_fp2_clear_ec_data(ec);
     }

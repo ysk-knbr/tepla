@@ -48,15 +48,15 @@ void test_arithmetic_operation_beuchat(Field f)
 
     element_add(c, a, b);
 
-    assert( element_cmp(c, d) == 0 );
+    assert(element_cmp(c, d) == 0);
 
     t1 = rdtsc();
-    for(i=0; i<N; i++) {
+    for (i = 0; i < N; i++) {
         element_add(c, a, b);
     }
     t2 = rdtsc();
 
-    printf("element add: %.2lf [clock]\n", (double)(t2-t1)/N);
+    printf("element add: %.2lf [clock]\n", (double)(t2 - t1) / N);
 
     //--------------------
     //  sub
@@ -64,7 +64,7 @@ void test_arithmetic_operation_beuchat(Field f)
     element_set(d, c);
     element_sub(c, c, d);
 
-    assert( element_is_zero(c) );
+    assert(element_is_zero(c));
 
     //--------------------
     //  mul
@@ -72,22 +72,22 @@ void test_arithmetic_operation_beuchat(Field f)
     element_mul(c, a, b);
     element_set_str(d, "1D0562FF0AB317FFDE555320A7072D2B29C07077E08996CE5F093BB8E4200B2C 9B04361A24DC7F37C8BD09A7C51A9D8577168AD021BF2B4AC3D67552F481B1A");
 
-    assert( element_cmp(c, d) == 0 );
+    assert(element_cmp(c, d) == 0);
 
     t1 = rdtsc();
-    for(i=0; i<N; i++) {
+    for (i = 0; i < N; i++) {
         element_mul(c, a, b);
     }
     t2 = rdtsc();
 
-    printf("element mul: %.2lf [clock]\n", (double)(t2-t1)/N);
+    printf("element mul: %.2lf [clock]\n", (double)(t2 - t1) / N);
 
     mpz_init_set_str(e, "1B45F16C848B9C476C1D2FF1FD60A0D0C19BBA6F3ECE3CF6C5FCE4FAB7CAD4FF", 16);
 
     element_pow(c, a, e);
     element_set_str(d, "B40190CE812CB4F668A839952128D19B1748F3BB19E902480D089AF9053A6D2 19DA59F09C3C20472C3BD19A4FC95BCAF266B9D1539AAD23E3C67C4F3A7CA51D");
 
-    assert( element_cmp(c, d) == 0 );
+    assert(element_cmp(c, d) == 0);
 
     mpz_clear(e);
 
@@ -97,15 +97,15 @@ void test_arithmetic_operation_beuchat(Field f)
     element_sqr(c, a);
     element_mul(d, a, a);
 
-    assert( element_cmp(c, d) == 0 );
+    assert(element_cmp(c, d) == 0);
 
     t1 = rdtsc();
-    for(i=0; i<N; i++) {
+    for (i = 0; i < N; i++) {
         element_sqr(c, a);
     }
     t2 = rdtsc();
 
-    printf("element sqr: %.2lf [clock]\n", (double)(t2-t1)/N);
+    printf("element sqr: %.2lf [clock]\n", (double)(t2 - t1) / N);
 
     //--------------------
     //  random
@@ -122,16 +122,16 @@ void test_arithmetic_operation_beuchat(Field f)
     element_inv(d, a);
     element_mul(d, a, d);
 
-    assert( element_cmp(c, a) == 0 );
-    assert( element_is_one(d) );
+    assert(element_cmp(c, a) == 0);
+    assert(element_is_one(d));
 
     t1 = rdtsc();
-    for(i=0; i<N; i++) {
+    for (i = 0; i < N; i++) {
         element_inv(b, a);
     }
     t2 = rdtsc();
 
-    printf("element inv: %.2lf [clock]\n", (double)(t2-t1)/N);
+    printf("element inv: %.2lf [clock]\n", (double)(t2 - t1) / N);
 
     //--------------------
     //  pow
@@ -140,31 +140,31 @@ void test_arithmetic_operation_beuchat(Field f)
 
     element_set_one(b);
 
-    for(i=0; i<atoi(loop); i++) {
+    for (i = 0; i < atoi(loop); i++) {
         element_mul(b, b, a);
     }
 
     element_pow(c, a, exp);
 
-    assert( element_cmp(b, c) == 0 );
+    assert(element_cmp(b, c) == 0);
 
     mpz_set(exp, f->order);
 
-    for(i=0; i<100; i++)
+    for (i = 0; i < 100; i++)
     {
         element_random(a);
         element_pow(b, a, exp);
 
-        assert( element_cmp(b, a) == 0 );
+        assert(element_cmp(b, a) == 0);
     }
 
     t1 = rdtsc();
-    for(i=0; i<N; i++) {
+    for (i = 0; i < N; i++) {
         element_pow(b, a, exp);
     }
     t2 = rdtsc();
 
-    printf("element pow with order: %.2lf [clock]\n", (double)(t2-t1)/N);
+    printf("element pow with order: %.2lf [clock]\n", (double)(t2 - t1) / N);
 
     mpz_clear(exp);
 
@@ -347,34 +347,34 @@ void test_sqrt(Field f)
     element_init(c, f);
     element_init(d, f);
 
-    for(i=0; i<100; i++)
+    for (i = 0; i < 100; i++)
     {
         element_random(a);
         element_sqr(b, a);
 
-        assert( element_is_sqr(b) );
+        assert(element_is_sqr(b));
 
         element_sqrt(c, b);
         element_sqr(d, c);
 
-        assert( element_cmp(d, b) == 0 );
+        assert(element_cmp(d, b) == 0);
     }
 
     t1 = rdtsc();
-    for(i=0; i<N; i++) {
+    for (i = 0; i < N; i++) {
         element_is_sqr(b);
     }
     t2 = rdtsc();
 
-    printf("element is sqr: %.2lf [clock]\n", (double)(t2-t1)/N);
+    printf("element is sqr: %.2lf [clock]\n", (double)(t2 - t1) / N);
 
     t1 = rdtsc();
-    for(i=0; i<N; i++) {
+    for (i = 0; i < M; i++) {
         element_sqrt(c, b);
     }
     t2 = rdtsc();
 
-    printf("element sqrt: %.2lf [clock]\n", (double)(t2-t1)/N);
+    printf("element sqrt: %.2lf [clock]\n", (double)(t2 - t1) / M);
 
     element_clear(a);
     element_clear(b);
@@ -398,23 +398,23 @@ void test_frob(Field f)
     element_init(b, f);
     element_init(c, f);
 
-    for(i=0; i<100; i++)
+    for (i = 0; i < 100; i++)
     {
         element_random(a);
         element_pow(b, a, p);
 
-        bn254_fp2_frob_p(c,a);
+        bn254_fp2_frob_p(c, a);
 
-        assert( element_cmp(b, c) == 0 );
+        assert(element_cmp(b, c) == 0);
     }
 
     t1 = rdtsc();
-    for(i=0; i<N; i++) {
+    for (i = 0; i < N; i++) {
         bn254_fp2_frob_p(c, a);
     }
     t2 = rdtsc();
 
-    printf("element frob: %.2lf [clock]\n", (double)(t2-t1)/N);
+    printf("element frob: %.2lf [clock]\n", (double)(t2 - t1) / N);
 
     mpz_clear(p);
 
@@ -441,57 +441,57 @@ void test_io(Field f)
     element_init(b, f);
     element_init(c, f);
 
-    for(i=0; i<1000; i++)
+    for (i = 0; i < 1000; i++)
     {
         element_random(a);
 
         element_get_str(a_str, a);
         element_set_str(c, a_str);
 
-        assert( element_cmp(a, c) == 0 );
+        assert(element_cmp(a, c) == 0);
     }
 
     t1 = rdtsc();
-    for(i=0; i<N; i++) {
+    for (i = 0; i < N; i++) {
         element_get_str(a_str, a);
     }
     t2 = rdtsc();
 
-    printf("element get string: %.2lf [clock]\n", (double)(t2-t1)/N);
+    printf("element get string: %.2lf [clock]\n", (double)(t2 - t1) / N);
 
     t1 = rdtsc();
-    for(i=0; i<N; i++) {
+    for (i = 0; i < N; i++) {
         element_set_str(c, a_str);
     }
     t2 = rdtsc();
 
-    printf("element set string: %.2lf [clock]\n", (double)(t2-t1)/N);
+    printf("element set string: %.2lf [clock]\n", (double)(t2 - t1) / N);
 
-    for(i=0; i<1000; i++)
+    for (i = 0; i < 1000; i++)
     {
         element_random(b);
 
         element_to_oct(b_str, &blen, b);
         element_from_oct(c, b_str, blen);
 
-        assert( element_cmp(b, c) == 0 );
+        assert(element_cmp(b, c) == 0);
     }
 
     t1 = rdtsc();
-    for(i=0; i<N; i++) {
+    for (i = 0; i < N; i++) {
         element_to_oct(b_str, &blen, b);
     }
     t2 = rdtsc();
 
-    printf("element to octet string: %.2lf [clock]\n", (double)(t2-t1)/N);
+    printf("element to octet string: %.2lf [clock]\n", (double)(t2 - t1) / N);
 
     t1 = rdtsc();
-    for(i=0; i<N; i++) {
+    for (i = 0; i < N; i++) {
         element_from_oct(c, b_str, blen);
     }
     t2 = rdtsc();
 
-    printf("element from octet string: %.2lf [clock]\n", (double)(t2-t1)/N);
+    printf("element from octet string: %.2lf [clock]\n", (double)(t2 - t1) / N);
 
     element_clear(a);
     element_clear(b);

@@ -33,3 +33,19 @@ Makefile
 
 # Scripts
 *.sh
+*.o
+*.a
+*.exe
+
+tepla/GPATH
+tepla/GRTAGS
+tepla/GSYMS
+tepla/GTAGS
+tepla/cscope.out
+tepla/Makefile
+tepla/config.h
+tepla/config.log
+tepla/config.status
+tepla/src/tepla/Makefile
+tepla/src/tepla/ec_bn254/Makefile
+tepla/src/tepla/ec_bn254/test/Makefile

@@ -235,15 +235,15 @@ void test_arithmetic_operation_beuchat(const EC_GROUP ec)
     //-------------------
     point_random(a);
 
-    assert( point_is_on_curve(a) );
+    assert(point_is_on_curve(a));
 
     t1 = rdtsc();
-    for(i=0; i<M; i++) {
+    for (i = 0; i < M; i++) {
         point_random(a);
     }
     t2 = rdtsc();
 
-    printf("point random: %.2lf [clock]\n", (double)(t2-t1)/M);
+    printf("point random: %.2lf [clock]\n", (double)(t2 - t1) / M);
 
     //-------------------
     //  add/dob
@@ -251,14 +251,14 @@ void test_arithmetic_operation_beuchat(const EC_GROUP ec)
     point_add(b, b, a);
     point_add(c, b, c);
 
-    assert( point_cmp(b, a) == 0 );
-    assert( point_cmp(c, b) == 0 );
+    assert(point_cmp(b, a) == 0);
+    assert(point_cmp(c, b) == 0);
 
     point_set_infinity(d);
 
     point_dob(d, d);
 
-    assert( point_is_infinity(d) );
+    assert(point_is_infinity(d));
 
     point_set_str(a, "[6D2E4115FA177379A504A0EE4EF53767DE51C6364AAB69D4064529EC1FD047A 635B2C858AA4F4A3DB8AA17A588B037CAFFD36678F76E3F3369DFC90C6878C7,193E877C82EFCA81EC2815906630B837BBC6976CC8A7958E6A40D1B190FF2E5F E8A77E88AFCEE9F806DC15BF50EADD138320F1A5A87E78DDE86FA7A867300D]");
     point_set_str(b, "[1A8F5DAB09EE4290F95FE4C824C153E355D55B6CF94B998C6203FEC3D81377CF 15A19F2704C4BDBAAE39A5E26772A3E4E7EC7A9E205651F8822298766DE044FF,1C566EB3917F06B05E0A786BD8030CAFCCDB62864DD0E2A22A9B6817B310FD53 6A0927BB33EB263F45CAB921A20E67A1BD8A791D6EB0415AC92C9B1F74D16D1]");
@@ -266,15 +266,15 @@ void test_arithmetic_operation_beuchat(const EC_GROUP ec)
 
     point_add(c, a, b);
 
-    assert( point_cmp(c, d) == 0 );
+    assert(point_cmp(c, d) == 0);
 
     t1 = rdtsc();
-    for(i=0; i<N; i++) {
+    for (i = 0; i < N; i++) {
         point_add(c, a, b);
     }
     t2 = rdtsc();
 
-    printf("point add: %.2lf [clock]\n", (double)(t2-t1)/N);
+    printf("point add: %.2lf [clock]\n", (double)(t2 - t1) / N);
 
     element_init(dx, ec->field);
     element_init(dy, ec->field);
@@ -286,15 +286,15 @@ void test_arithmetic_operation_beuchat(const EC_GROUP ec)
 
     point_dob(c, a);
 
-    assert( point_cmp(c, d) == 0 );
+    assert(point_cmp(c, d) == 0);
 
     t1 = rdtsc();
-    for(i=0; i<N; i++) {
+    for (i = 0; i < N; i++) {
         point_dob(c, a);
     }
     t2 = rdtsc();
 
-    printf("point dob: %.2lf [clock]\n", (double)(t2-t1)/N);
+    printf("point dob: %.2lf [clock]\n", (double)(t2 - t1) / N);
 
     element_clear(dx);
     element_clear(dy);
@@ -306,8 +306,8 @@ void test_arithmetic_operation_beuchat(const EC_GROUP ec)
     point_add(d, a, c);
     point_sub(b, a, a);
 
-    assert( point_is_infinity(d) );
-    assert( point_is_infinity(b) );
+    assert(point_is_infinity(d));
+    assert(point_is_infinity(b));
 
     //-------------------
     //  mul
@@ -316,7 +316,7 @@ void test_arithmetic_operation_beuchat(const EC_GROUP ec)
 
     mpz_set(scalar, ec->order);
 
-    for(i=0; i<100; i++)
+    for (i = 0; i < 100; i++)
     {
         point_random(a);
 
@@ -324,25 +324,25 @@ void test_arithmetic_operation_beuchat(const EC_GROUP ec)
 
         ec_bn254_fp2_mul_end(c, scalar, a);
 
-        assert( point_is_infinity(b) );
-        assert( point_cmp(c, b) == 0 );
+        assert(point_is_infinity(b));
+        assert(point_cmp(c, b) == 0);
     }
 
     t1 = rdtsc();
-    for(i=0; i<M; i++) {
+    for (i = 0; i < M; i++) {
         point_mul(b, scalar, a);
     }
     t2 = rdtsc();
 
-    printf("point mul with endomorphism: %.2lf [clock]\n", (double)(t2-t1)/M);
+    printf("point mul with endomorphism: %.2lf [clock]\n", (double)(t2 - t1) / M);
 
     t1 = rdtsc();
-    for(i=0; i<M; i++) {
+    for (i = 0; i < M; i++) {
         ec_bn254_fp2_mul(b, scalar, a);
     }
     t2 = rdtsc();
 
-    printf("point mul with binary method: %.2lf [clock]\n", (double)(t2-t1)/M);
+    printf("point mul with binary method: %.2lf [clock]\n", (double)(t2 - t1) / M);
 
     mpz_clear(scalar);
 
@@ -370,23 +370,23 @@ void test_map_to_point(const EC_GROUP ec)
 
     point_map_to_point(P, MAP_STR, sizeof(MAP_STR), t);
 
-    assert( point_is_on_curve(P) );
+    assert(point_is_on_curve(P));
 
     point_mul(Q, ec->order, P);
 
-    assert( point_is_infinity(Q) );
+    assert(point_is_infinity(Q));
 
     point_map_to_point(Q, MAP_STR, sizeof(MAP_STR), t);
 
-    assert( point_cmp(Q, P) == 0 );
+    assert(point_cmp(Q, P) == 0);
 
     t1 = rdtsc();
-    for(i=0; i<M; i++) {
+    for (i = 0; i < M; i++) {
         point_map_to_point(P, MAP_STR, sizeof(MAP_STR), t);
     }
     t2 = rdtsc();
 
-    printf("point map to point in 128 security: %.2lf [clock]\n", (double)(t2-t1)/M);
+    printf("point map to point in 128 security: %.2lf [clock]\n", (double)(t2 - t1) / M);
 
     point_clear(P);
     point_clear(Q);
@@ -418,33 +418,33 @@ void test_io(const EC_GROUP ec)
     point_to_oct(os, &osize, R);
     point_from_oct(Q, os, osize);
 
-    assert( point_is_infinity(Q) );
+    assert(point_is_infinity(Q));
 
-    for(i=0; i<100; i++)
+    for (i = 0; i < 100; i++)
     {
         point_random(P);
 
         point_to_oct(os, &osize, P);
         point_from_oct(Q, os, osize);
 
-        assert( point_cmp(P, Q) == 0 );
+        assert(point_cmp(P, Q) == 0);
     }
 
     t1 = rdtsc();
-    for(i=0; i<N; i++) {
+    for (i = 0; i < N; i++) {
         point_to_oct(os, &osize, P);
     }
     t2 = rdtsc();
 
-    printf("point to octet string: %.2lf [clock]\n", (double)(t2-t1)/N);
+    printf("point to octet string: %.2lf [clock]\n", (double)(t2 - t1) / N);
 
     t1 = rdtsc();
-    for(i=0; i<N; i++) {
+    for (i = 0; i < N; i++) {
         point_from_oct(Q, os, osize);
     }
     t2 = rdtsc();
 
-    printf("point from octet string: %.2lf [clock]\n", (double)(t2-t1)/N);
+    printf("point from octet string: %.2lf [clock]\n", (double)(t2 - t1) / N);
 
     //---------------------
     //  string
@@ -454,31 +454,31 @@ void test_io(const EC_GROUP ec)
     point_get_str(str, R);
     point_set_str(Q, str);
 
-    assert( point_is_infinity(Q) );
+    assert(point_is_infinity(Q));
 
-    for(i=0; i<100; i++)
+    for (i = 0; i < 100; i++)
     {
         point_get_str(str, P);
         point_set_str(Q, str);
 
-        assert( point_cmp(P, Q) == 0 );
+        assert(point_cmp(P, Q) == 0);
     }
 
     t1 = rdtsc();
-    for(i=0; i<N; i++) {
+    for (i = 0; i < N; i++) {
         point_get_str(str, P);
     }
     t2 = rdtsc();
 
-    printf("point get string: %.2lf [clock]\n", (double)(t2-t1)/N);
+    printf("point get string: %.2lf [clock]\n", (double)(t2 - t1) / N);
 
     t1 = rdtsc();
-    for(i=0; i<N; i++) {
+    for (i = 0; i < N; i++) {
         point_set_str(Q, str);
     }
     t2 = rdtsc();
 
-    printf("point set string: %.2lf [clock]\n", (double)(t2-t1)/N);
+    printf("point set string: %.2lf [clock]\n", (double)(t2 - t1) / N);
 
     point_clear(P);
     point_clear(Q);

@@ -57,12 +57,12 @@ void ec_bn254_fp_point_set_str(EC_POINT P, const char* s)
 
     char *tmp, *p1, *p2;
 
-    if( strcmp(s, infinity) == 0 ) {
+    if (strcmp(s, infinity) == 0) {
         point_set_infinity(P);
         return;
     }
 
-    tmp = (char *)malloc(sizeof(char)*(len+1));
+    tmp = (char *)malloc(sizeof(char) * (len + 1));
 
     strcpy(tmp, s);
 
@@ -70,22 +70,22 @@ void ec_bn254_fp_point_set_str(EC_POINT P, const char* s)
     p1 = NULL;
     p2 = NULL;
 
-    for(i=0; i<len; i++)
+    for (i = 0; i < len; i++)
     {
-        if( tmp[i] == '[' ) {
-            p1 = &(tmp[i+1]);
+        if (tmp[i] == '[') {
+            p1 = &(tmp[i + 1]);
         }
-        if( tmp[i] == ',' ) {
-            p2 = &(tmp[i+1]);
+        if (tmp[i] == ',') {
+            p2 = &(tmp[i + 1]);
             tmp[i] = '\0';
         }
-        if( tmp[i] == ']' ) {
+        if (tmp[i] == ']') {
             tmp[i] = '\0';
-            hr = ( p1!=NULL && p2!=NULL );
+            hr = (p1 != NULL && p2 != NULL);
         }
     }
 
-    if( !hr )
+    if (!hr)
     {
         fprintf(stderr, "Please check input string : format = [x, y] or [0]\n");
         exit(200);
@@ -108,7 +108,7 @@ void ec_bn254_fp_point_get_str(char *s, const EC_POINT P)
 
     EC_POINT T;
 
-    if( point_is_infinity(P) ) {
+    if (point_is_infinity(P)) {
         strcpy(s, infinity);
         return;
     }
@@ -150,18 +150,18 @@ void ec_bn254_fp_add(EC_POINT R, const EC_POINT P, const EC_POINT Q)
 {
     Element *t = field(R)->tmp;
 
-    if ( point_is_infinity(P) ) {
+    if (point_is_infinity(P)) {
         point_set(R, Q);
         return;
     }
-    if ( point_is_infinity(Q) ) {
+    if (point_is_infinity(Q)) {
         point_set(R, P);
         return;
     }
 
-    if ( element_cmp(xcoord(P), xcoord(Q)) == 0 )
+    if (element_cmp(xcoord(P), xcoord(Q)) == 0)
     {
-        if ( element_cmp(ycoord(P), ycoord(Q)) == 0 )
+        if (element_cmp(ycoord(P), ycoord(Q)) == 0)
         {
             ec_bn254_fp_dob(R, P);
             return;
@@ -192,11 +192,11 @@ void ec_bn254_fp_dob(EC_POINT R, const EC_POINT P)
 {
     Element *t = field(R)->tmp;
 
-    if ( point_is_infinity(P) ) {
+    if (point_is_infinity(P)) {
         point_set_infinity(R);
         return;
     }
-    if ( element_is_zero(ycoord(P)) ) {
+    if (element_is_zero(ycoord(P))) {
         point_set_infinity(R);
         return;
     }
@@ -223,7 +223,7 @@ void ec_bn254_fp_dob(EC_POINT R, const EC_POINT P)
 
 void ec_bn254_fp_neg(EC_POINT z, const EC_POINT x)
 {
-    if( point_is_infinity(x) ) {
+    if (point_is_infinity(x)) {
         point_set_infinity(z);
         return;
     }
@@ -347,7 +347,7 @@ void ec_bn254_fp_dob_formul(EC_POINT R, const EC_POINT P)
 {
     Element *t = field(R)->tmp;
 
-    if ( point_is_infinity(P) ) {
+    if (point_is_infinity(P)) {
         point_set_infinity(R);
         return;
     }
@@ -414,10 +414,10 @@ void ec_bn254_fp_mul_affine(EC_POINT Q, const mpz_t s, const EC_POINT P)
 
     t = mpz_sizeinbase(s, 2);
 
-    for (i=t-2; i>=0; i--)
+    for (i = t - 2; i >= 0; i--)
     {
         point_dob(R, R);
-        if( mpz_tstbit(s, i) )
+        if (mpz_tstbit(s, i))
         {
             point_add(R, P, R);
         }
@@ -441,10 +441,10 @@ void ec_bn254_fp_mul(EC_POINT Q, const mpz_t s, const EC_POINT P)
 
     t = mpz_sizeinbase(s, 2);
 
-    for (i=t-2; i>=0; i--)
+    for (i = t - 2; i >= 0; i--)
     {
         ec_bn254_fp_dob_formul(R, R);
-        if( mpz_tstbit(s, i) )
+        if (mpz_tstbit(s, i))
         {
             ec_bn254_fp_add_formul(R, R, P);
         }
@@ -462,22 +462,22 @@ void generate_naf(int *naf, int *len, const mpz_t s)
 {
     mpz_t k, r;
 
-    int i=0;
+    int i = 0;
 
     mpz_init(k);
     mpz_init(r);
 
     mpz_abs(k, s);
 
-    while( mpz_cmp_ui(k, 1) >= 0 )
+    while (mpz_cmp_ui(k, 1) >= 0)
     {
-        if( mpz_tstbit(k, 0) )
+        if (mpz_tstbit(k, 0))
         {
             int v = 2 - (int)mpz_mod_ui(r, k, 4);
-            if( v > 0 ) {
+            if (v > 0) {
                 mpz_sub_ui(k, k, v);
             }
-            if( v < 0 ) {
+            if (v < 0) {
                 mpz_add_ui(k, k, -v);
             }
             naf[i] = v;
@@ -514,16 +514,16 @@ void ec_bn254_fp_mul_naf(EC_POINT Q, const mpz_t s, const EC_POINT P)
 
     t = mpz_sizeinbase(s, 2);
 
-    naf = (int *)malloc(sizeof(int)*(t+1));
+    naf = (int *)malloc(sizeof(int) * (t + 1));
 
     generate_naf(naf, &nlen, s);
 
-    for (i=nlen-2; i>=0; i--)
+    for (i = nlen - 2; i >= 0; i--)
     {
         ec_bn254_fp_dob_formul(R, R);
-        if( naf[i] )
+        if (naf[i])
         {
-            if( naf[i] < 0 ) {
+            if (naf[i] < 0) {
                 ec_bn254_fp_add_formul(R, R, mP);
             }
             else {
@@ -620,7 +620,7 @@ void ec_bn254_fp_point_endomorphism(EC_POINT Q, const EC_POINT P)
 {
     ec_data_fp d;
 
-    if( point_is_infinity(P) ) {
+    if (point_is_infinity(P)) {
         point_set_infinity(Q);
         return;
     }
@@ -666,14 +666,16 @@ void ec_bn254_fp_decompose_scalar_init(mpz_t a1, mpz_t a2, mpz_t b1, mpz_t b2, c
 
     mpz_sqrt(_n, n);
 
-    while( mpz_sgn(r1) != 0 )
+    while (mpz_sgn(r1) != 0)
     {
         mpz_fdiv_qr(q, r2, r0, r1);
         mpz_mul(s2, q, s1);
         mpz_sub(s2, s0, s2);
         mpz_mul(t2, q, t1);
         mpz_sub(t2, t0, t2);
-        if( mpz_cmp(r1, _n) < 0 ) break;
+        if (mpz_cmp(r1, _n) < 0) {
+            break;
+        }
         mpz_set(r0, r1);
         mpz_set(r1, r2);
         mpz_set(s0, s1);
@@ -692,7 +694,7 @@ void ec_bn254_fp_decompose_scalar_init(mpz_t a1, mpz_t a2, mpz_t b1, mpz_t b2, c
     mpz_mul(s2, t2, t2);
     mpz_add(s1, s1, s2);
 
-    if( mpz_cmp(s0, s1) <= 0 ) {
+    if (mpz_cmp(s0, s1) <= 0) {
         mpz_set(a2, r0);
         mpz_neg(b2, t0);
     }
@@ -701,7 +703,7 @@ void ec_bn254_fp_decompose_scalar_init(mpz_t a1, mpz_t a2, mpz_t b1, mpz_t b2, c
         mpz_neg(b2, t2);
     }
 
-    if( mpz_sgn(b2) < 0 ) {
+    if (mpz_sgn(b2) < 0) {
         mpz_swap(a1, a2);
         mpz_swap(b1, b2);
     }
@@ -786,30 +788,30 @@ void ec_bn254_fp_mul_end(EC_POINT Q, const mpz_t s, const EC_POINT P)
     sl1 = mpz_sizeinbase(s1, 2);
     sl2 = mpz_sizeinbase(s2, 2);
 
-    t = (sl1>sl2)? sl1: sl2;
+    t = (sl1 > sl2) ? sl1 : sl2;
 
-    sn1 = (int*)malloc(sizeof(int)*(t+1));
-    sn2 = (int*)malloc(sizeof(int)*(t+1));
+    sn1 = (int*)malloc(sizeof(int) * (t + 1));
+    sn2 = (int*)malloc(sizeof(int) * (t + 1));
 
     generate_naf(sn1, &sl1, s1);
     generate_naf(sn2, &sl2, s2);
 
-    t = (sl1>sl2)? sl1: sl2;
+    t = (sl1 > sl2) ? sl1 : sl2;
 
-    for(i=sl1; i<t; i++) {
+    for (i = sl1; i < t; i++) {
         sn1[i] = 0;
     }
-    for(i=sl2; i<t; i++) {
+    for (i = sl2; i < t; i++) {
         sn2[i] = 0;
     }
 
-    if( mpz_sgn(s1) < 0 ) {
-        for(i=0; i<sl1; i++) {
+    if (mpz_sgn(s1) < 0) {
+        for (i = 0; i < sl1; i++) {
             sn1[i] *= -1;
         }
     }
-    if( mpz_sgn(s2) < 0 ) {
-        for(i=0; i<sl2; i++) {
+    if (mpz_sgn(s2) < 0) {
+        for (i = 0; i < sl2; i++) {
             sn2[i] *= -1;
         }
     }
@@ -827,13 +829,13 @@ void ec_bn254_fp_mul_end(EC_POINT Q, const mpz_t s, const EC_POINT P)
 
     ec_bn254_fp_point_set_infinity(Q);
 
-    for (i=t-1; i>=0; i--)
+    for (i = t - 1; i >= 0; i--)
     {
         ec_bn254_fp_dob_formul(Q, Q);
 
-        if( sn1[i] )
+        if (sn1[i])
         {
-            if( sn1[i] < 0 ) {
+            if (sn1[i] < 0) {
                 ec_bn254_fp_add_formul(Q, Q, mP1);
             }
             else {
@@ -841,9 +843,9 @@ void ec_bn254_fp_mul_end(EC_POINT Q, const mpz_t s, const EC_POINT P)
             }
         }
 
-        if( sn2[i] )
+        if (sn2[i])
         {
-            if( sn2[i] < 0 ) {
+            if (sn2[i] < 0) {
                 ec_bn254_fp_add_formul(Q, Q, mP2);
             }
             else {
@@ -880,7 +882,9 @@ int ec_bn254_fp_is_on_curve(const EC_POINT P)
 
     Element x, y;
 
-    if( point_is_infinity(P) ) return TRUE;
+    if (point_is_infinity(P)) {
+        return TRUE;
+    }
 
     element_init(x, field(P));
     element_init(y, field(P));
@@ -890,7 +894,7 @@ int ec_bn254_fp_is_on_curve(const EC_POINT P)
     element_add(x, x, curve(P)->b);
     element_sqr(y, ycoord(P));
 
-    hr = ( element_cmp(x, y) == 0 );
+    hr = (element_cmp(x, y) == 0);
 
     element_clear(x);
     element_clear(y);
@@ -900,9 +904,9 @@ int ec_bn254_fp_is_on_curve(const EC_POINT P)
 
 int ec_bn254_fp_cmp(const EC_POINT P, const EC_POINT Q)
 {
-    if ( element_cmp(xcoord(P), xcoord(Q)) == 0 )
+    if (element_cmp(xcoord(P), xcoord(Q)) == 0)
     {
-        if( element_cmp(ycoord(P), ycoord(Q)) == 0 ) {
+        if (element_cmp(ycoord(P), ycoord(Q)) == 0) {
             return 0;
         }
     }
@@ -914,7 +918,7 @@ int ec_bn254_fp_cmp(const EC_POINT P, const EC_POINT Q)
 //-------------------------------------------
 void ec_bn254_fp_make_affine(EC_POINT z, const EC_POINT x)
 {
-    if ( point_is_infinity(x) ) {
+    if (point_is_infinity(x)) {
         point_set_infinity(z);
     }
     else
@@ -958,7 +962,7 @@ void ec_bn254_fp_random(EC_POINT z)
         element_mul(t1, t1, t0); //
         element_add(t1, t1, curve(z)->b);
 
-    } while ( !element_sqrt(t2, t1) );
+    } while (!element_sqrt(t2, t1));
 
     point_set_xy(z, t0, t2);
 
@@ -977,7 +981,7 @@ void ec_bn254_fp_random(EC_POINT z)
 void bn254_fp_BS2FQE(Element z, const unsigned char *os, const size_t oslen, int t)
 {
     size_t tlen = oslen + 2;
-    unsigned char *tmp = (unsigned char *)malloc(sizeof(unsigned char)*(tlen));
+    unsigned char *tmp = (unsigned char *)malloc(sizeof(unsigned char) * (tlen));
 
     memset(tmp, 0x00, 2);          // os0 = 0 || os
     memcpy(&(tmp[2]), os, oslen);  //
@@ -1019,8 +1023,8 @@ void ec_bn254_fp_map_to_point(EC_POINT z, const char *s, size_t slen, int t)
 
     Element x0, y0, y1, y2, t0;
 
-    d = (unsigned char *)malloc(sizeof(unsigned char)*(t/4));
-    id = (unsigned char *)malloc(sizeof(unsigned char)*(t/4+2));
+    d = (unsigned char *)malloc(sizeof(unsigned char) * (t / 4));
+    id = (unsigned char *)malloc(sizeof(unsigned char) * (t / 4 + 2));
 
     mpz_init_set_ui(i, 0);      // i = 0
 
@@ -1044,7 +1048,7 @@ void ec_bn254_fp_map_to_point(EC_POINT z, const char *s, size_t slen, int t)
         bn254_fp_mul(t0, t0, x0);
         bn254_fp_add(t0, t0, curve(z)->b);
 
-        if( bn254_fp_is_zero(t0) )
+        if (bn254_fp_is_zero(t0))
         {
             ec_bn254_fp_point_set_xy(z, x0, t0);   //z = (x0, 0)
             goto release;
@@ -1052,12 +1056,12 @@ void ec_bn254_fp_map_to_point(EC_POINT z, const char *s, size_t slen, int t)
 
         mpz_add_ui(i, i, 1);   //i = i+1
 
-    } while( !bn254_fp_sqrt(y0, t0) );
+    } while (!bn254_fp_sqrt(y0, t0));
 
     bn254_fp_set(y1, y0);   //y1 = y0
     bn254_fp_neg(y2, y0);   //y2 = -y0
 
-    ( mpz_cmp(mpz_rep(y1), mpz_rep(y2)) > 0 )? bn254_fp_set(y0, y2): bn254_fp_set(y0, y1);
+    (mpz_cmp(mpz_rep(y1), mpz_rep(y2)) > 0) ? bn254_fp_set(y0, y2) : bn254_fp_set(y0, y1);
 
     point_set_xy(z, x0, y0);
 
@@ -1085,9 +1089,9 @@ void ec_bn254_fp_to_oct(unsigned char *os, size_t *size, const EC_POINT P)
     unsigned char ox[32];
     unsigned char oy[32];
 
-    if( point_is_infinity(P) ) {
-        os[0]=0x00;
-        (*size)=1;
+    if (point_is_infinity(P)) {
+        os[0] = 0x00;
+        (*size) = 1;
         return;
     }
 
@@ -1108,13 +1112,13 @@ void ec_bn254_fp_to_oct(unsigned char *os, size_t *size, const EC_POINT P)
 
 void ec_bn254_fp_from_oct(EC_POINT z, const unsigned char *os, size_t size)
 {
-    if( size != 1 && size != 65 )
+    if (size != 1 && size != 65)
     {
         point_set_infinity(z);
         return;
     }
 
-    switch ( os[0] )
+    switch (os[0])
     {
     case 0x00:
         point_set_infinity(z);

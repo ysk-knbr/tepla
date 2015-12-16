@@ -22,9 +22,9 @@
 //-------------------------------------------
 void bn254_fp12_init(Element x)
 {
-    x->data = (void *)malloc(sizeof(Element)*2);
+    x->data = (void *)malloc(sizeof(Element) * 2);
 
-    if( x->data == NULL ) {
+    if (x->data == NULL) {
         fprintf(stderr, "fail: allocate in bn254_fp12 init\n");
         exit(100);
     }
@@ -35,7 +35,7 @@ void bn254_fp12_init(Element x)
 
 void bn254_fp12_clear(Element x)
 {
-    if( x->data != NULL )
+    if (x->data != NULL)
     {
         element_clear(rep0(x));
         element_clear(rep1(x));
@@ -59,12 +59,12 @@ void bn254_fp12_set_fp6(Element z, const Element x, const Element y)
 
 void bn254_fp12_set_str(Element x, const char *s)
 {
-    int i=0;
+    int i = 0;
     int len = strlen(s);
 
-    char msg[780], *p, *c[11];
+    char msg[790], *p, *c[11];
 
-    if( len > 790) {
+    if (len > 790) {
         fprintf(stderr, "error: input string is too long, string must be smaller than 780\n");
         exit(200);
     }
@@ -73,19 +73,19 @@ void bn254_fp12_set_str(Element x, const char *s)
 
     p = msg;
 
-    while( (*p) != '\0' )
+    while ((*p) != '\0')
     {
-        if( (*p)==' ' ) {
-            if( i<11 ) {
-                c[i]=p;
+        if ((*p) == ' ') {
+            if (i < 11) {
+                c[i] = p;
             }
             i++;
         }
         p++;
     }
 
-    if( i != 11 ) {
-        fprintf(stderr,"error: input string is not correct %d\n", i);
+    if (i != 11) {
+        fprintf(stderr, "error: input string is not correct %d\n", i);
         exit(200);
     }
 
@@ -319,10 +319,10 @@ void bn254_fp12_pow(Element z, const Element x, const mpz_t exp)
 
     t = mpz_sizeinbase(exp, 2);
 
-    for (i=t-2; i>=0; i--)
+    for (i = t - 2; i >= 0; i--)
     {
         element_sqr(c, c);
-        if( mpz_tstbit(exp, i) ) {
+        if (mpz_tstbit(exp, i)) {
             element_mul(c, c, x);
         }
     }
@@ -349,16 +349,16 @@ void bn254_fp12_pow_naf(Element z, const Element x, const mpz_t exp)
 
     t = mpz_sizeinbase(exp, 2);
 
-    naf = (int *)malloc(sizeof(int)*(t+1));
+    naf = (int *)malloc(sizeof(int) * (t + 1));
 
     generate_naf(naf, &nlen, exp);
 
-    for (i=nlen-2; i>=0; i--)
+    for (i = nlen - 2; i >= 0; i--)
     {
         element_sqr(c, c);
-        if( naf[i] )
+        if (naf[i])
         {
-            if( naf[i] < 0 ) {
+            if (naf[i] < 0) {
                 element_mul(c, c, ix);
             }
             else {
@@ -711,7 +711,7 @@ void bn254_fp12_pow_forpairing_beuchat(Element z, const Element x, const int *t,
     int i;
     Element ix;
 
-    if( z == x )
+    if (z == x)
     {
         fprintf(stderr, "error: bad input for bn254_fp12_pow_forpairing\n");
         exit(200);
@@ -722,13 +722,13 @@ void bn254_fp12_pow_forpairing_beuchat(Element z, const Element x, const int *t,
     bn254_fp12_set(z, x);
     bn254_fp12_conj(ix, x);
 
-    for (i=tlen-2; i>=0; i--)
+    for (i = tlen - 2; i >= 0; i--)
     {
-        bn254_fp12_sqr_forpairing_beuchat(z, z);
+        bn254_fp12_sqr_forpairing(z, z);
 
-        if ( t[i] )
+        if (t[i])
         {
-            if ( t[i] < 0 ) {
+            if (t[i] < 0) {
                 bn254_fp12_mul(z, z, ix);
             }
             else {
@@ -822,9 +822,9 @@ void bn254_fp12_precomp_frob_beuchat(field_precomp_frob_p pf, const Field f)
     //---------------------------------
     //  allocate buffer
     //---------------------------------
-    Element *g1 = (Element *)malloc(sizeof(Element)*5);
-    Element *g2 = (Element *)malloc(sizeof(Element)*5);
-    Element *g3 = (Element *)malloc(sizeof(Element)*5);
+    Element *g1 = (Element *)malloc(sizeof(Element) * 5);
+    Element *g2 = (Element *)malloc(sizeof(Element) * 5);
+    Element *g3 = (Element *)malloc(sizeof(Element) * 5);
 
     struct ec_field_st *fp  = f->base->base->base;
     struct ec_field_st *fp2 = f->base->base;
@@ -832,7 +832,7 @@ void bn254_fp12_precomp_frob_beuchat(field_precomp_frob_p pf, const Field f)
     //---------------------------------
     //  initialization
     //---------------------------------
-    for(i=0; i<5; i++)
+    for (i = 0; i < 5; i++)
     {
         element_init(g1[i], fp);
         element_init(g2[i], fp);
@@ -855,16 +855,15 @@ void bn254_fp12_precomp_frob_beuchat(field_precomp_frob_p pf, const Field f)
     //---------------------------------
     //  set gamma 1, 2, 3
     //---------------------------------
-
     element_set(g1[0], ((Element*)tmp->data)[0]);
 
-    for(i=1; i<5; i++) {
-        element_mul(g1[i], g1[i-1], g1[0]);
+    for (i = 1; i < 5; i++) {
+        element_mul(g1[i], g1[i - 1], g1[0]);
     }
-    for(i=0; i<5; i++) {
+    for (i = 0; i < 5; i++) {
         element_mul(g2[i], g1[i], g1[i]);
     }
-    for(i=0; i<5; i++) {
+    for (i = 0; i < 5; i++) {
         element_mul(g3[i], g1[i], g2[i]);
     }
 
@@ -873,7 +872,6 @@ void bn254_fp12_precomp_frob_beuchat(field_precomp_frob_p pf, const Field f)
     pf->gamma3 = g3;
 
     pf->glen1 = pf->glen2 = pf->glen3 = 5;
-
 
     mpz_clear(t);
     mpz_clear(u);
@@ -887,7 +885,7 @@ void bn254_fp12_precomp_frob_beuchat(field_precomp_frob_p pf, const Field f)
 //---------------------------------------------------------
 void bn254_fp12_precomp(Field f)
 {
-    field_precomp_p precomp=NULL;
+    field_precomp_p precomp = NULL;
 
     precomp = (field_precomp_p)malloc(sizeof(struct ec_field_precomp_st));
 
@@ -914,9 +912,9 @@ void bn254_fp12_precomp(Field f)
 //-------------------------------------------
 int bn254_fp12_is_zero(const Element x)
 {
-    if ( bn254_fp6_is_zero(rep1(x)) )
+    if (bn254_fp6_is_zero(rep1(x)))
     {
-        if( bn254_fp6_is_zero(rep0(x)) ) {
+        if (bn254_fp6_is_zero(rep0(x))) {
             return TRUE;
         }
     }
@@ -925,9 +923,9 @@ int bn254_fp12_is_zero(const Element x)
 
 int bn254_fp12_is_one(const Element x)
 {
-    if ( bn254_fp6_is_zero(rep1(x)) )
+    if (bn254_fp6_is_zero(rep1(x)))
     {
-        if( bn254_fp6_is_one(rep0(x)) ) {
+        if (bn254_fp6_is_one(rep0(x))) {
             return TRUE;
         }
     }
@@ -936,9 +934,9 @@ int bn254_fp12_is_one(const Element x)
 
 int bn254_fp12_cmp(const Element x, const Element y)
 {
-    if ( bn254_fp6_cmp(rep1(x), rep1(y)) == 0 )
+    if (bn254_fp6_cmp(rep1(x), rep1(y)) == 0)
     {
-        if( bn254_fp6_cmp(rep0(x), rep0(y)) == 0 ) {
+        if (bn254_fp6_cmp(rep0(x), rep0(y)) == 0) {
             return 0;
         }
     }
@@ -951,7 +949,7 @@ int bn254_fp12_is_sqr(const Element x)
 
     Element *t = field(x)->base->tmp;
 
-    if( element_is_zero(x) ) {
+    if (element_is_zero(x)) {
         return FALSE;
     }
 
@@ -1012,12 +1010,12 @@ void bn254_fp12_to_oct(unsigned char *os, size_t *size, const Element x)
 
     mpz_init(z);
 
-    bn254_fp12_to_mpz(z,x);
+    bn254_fp12_to_mpz(z, x);
     mpz_export(b0, &s0, 1, sizeof(*b0), 1, 0, z);
 
     memset(os, 0x00, 380);
 
-    memcpy(&os[380-(int)s0], b0, s0);
+    memcpy(&os[380 - (int)s0], b0, s0);
 
     (*size) = 380;
 
@@ -1028,7 +1026,7 @@ void bn254_fp12_from_oct(Element x, const unsigned char *os, const size_t size)
 {
     mpz_t quo, rem;
 
-    if( size < 380 ) {
+    if (size < 380) {
         fprintf(stderr, "error: please set up the enought buffer for element\n");
         exit(300);
     }
