@@ -23,7 +23,10 @@ void bn254_fp12_init(Element x)
 {
     x->data = (void *)malloc(sizeof(Element) * 2);
 
-    if (x->data == NULL) { fprintf(stderr, "fail: allocate in bn254_fp12 init\n"); exit(100); }
+    if (x->data == NULL) {
+        fprintf(stderr, "fail: allocate in bn254_fp12 init\n");
+        exit(100);
+    }
 
     element_init(rep0(x), field(x)->base);
     element_init(rep1(x), field(x)->base);
@@ -60,7 +63,10 @@ void bn254_fp12_set_str(Element x, const char *s)
 
     char msg[790], *p, *c[11];
 
-    if (len > 790) { fprintf(stderr, "error: input string is too long, string must be smaller than 780\n"); exit(200); }
+    if (len > 790) {
+        fprintf(stderr, "error: input string is too long, string must be smaller than 780\n");
+        exit(200);
+    }
 
     strcpy(msg, s);
 
@@ -68,11 +74,19 @@ void bn254_fp12_set_str(Element x, const char *s)
 
     while ((*p) != '\0')
     {
-        if ((*p) == ' ') { if (i < 11) { c[i] = p; } i++; }
+        if ((*p) == ' ') {
+            if (i < 11) {
+                c[i] = p;
+            }
+            i++;
+        }
         p++;
     }
 
-    if (i != 11) { fprintf(stderr, "error: input string is not correct %d\n", i); exit(200); }
+    if (i != 11) {
+        fprintf(stderr, "error: input string is not correct %d\n", i);
+        exit(200);
+    }
 
     (*c[0]) = '\0';
     (*c[1]) = '\0';
@@ -248,7 +262,9 @@ void bn254_fp12_pow(Element z, const Element x, const mpz_t exp)
     for (i = t - 2; i >= 0; i--)
     {
         element_sqr(c, c);
-        if (mpz_tstbit(exp, i)) { element_mul(c, c, x); }
+        if (mpz_tstbit(exp, i)) {
+            element_mul(c, c, x);
+        }
     }
 
     element_set(z, c);
@@ -282,8 +298,12 @@ void bn254_fp12_pow_naf(Element z, const Element x, const mpz_t exp)
         element_sqr(c, c);
         if (naf[i])
         {
-            if (naf[i] < 0) { element_mul(c, c, ix); }
-            else { element_mul(c, c, x); }
+            if (naf[i] < 0) {
+                element_mul(c, c, ix);
+            }
+            else {
+                element_mul(c, c, x);
+            }
         }
     }
 
@@ -445,8 +465,12 @@ void bn254_fp12_pow_forpairing(Element z, const Element x, const int *t, int tle
 
         if (t[i])
         {
-            if (t[i] < 0) { bn254_fp12_mul(z, z, ix); }
-            else { bn254_fp12_mul(z, z, x); }
+            if (t[i] < 0) {
+                bn254_fp12_mul(z, z, ix);
+            }
+            else {
+                bn254_fp12_mul(z, z, x);
+            }
         }
     }
 
@@ -500,9 +524,15 @@ void bn254_fp12_precomp_frob(field_precomp_frob_p pf, const Field f)
     //---------------------------------
     element_set(g1[0], ((Element*)tmp->data)[0]);
 
-    for (i = 1; i < 5; i++) { element_mul(g1[i], g1[i - 1], g1[0]); }
-    for (i = 0; i < 5; i++) { element_mul(g2[i], g1[i], g1[i]); }
-    for (i = 0; i < 5; i++) { element_mul(g3[i], g1[i], g2[i]); }
+    for (i = 1; i < 5; i++) {
+        element_mul(g1[i], g1[i - 1], g1[0]);
+    }
+    for (i = 0; i < 5; i++) {
+        element_mul(g2[i], g1[i], g1[i]);
+    }
+    for (i = 0; i < 5; i++) {
+        element_mul(g3[i], g1[i], g2[i]);
+    }
 
     pf->gamma1 = g1;
     pf->gamma2 = g2;
@@ -542,7 +572,9 @@ int bn254_fp12_is_zero(const Element x)
 {
     if (bn254_fp6_is_zero(rep1(x)))
     {
-        if (bn254_fp6_is_zero(rep0(x))) { return TRUE; }
+        if (bn254_fp6_is_zero(rep0(x))) {
+            return TRUE;
+        }
     }
     return FALSE;
 }
@@ -551,7 +583,9 @@ int bn254_fp12_is_one(const Element x)
 {
     if (bn254_fp6_is_zero(rep1(x)))
     {
-        if (bn254_fp6_is_one(rep0(x))) { return TRUE; }
+        if (bn254_fp6_is_one(rep0(x))) {
+            return TRUE;
+        }
     }
     return FALSE;
 }
@@ -560,7 +594,9 @@ int bn254_fp12_cmp(const Element x, const Element y)
 {
     if (bn254_fp6_cmp(rep1(x), rep1(y)) == 0)
     {
-        if (bn254_fp6_cmp(rep0(x), rep0(y)) == 0) { return 0; }
+        if (bn254_fp6_cmp(rep0(x), rep0(y)) == 0) {
+            return 0;
+        }
     }
     return 1;
 }
@@ -571,7 +607,9 @@ int bn254_fp12_is_sqr(const Element x)
 
     Element *t = field(x)->base->tmp;
 
-    if (element_is_zero(x)) { return FALSE; }
+    if (element_is_zero(x)) {
+        return FALSE;
+    }
 
     bn254_fp6_inv(t[0], rep1(x));
     bn254_fp6_mul(t[0], t[0], rep0(x));
@@ -646,7 +684,10 @@ void bn254_fp12_from_oct(Element x, const unsigned char *os, const size_t size)
 {
     mpz_t quo, rem;
 
-    if (size < 380) { fprintf(stderr, "error: please set up the enought buffer for element\n"); exit(300); }
+    if (size < 380) {
+        fprintf(stderr, "error: please set up the enought buffer for element\n");
+        exit(300);
+    }
 
     mpz_init(quo);
     mpz_init(rem);

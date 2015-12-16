@@ -157,13 +157,17 @@ void test_pairing(const EC_PAIRING p)
     }
 
     t1 = rdtsc();
-    for (i = 0; i < N; i++) { pairing_map(g, P, Q, p); }
+    for (i = 0; i < N; i++) {
+        pairing_map(g, P, Q, p);
+    }
     t2 = rdtsc();
 
     printf("optimal ate pairing: %.5lf [clock]\n", (double)(t2 - t1) / N);
 
     t1 = clock();
-    for (i = 0; i < N; i++) { p->pairing(g, Q, P, p); }
+    for (i = 0; i < N; i++) {
+        p->pairing(g, Q, P, p);
+    }
     t2 = clock();
 
     printf("optimal ate pairing: %.5lf [sec]\n", (double)(t2 - t1) / (CLOCKS_PER_SEC) / N);

@@ -89,7 +89,9 @@ void test_arithmetic_operation(const EC_GROUP ec)
     assert(point_is_on_curve(a));
 
     t1 = rdtsc();
-    for (i = 0; i < M; i++) { point_random(a); }
+    for (i = 0; i < M; i++) {
+        point_random(a);
+    }
     t2 = rdtsc();
 
     printf("point random: %.2lf [clock]\n", (double)(t2 - t1) / M);
@@ -118,7 +120,9 @@ void test_arithmetic_operation(const EC_GROUP ec)
     assert(point_cmp(c, d) == 0);
 
     t1 = rdtsc();
-    for (i = 0; i < N; i++) { point_add(c, a, b); }
+    for (i = 0; i < N; i++) {
+        point_add(c, a, b);
+    }
     t2 = rdtsc();
 
     printf("point add: %.2lf [clock]\n", (double)(t2 - t1) / N);
@@ -136,7 +140,9 @@ void test_arithmetic_operation(const EC_GROUP ec)
     assert(point_cmp(c, d) == 0);
 
     t1 = rdtsc();
-    for (i = 0; i < N; i++) { point_dob(c, a); }
+    for (i = 0; i < N; i++) {
+        point_dob(c, a);
+    }
     t2 = rdtsc();
 
     printf("point dob: %.2lf [clock]\n", (double)(t2 - t1) / N);
@@ -174,13 +180,17 @@ void test_arithmetic_operation(const EC_GROUP ec)
     }
 
     t1 = rdtsc();
-    for (i = 0; i < M; i++) { point_mul(b, scalar, a); }
+    for (i = 0; i < M; i++) {
+        point_mul(b, scalar, a);
+    }
     t2 = rdtsc();
 
     printf("point mul with endomorphism: %.2lf [clock]\n", (double)(t2 - t1) / M);
 
     t1 = rdtsc();
-    for (i = 0; i < M; i++) { ec_bn254_fp2_mul(b, scalar, a); }
+    for (i = 0; i < M; i++) {
+        ec_bn254_fp2_mul(b, scalar, a);
+    }
     t2 = rdtsc();
 
     printf("point mul with binary method: %.2lf [clock]\n", (double)(t2 - t1) / M);
@@ -221,7 +231,9 @@ void test_map_to_point(const EC_GROUP ec)
     assert(point_cmp(Q, P) == 0);
 
     t1 = rdtsc();
-    for (i = 0; i < M; i++) { point_map_to_point(P, MAP_STR, sizeof(MAP_STR), t); }
+    for (i = 0; i < M; i++) {
+        point_map_to_point(P, MAP_STR, sizeof(MAP_STR), t);
+    }
     t2 = rdtsc();
 
     printf("point map to point in 128 security: %.2lf [clock]\n", (double)(t2 - t1) / M);
@@ -269,13 +281,17 @@ void test_io(const EC_GROUP ec)
     }
 
     t1 = rdtsc();
-    for (i = 0; i < N; i++) { point_to_oct(os, &osize, P); }
+    for (i = 0; i < N; i++) {
+        point_to_oct(os, &osize, P);
+    }
     t2 = rdtsc();
 
     printf("point to octet string: %.2lf [clock]\n", (double)(t2 - t1) / N);
 
     t1 = rdtsc();
-    for (i = 0; i < N; i++) { point_from_oct(Q, os, osize); }
+    for (i = 0; i < N; i++) {
+        point_from_oct(Q, os, osize);
+    }
     t2 = rdtsc();
 
     printf("point from octet string: %.2lf [clock]\n", (double)(t2 - t1) / N);
@@ -299,13 +315,17 @@ void test_io(const EC_GROUP ec)
     }
 
     t1 = rdtsc();
-    for (i = 0; i < N; i++) { point_get_str(str, P); }
+    for (i = 0; i < N; i++) {
+        point_get_str(str, P);
+    }
     t2 = rdtsc();
 
     printf("point get string: %.2lf [clock]\n", (double)(t2 - t1) / N);
 
     t1 = rdtsc();
-    for (i = 0; i < N; i++) { point_set_str(Q, str); }
+    for (i = 0; i < N; i++) {
+        point_set_str(Q, str);
+    }
     t2 = rdtsc();
 
     printf("point set string: %.2lf [clock]\n", (double)(t2 - t1) / N);

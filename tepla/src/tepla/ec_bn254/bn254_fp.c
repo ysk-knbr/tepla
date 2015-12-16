@@ -17,7 +17,10 @@ void bn254_fp_init(Element x)
 {
     x->data = (void *)malloc(sizeof(mpz_t));
 
-    if (x->data == NULL) { fprintf(stderr, "fail: allocate in fp init\n"); exit(100); }
+    if (x->data == NULL) {
+        fprintf(stderr, "fail: allocate in fp init\n");
+        exit(100);
+    }
 
     mpz_init(rep(x));
 }
@@ -208,7 +211,9 @@ int bn254_fp_sqrt(Element z, const Element x)
 {
     mpz_t V, P, Q, Q0, n, k, z1, z2, i2;
 
-    if (!bn254_fp_is_sqr(x)) { return FALSE; }
+    if (!bn254_fp_is_sqr(x)) {
+        return FALSE;
+    }
 
     mpz_init_set(Q, rep(x));
     mpz_init_set_ui(P, 0);
@@ -234,7 +239,9 @@ int bn254_fp_sqrt(Element z, const Element x)
         mpz_mul(z2, z1, z1);
         mpz_mod(z2, z2, n);
 
-        if (mpz_cmp(z2, Q) == 0) { break; }
+        if (mpz_cmp(z2, Q) == 0) {
+            break;
+        }
     }
 
     mpz_set(rep(z), z1);
@@ -285,7 +292,9 @@ int bn254_fp_is_sqr_general(const Element x)
     mpz_t q;
     Element t;
 
-    if (element_is_zero(x)) { return FALSE; }
+    if (element_is_zero(x)) {
+        return FALSE;
+    }
 
     mpz_init(q);
     element_init(t, field(x));
@@ -339,7 +348,10 @@ void bn254_fp_to_oct(unsigned char *os, size_t *size, const Element x)
 
 void bn254_fp_from_oct(Element x, const unsigned char *os, const size_t size)
 {
-    if (size < 32) { fprintf(stderr, "error: please set up the enought buffer for element\n"); exit(300); }
+    if (size < 32) {
+        fprintf(stderr, "error: please set up the enought buffer for element\n");
+        exit(300);
+    }
 
     mpz_import(rep(x), size, 1, sizeof(*os), 1, 0, os);
 }

@@ -70,13 +70,17 @@ void field_clear(Field f)
 //============================================
 const mpz_t* field_get_char(const Field f)
 {
-    if (f->base != NULL) { return field_get_char(f->base); }
+    if (f->base != NULL) {
+        return field_get_char(f->base);
+    }
     return &(f->order);
 }
 
 int field_get_degree(const Field f)
 {
-    if (f->base != NULL) { return f->irre_poly_deg * field_get_degree(f->base); }
+    if (f->base != NULL) {
+        return f->irre_poly_deg * field_get_degree(f->base);
+    }
     return f->irre_poly_deg;
 }
 

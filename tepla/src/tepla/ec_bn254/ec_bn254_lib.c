@@ -103,7 +103,9 @@ void ec_bn254_fp_new(Field f)
     //  temporary element init
     //----------------------------------
     f->tmp = (Element *)malloc(sizeof(Element) * TMP_NUM);
-    for (i = 0; i < TMP_NUM; i++) { element_init(f->tmp[i], f); }
+    for (i = 0; i < TMP_NUM; i++) {
+        element_init(f->tmp[i], f);
+    }
 
     return;
 }
@@ -189,7 +191,9 @@ void ec_bn254_fp2_new(Field f)
     //  temporary element init
     //----------------------------------
     f->tmp = (Element *)malloc(sizeof(Element) * TMP_NUM);
-    for (i = 0; i < TMP_NUM; i++) { element_init(f->tmp[i], f); }
+    for (i = 0; i < TMP_NUM; i++) {
+        element_init(f->tmp[i], f);
+    }
 
     return;
 }
@@ -278,7 +282,9 @@ void ec_bn254_fp6_new(Field f)
     //  temporary element init
     //----------------------------------
     f->tmp = (Element *)malloc(sizeof(Element) * TMP_NUM);
-    for (i = 0; i < TMP_NUM; i++) { element_init(f->tmp[i], f); }
+    for (i = 0; i < TMP_NUM; i++) {
+        element_init(f->tmp[i], f);
+    }
 
     return;
 }
@@ -365,7 +371,9 @@ void ec_bn254_fp12_new(Field f)
     //  temporary element init
     //----------------------------------
     f->tmp = (Element *)malloc(sizeof(Element) * TMP_NUM);
-    for (i = 0; i < TMP_NUM; i++) { element_init(f->tmp[i], f); }
+    for (i = 0; i < TMP_NUM; i++) {
+        element_init(f->tmp[i], f);
+    }
 
     return;
 }
@@ -393,9 +401,15 @@ void ec_bn254_field_clear(Field f)
 
         if (pf != NULL)
         {
-            for (i = 0; i < pf->glen1; i++) { element_clear(pf->gamma1[i]); }
-            for (i = 0; i < pf->glen2; i++) { element_clear(pf->gamma2[i]); }
-            for (i = 0; i < pf->glen3; i++) { element_clear(pf->gamma3[i]); }
+            for (i = 0; i < pf->glen1; i++) {
+                element_clear(pf->gamma1[i]);
+            }
+            for (i = 0; i < pf->glen2; i++) {
+                element_clear(pf->gamma2[i]);
+            }
+            for (i = 0; i < pf->glen3; i++) {
+                element_clear(pf->gamma3[i]);
+            }
             free(pf->gamma1);
             free(pf->gamma2);
             free(pf->gamma3);
@@ -406,7 +420,9 @@ void ec_bn254_field_clear(Field f)
 
     if (f->irre_poly != NULL)
     {
-        for (i = 0, j = f->irre_poly_num; i < j; i++) { element_clear(f->irre_poly[i]); }
+        for (i = 0, j = f->irre_poly_num; i < j; i++) {
+            element_clear(f->irre_poly[i]);
+        }
         f->irre_poly_num = 0;
         f->irre_poly_deg = 0;
         SAFE_FREE(f->irre_poly);
@@ -414,7 +430,9 @@ void ec_bn254_field_clear(Field f)
 
     if (f->tmp != NULL)
     {
-        for (i = 0; i < TMP_NUM; i++) { element_clear(f->tmp[i]); }
+        for (i = 0; i < TMP_NUM; i++) {
+            element_clear(f->tmp[i]);
+        }
         SAFE_FREE(f->tmp);
     }
 

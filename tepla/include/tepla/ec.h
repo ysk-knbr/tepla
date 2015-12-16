@@ -16,7 +16,7 @@ extern "C" {
 //---------------------------------------------------
 typedef enum
 {
-	Curve_BN,
+    Curve_BN,
 
 } ECType;
 
@@ -25,13 +25,13 @@ typedef enum
 //---------------------------------------------------
 typedef struct ec_point_st
 {
-	const struct ec_group_st *ec;
+    const struct ec_group_st *ec;
 
-	Element x;
-	Element y;
-	Element z;
+    Element x;
+    Element y;
+    Element z;
 
-	int isinfinity;
+    int isinfinity;
 
 } EC_POINT[1];
 
@@ -40,31 +40,31 @@ typedef struct ec_point_st
 //---------------------------------------------------
 typedef struct ec_group_st
 {
-	ECType type;
+    ECType type;
 
-	char* curve_name;
+    char* curve_name;
 
-	int ID;
+    int ID;
 
-	int str_len;
-	int oct_len;
+    int str_len;
+    int oct_len;
 
-	void (*curve_init)(struct ec_group_st *ec);
-	void (*curve_clear)(struct ec_group_st *ec);
+    void (*curve_init)(struct ec_group_st *ec);
+    void (*curve_clear)(struct ec_group_st *ec);
 
-	struct ec_field_st *field;
-	struct ec_method_st *method;
+    struct ec_field_st *field;
+    struct ec_method_st *method;
 
-	EC_POINT generator; // point
+    EC_POINT generator; // point
 
-	Element a;  // coefficient a
-	Element b;  // coefficient b
+    Element a;  // coefficient a
+    Element b;  // coefficient b
 
-	mpz_t   order;    // prime order of curve : order | #E(K)
-	mpz_t   trace;    // trace of frobenius
-	mpz_t   cofactor; // cofactor for order : #E(K) = {cofactor} * {order}
+    mpz_t   order;    // prime order of curve : order | #E(K)
+    mpz_t   trace;    // trace of frobenius
+    mpz_t   cofactor; // cofactor for order : #E(K) = {cofactor} * {order}
 
-	void *ec_data; // some values for computation
+    void *ec_data; // some values for computation
 
 } EC_GROUP[1];
 
@@ -73,28 +73,28 @@ typedef struct ec_group_st
 //---------------------------------------------------
 typedef struct ec_method_st
 {
-	void (*point_init)(EC_POINT p);
-	void (*point_clear)(EC_POINT p);
-	void (*point_set)(EC_POINT z, const EC_POINT x);
-	void (*point_set_str)(EC_POINT p, const char* s);
-	void (*point_set_infinity)(EC_POINT z);
-	void (*point_get_str)(char *s, const EC_POINT p);
+    void (*point_init)(EC_POINT p);
+    void (*point_clear)(EC_POINT p);
+    void (*point_set)(EC_POINT z, const EC_POINT x);
+    void (*point_set_str)(EC_POINT p, const char* s);
+    void (*point_set_infinity)(EC_POINT z);
+    void (*point_get_str)(char *s, const EC_POINT p);
 
-	void (*add)(EC_POINT R, const EC_POINT P, const EC_POINT Q);
-	void (*dob)(EC_POINT Q, const EC_POINT P);
-	void (*neg)(EC_POINT Q, const EC_POINT P);
-	void (*sub)(EC_POINT R, const EC_POINT P, const EC_POINT Q);
-	void (*mul)(EC_POINT Q, const mpz_t s, const EC_POINT P);
+    void (*add)(EC_POINT R, const EC_POINT P, const EC_POINT Q);
+    void (*dob)(EC_POINT Q, const EC_POINT P);
+    void (*neg)(EC_POINT Q, const EC_POINT P);
+    void (*sub)(EC_POINT R, const EC_POINT P, const EC_POINT Q);
+    void (*mul)(EC_POINT Q, const mpz_t s, const EC_POINT P);
 
-	int (*is_infinity)(const EC_POINT P);
-	int (*is_on_curve)(const EC_POINT P);
-	int (*cmp)(const EC_POINT P, const EC_POINT Q);
+    int (*is_infinity)(const EC_POINT P);
+    int (*is_on_curve)(const EC_POINT P);
+    int (*cmp)(const EC_POINT P, const EC_POINT Q);
 
-	void (*make_affine)(EC_POINT Q, const EC_POINT P);
-	void (*map_to_point)(EC_POINT P, const char *s, size_t slen, int t);
-	void (*random)(EC_POINT P);
-	void (*to_oct)(unsigned char* os, size_t *size, const EC_POINT P);
-	void (*from_oct)(EC_POINT P, const unsigned char* os, size_t size);
+    void (*make_affine)(EC_POINT Q, const EC_POINT P);
+    void (*map_to_point)(EC_POINT P, const char *s, size_t slen, int t);
+    void (*random)(EC_POINT P);
+    void (*to_oct)(unsigned char* os, size_t *size, const EC_POINT P);
+    void (*from_oct)(EC_POINT P, const unsigned char* os, size_t size);
 
 } EC_METHOD[1];
 
@@ -103,7 +103,7 @@ typedef struct ec_method_st
 //---------------------------------------------------
 typedef enum
 {
-	Pairing_ECBN254,
+    Pairing_ECBN254,
 
 } PairingType;
 
@@ -112,16 +112,16 @@ typedef enum
 //---------------------------------------------------
 typedef struct ec_pairing_st
 {
-	PairingType type;
+    PairingType type;
 
-	void (*pairing)(Element z, const EC_POINT x, const EC_POINT y, const struct ec_pairing_st* p);
+    void (*pairing)(Element z, const EC_POINT x, const EC_POINT y, const struct ec_pairing_st* p);
 
-	EC_GROUP g1;
-	EC_GROUP g2;
+    EC_GROUP g1;
+    EC_GROUP g2;
 
-	Field    g3;
+    Field    g3;
 
-	void* precomp;
+    void* precomp;
 
 } EC_PAIRING[1];
 
