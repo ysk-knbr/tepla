@@ -28,10 +28,10 @@
 //---------------------------------------------------
 typedef enum
 {
-	bn254_fp,
-	bn254_fp2,
-	bn254_fp6,
-	bn254_fp12,
+    bn254_fp,
+    bn254_fp2,
+    bn254_fp6,
+    bn254_fp12,
 
 } BN254_FieldType;
 
@@ -43,9 +43,9 @@ typedef enum
 //---------------------------------------------------
 typedef struct ec_field_precomp_sqrt_st
 {
-	int   e;
-	mpz_t v;
-	Element  n_v;
+    int   e;
+    mpz_t v;
+    Element  n_v;
 
 } *field_precomp_sqrt_p;
 
@@ -54,13 +54,13 @@ typedef struct ec_field_precomp_sqrt_st
 //---------------------------------------------------
 typedef struct ec_field_precomp_frob_st
 {
-	size_t glen1;
-	size_t glen2;
-	size_t glen3;
+    size_t glen1;
+    size_t glen2;
+    size_t glen3;
 
-	Element *gamma1;
-	Element *gamma2;
-	Element *gamma3;
+    Element *gamma1;
+    Element *gamma2;
+    Element *gamma3;
 
 } *field_precomp_frob_p;
 
@@ -69,8 +69,8 @@ typedef struct ec_field_precomp_frob_st
 //---------------------------------------------------
 typedef struct ec_field_precomp_st
 {
-	field_precomp_sqrt_p  ps;
-	field_precomp_frob_p  pf;
+    field_precomp_sqrt_p  ps;
+    field_precomp_frob_p  pf;
 
 } *field_precomp_p;
 
@@ -79,8 +79,8 @@ typedef struct ec_field_precomp_st
 //---------------------------------------------------
 typedef enum
 {
-	ec_bn254_fp,
-	ec_bn254_fp2,
+    ec_bn254_fp,
+    ec_bn254_fp2,
 
 } BN254_CurveType;
 
@@ -89,12 +89,12 @@ typedef enum
 //---------------------------------------------------
 typedef struct ec_bn254_fp_ec_data_st
 {
-	Element beta;
+    Element beta;
 
-	mpz_t n;
-	mpz_t n2;
-	mpz_t a1, a2;
-	mpz_t b1, b2;
+    mpz_t n;
+    mpz_t n2;
+    mpz_t a1, a2;
+    mpz_t b1, b2;
 
 } *ec_data_fp;
 
@@ -103,12 +103,12 @@ typedef struct ec_bn254_fp_ec_data_st
 //---------------------------------------------------
 typedef struct ec_bn254_fp2_ec_data_st
 {
-	mpz_t _6x;
-	mpz_t _6x2;
+    mpz_t _6x;
+    mpz_t _6x2;
 
-	Element vfrobx, vfroby;
-	Element vfrobx2, vfroby2;
-	Element vfrobx3, vfroby3;
+    Element vfrobx, vfroby;
+    Element vfrobx2, vfroby2;
+    Element vfrobx3, vfroby3;
 
 } *ec_data_fp2;
 
@@ -117,11 +117,11 @@ typedef struct ec_bn254_fp2_ec_data_st
 //---------------------------------------------------
 typedef struct ec_pairing_precomp_st
 {
-	size_t slen;
-	int *si;
+    size_t slen;
+    int *si;
 
-	size_t tlen; // for calculating f^t
-	int *ti;     // for calculating f^t
+    size_t tlen; // for calculating f^t
+    int *ti;     // for calculating f^t
 
 } *pairing_precomp_p;
 
