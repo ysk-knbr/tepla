@@ -1074,9 +1074,7 @@ void ec_bn254_twb_group_new(EC_GROUP ec)
     mpz_init_set_str(ec->trace, "25236482400000024D9B12000000000DB6360000000000244800000000000025", 16);
     mpz_init_set_str(ec->cofactor, "2523648240000001ba344d8000000008c2a2800000000016ad00000000000019", 16);
     ec_bn254_fp2_init_ec_data_aranha(ec);
-    ec_bn254_fp2_init_ec_data(ec);
 
-    point_set_str(ec->generator, "[19b0bea4afe4c330da93cc3533da38a9f430b471c6f8a536e81962ed967909b5 a1cf585585a61c6e9880b1f2a5c539f7d906fff238fa6341e1de1a2e45c3f72,17abd366ebbd65333e49c711a80a0cf6d24adf1b9b3990eedcc91731384d2627 0ee97d6de9902a27d00e952232a78700863bc9aa9be960C32f5bf9fd0a32d345]");
 }
 
 //----------------------------------------------

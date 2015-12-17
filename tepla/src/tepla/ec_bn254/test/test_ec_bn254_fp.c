@@ -19,12 +19,12 @@ void test_feature(const EC_GROUP ec)
     fprintf(stdout, "Elliptic Curve Type: %s\n", curve_get_name(ec));
     fprintf(stdout, "   Y^2 = X^3 + aX + b\n");
     fprintf(stdout, "   a: ");
-    print_element(ec->a);
+    element_print(ec->a);
     fprintf(stdout, "   b: ");
-    print_element(ec->b);
+    element_print(ec->b);
     gmp_fprintf(stdout, "   field order: %Zx\n", ec->field->order);
     fprintf(stdout, "   generator of curve: ");
-    print_point(ec->generator);
+    point_print(ec->generator);
     gmp_fprintf(stdout, "   order: %Zx\n", ec->order);
     gmp_fprintf(stdout, "   trace: %Zx\n", ec->trace);
     gmp_fprintf(stdout, "   cofactor: %Zx\n", ec->cofactor);

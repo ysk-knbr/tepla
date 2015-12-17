@@ -369,12 +369,12 @@ void test_sqrt(Field f)
     printf("element is sqr: %.2lf [clock]\n", (double)(t2 - t1) / N);
 
     t1 = rdtsc();
-    for (i = 0; i < M; i++) {
+    for (i = 0; i < N; i++) {
         element_sqrt(c, b);
     }
     t2 = rdtsc();
 
-    printf("element sqrt: %.2lf [clock]\n", (double)(t2 - t1) / M);
+    printf("element sqrt: %.2lf [clock]\n", (double)(t2 - t1) / N);
 
     element_clear(a);
     element_clear(b);

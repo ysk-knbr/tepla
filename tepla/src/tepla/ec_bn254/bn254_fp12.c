@@ -724,7 +724,7 @@ void bn254_fp12_pow_forpairing_beuchat(Element z, const Element x, const int *t,
 
     for (i = tlen - 2; i >= 0; i--)
     {
-        bn254_fp12_sqr_forpairing(z, z);
+        bn254_fp12_sqr_forpairing_beuchat(z, z);
 
         if (t[i])
         {
