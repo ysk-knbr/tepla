@@ -172,7 +172,7 @@ void bn254_fp12_mul(Element z, const Element x, const Element y)
 {
     Element *t = field(z)->base->tmp;
 
-    if(strcmp(x->field->field_name, "bn254_fp12a") == 0)
+    if (strcmp(x->field->field_name, "bn254_fp12a") == 0)
     {
         bn254_fp6_add(t[1], rep0(x), rep1(x));
         bn254_fp6_add(t[2], rep0(y), rep1(y));
@@ -185,7 +185,7 @@ void bn254_fp12_mul(Element z, const Element x, const Element y)
         bn254_fp6_add(rep0(z), t[0], t[1]);
     }
 
-    if(strcmp(x->field->field_name, "bn254_fp12b") == 0)
+    if (strcmp(x->field->field_name, "bn254_fp12b") == 0)
     {
         bn254_fp6_muln(t[0], rep0(x), rep0(y));
         bn254_fp6_muln(t[1], rep1(x), rep1(y));
@@ -277,7 +277,7 @@ void bn254_fp12_sqr(Element z, const Element x)
 {
     Element *t = field(z)->base->tmp;
 
-    if(strcmp(x->field->field_name, "bn254_fp12a") == 0)
+    if (strcmp(x->field->field_name, "bn254_fp12a") == 0)
     {
         bn254_fp6_sub(t[0], rep0(x), rep1(x));     // t0 = a0 - a1
         bn254_fp6_gm_mul(t[1], rep1(x));           //
@@ -290,7 +290,7 @@ void bn254_fp12_sqr(Element z, const Element x)
         bn254_fp6_add(rep0(z), t[0], t[1]); // c0 = t1 + t0
     }
 
-    if(strcmp(x->field->field_name, "bn254_fp12b") == 0)
+    if (strcmp(x->field->field_name, "bn254_fp12b") == 0)
     {
         bn254_fp6_add(t[0], rep0(x), rep1(x));
         bn254_fp6_gm_mul(t[1], rep1(x));
@@ -390,7 +390,7 @@ void bn254_fp12_frob_p(Element z, const Element x)
     bn254_fp6_conj(rep0(z), rep0(x));
     bn254_fp6_conj(rep1(z), rep1(x));
 
-    if(strcmp(x->field->field_name, "bn254_fp12a") == 0)
+    if (strcmp(x->field->field_name, "bn254_fp12a") == 0)
     {
         bn254_fp2_mul_p(rep0(rep1(z)), rep0(rep1(z)), (pf->gamma1)[0]);   //t2 = t2*gamma1
         bn254_fp2_mul_p(rep1(rep0(z)), rep1(rep0(z)), (pf->gamma1)[1]);   //t3 = t3*gamma2
@@ -399,7 +399,7 @@ void bn254_fp12_frob_p(Element z, const Element x)
         bn254_fp2_mul_p(rep2(rep1(z)), rep2(rep1(z)), (pf->gamma1)[4]);   //t6 = t6*gamma5
     }
 
-    if(strcmp(x->field->field_name, "bn254_fp12b") == 0)
+    if (strcmp(x->field->field_name, "bn254_fp12b") == 0)
     {
         bn254_fp2_mul(rep0(rep1(z)), rep0(rep1(z)), (pf->gamma1)[0]);   //t2 = t2*gamma1
         bn254_fp2_mul(rep1(rep0(z)), rep1(rep0(z)), (pf->gamma1)[1]);   //t3 = t3*gamma2
@@ -417,7 +417,7 @@ void bn254_fp12_frob_p2(Element z, const Element x)
 
     bn254_fp2_set(rep0(rep0(z)), rep0(rep0(x)));   //t1 = g0;
 
-    if(strcmp(x->field->field_name, "bn254_fp12a") == 0)
+    if (strcmp(x->field->field_name, "bn254_fp12a") == 0)
     {
         bn254_fp2_mul_p(rep0(rep1(z)), rep0(rep1(x)), (pf->gamma2)[0]);   //t2 = h0*gamma1
         bn254_fp2_mul_p(rep1(rep0(z)), rep1(rep0(x)), (pf->gamma2)[1]);   //t3 = g1*gamma2
@@ -426,7 +426,7 @@ void bn254_fp12_frob_p2(Element z, const Element x)
         bn254_fp2_mul_p(rep2(rep1(z)), rep2(rep1(x)), (pf->gamma2)[4]);   //t6 = h2*gamma5
     }
 
-    if(strcmp(x->field->field_name, "bn254_fp12b") == 0)
+    if (strcmp(x->field->field_name, "bn254_fp12b") == 0)
     {
         bn254_fp2_mul(rep0(rep1(z)), rep0(rep1(x)), (pf->gamma2)[0]);   //t2 = h0*gamma1
         bn254_fp2_mul(rep1(rep0(z)), rep1(rep0(x)), (pf->gamma2)[1]);   //t3 = g1*gamma2
@@ -445,7 +445,7 @@ void bn254_fp12_frob_p3(Element z, const Element x)
     bn254_fp6_conj(rep0(z), rep0(x));
     bn254_fp6_conj(rep1(z), rep1(x));
 
-    if(strcmp(x->field->field_name, "bn254_fp12a") == 0)
+    if (strcmp(x->field->field_name, "bn254_fp12a") == 0)
     {
         bn254_fp2_mul_p(rep0(rep1(z)), rep0(rep1(z)), (pf->gamma3)[0]);   //t2 = t2*gamma1
         bn254_fp2_mul_p(rep1(rep0(z)), rep1(rep0(z)), (pf->gamma3)[1]);   //t3 = t3*gamma2
@@ -454,7 +454,7 @@ void bn254_fp12_frob_p3(Element z, const Element x)
         bn254_fp2_mul_p(rep2(rep1(z)), rep2(rep1(z)), (pf->gamma3)[4]);   //t6 = t6*gamma5
     }
 
-    if(strcmp(x->field->field_name, "bn254_fp12b") == 0)
+    if (strcmp(x->field->field_name, "bn254_fp12b") == 0)
     {
         bn254_fp2_mul(rep0(rep1(z)), rep0(rep1(z)), (pf->gamma3)[0]);   //t2 = t2*gamma1
         bn254_fp2_mul(rep1(rep0(z)), rep1(rep0(z)), (pf->gamma3)[1]);   //t3 = t3*gamma2
@@ -569,7 +569,7 @@ void bn254_fp12_decompose_forpairing_karabina(Element z, const Element x)
     // g4 = rep1(rep0(x))
     // g5 = rep2(rep1(x))
 
-    if( bn254_fp2_is_zero(rep0(rep1(x))) )
+    if (bn254_fp2_is_zero(rep0(rep1(x))))
     {
         bn254_fp2_mul(t[1], rep1(rep0(x)), rep2(rep1(x)));	// t1 = g4*g5
         bn254_fp2_dob(t[1], t[1]);							// t1 = 2g4g5
@@ -629,17 +629,17 @@ void bn254_fp12_pow_forpairing_karabina(Element z, const Element x, const int *t
     element_init(z55, field(z));
     element_init(z62, field(z));
 
-    if( z == x )
+    if (z == x)
     {
         fprintf(stderr, "error: bad input for bn254_fp12_pow_forpairing\n");
         exit(200);
     }
 
-    element_set(z,x);
-    for(i=0; i<tlen-1; i++)
+    element_set(z, x);
+    for (i = 0; i < tlen - 1; i++)
     {
         bn254_fp12_sqr_forpairing_karabina(z, z);
-        if(i == 55-1) {
+        if (i == 55 - 1) {
             bn254_fp12_decompose_forpairing_karabina(z55, z);
         }
     }
@@ -648,7 +648,7 @@ void bn254_fp12_pow_forpairing_karabina(Element z, const Element x, const int *t
     bn254_fp12_mul(z, x, z55);
     bn254_fp12_mul(z, z, z62);
 
-    bn254_fp12_conj(z,z);
+    bn254_fp12_conj(z, z);
 
     element_clear(z55);
     element_clear(z62);
@@ -752,16 +752,16 @@ void bn254_fp12_precomp_frob_aranha(field_precomp_frob_p pf, const Field f)
     //---------------------------------
     //  allocate buffer
     //---------------------------------
-    Element *g1 = (Element *)malloc(sizeof(Element)*5);
-    Element *g2 = (Element *)malloc(sizeof(Element)*5);
-    Element *g3 = (Element *)malloc(sizeof(Element)*5);
+    Element *g1 = (Element *)malloc(sizeof(Element) * 5);
+    Element *g2 = (Element *)malloc(sizeof(Element) * 5);
+    Element *g3 = (Element *)malloc(sizeof(Element) * 5);
 
     struct ec_field_st *fp2 = f->base->base;
 
     //---------------------------------
     //  initialization
     //---------------------------------
-    for(i=0; i<5; i++)
+    for (i = 0; i < 5; i++)
     {
         element_init(g1[i], fp2);
         element_init(g2[i], fp2);
@@ -785,17 +785,17 @@ void bn254_fp12_precomp_frob_aranha(field_precomp_frob_p pf, const Field f)
     //---------------------------------
     //  set gamma 1, 2, 3
     //---------------------------------
-    element_set(g1[0],tmp1);
+    element_set(g1[0], tmp1);
 
-    for(i=1; i<5; i++) {
-        element_mul(g1[i], g1[i-1], g1[0]);
+    for (i = 1; i < 5; i++) {
+        element_mul(g1[i], g1[i - 1], g1[0]);
     }
-    for(i=0; i<5; i++)
+    for (i = 0; i < 5; i++)
     {
-        bn254_fp2_conj(tmp2,g1[i]);
+        bn254_fp2_conj(tmp2, g1[i]);
         element_mul(g2[i], g1[i], tmp2);
     }
-    for(i=0; i<5; i++) {
+    for (i = 0; i < 5; i++) {
         element_mul(g3[i], g1[i], g2[i]);
     }
 
@@ -894,12 +894,12 @@ void bn254_fp12_precomp(Field f)
 
     precomp->pf = (field_precomp_frob_p)malloc(sizeof(struct ec_field_precomp_frob_st));
 
-    if(strcmp(f->field_name, "bn254_fp12a") == 0)
+    if (strcmp(f->field_name, "bn254_fp12a") == 0)
     {
         bn254_fp12_precomp_frob_beuchat(precomp->pf, f);
     }
 
-    if(strcmp(f->field_name, "bn254_fp12b") == 0)
+    if (strcmp(f->field_name, "bn254_fp12b") == 0)
     {
         bn254_fp12_precomp_frob_aranha(precomp->pf, f);
     }

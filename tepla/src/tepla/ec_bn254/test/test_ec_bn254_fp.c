@@ -220,22 +220,22 @@ void test_arithmetic_operation_aranha(const EC_GROUP ec)
     //-------------------
     //  random
     //-------------------
-    for(i=0; i<100; i++)
+    for (i = 0; i < 100; i++)
     {
         point_random(x);
         point_random(y);
 
-        assert( point_is_on_curve(x) );
-        assert( point_is_on_curve(y) );
+        assert(point_is_on_curve(x));
+        assert(point_is_on_curve(y));
     }
 
     t1 = rdtsc();
-    for(i=0; i<M; i++) {
+    for (i = 0; i < M; i++) {
         point_random(x);
     }
     t2 = rdtsc();
 
-    printf("point random: %.2lf [clock]\n", (double)(t2-t1)/M);
+    printf("point random: %.2lf [clock]\n", (double)(t2 - t1) / M);
 
     //-------------------
     //  add/dob
@@ -243,40 +243,40 @@ void test_arithmetic_operation_aranha(const EC_GROUP ec)
     point_add(w, w, x);
     point_add(z, y, z);
 
-    assert( point_cmp(w, x) == 0 );
-    assert( point_cmp(z, y) == 0 );
+    assert(point_cmp(w, x) == 0);
+    assert(point_cmp(z, y) == 0);
 
     point_set_infinity(w);
     point_dob(z, w);
 
-    assert( point_is_infinity(z) );
+    assert(point_is_infinity(z));
     point_set_str(x, "[CA50EE766C535743EC45F534CBC42A703B0A4C4A6DEB82C1CF41CE76FAFACA7,7E1B2DABD6BE6B6C20438670E2A1D11A0896ADCAFFD539782848DA0C49266ED]");
     point_set_str(y, "[51F6E2F07DB4239C6E9CE8D0CEE6BC46E8F125867AD40A433AC6D3DC66C87DB,18A9843C4000A034C21C2C8C76E9C5F6801BF5DF0F4AC235199984B06E1F83B7]");
     point_set_str(w, "[10C813944B3FD19F0A86EB304AB7C93AC61BA1DC625F295C148744C7664E7DA3,1F6F0F4C9A2C169D98A397322CF54CE812DD096FA914C8DCF03CAD3F6628F43E]");
     point_add(z, x, y);
-    assert( point_cmp(z, w) == 0 );
+    assert(point_cmp(z, w) == 0);
 
     t1 = rdtsc();
-    for(i=0; i<N; i++) {
+    for (i = 0; i < N; i++) {
         point_add(z, x, y);
     }
     t2 = rdtsc();
 
-    printf("point add: %.2lf [clock]\n", (double)(t2-t1)/N);
+    printf("point add: %.2lf [clock]\n", (double)(t2 - t1) / N);
 
     point_set_str(w, "[B3C783B1497247BC18C19C8238928AD36D30F79BF4D6228B214E3B796D3078D,1C15B880392076285F680BB6053CD7D7338B0B246E93A58C78E9B4032A468A28]");
 
     point_dob(z, x);
 
-    assert( point_cmp(z, w) == 0 );
+    assert(point_cmp(z, w) == 0);
 
     t1 = rdtsc();
-    for(i=0; i<N; i++) {
+    for (i = 0; i < N; i++) {
         point_dob(z, x);
     }
     t2 = rdtsc();
 
-    printf("point dob: %.2lf [clock]\n", (double)(t2-t1)/N);
+    printf("point dob: %.2lf [clock]\n", (double)(t2 - t1) / N);
 
     //------------------
     // neg/sub
@@ -285,8 +285,8 @@ void test_arithmetic_operation_aranha(const EC_GROUP ec)
     point_add(w, x, z);
     point_sub(z, x, x);
 
-    assert( point_is_infinity(w) );
-    assert( point_is_infinity(z) );
+    assert(point_is_infinity(w));
+    assert(point_is_infinity(z));
 
     //-------------------
     //  mul
@@ -295,58 +295,58 @@ void test_arithmetic_operation_aranha(const EC_GROUP ec)
     ec_bn254_fp_mul(y, scalar, x);
     ec_bn254_fp_point_endomorphism(z, x);
 
-    assert( point_cmp(y, z) == 0 );
+    assert(point_cmp(y, z) == 0);
 
     point_set_str(x, "[237E5B966EC126BA4117DDAB68326EB05299EBAB87E2C5BD505F13073344C771,94E915680ECEC5BC3BC0990724FA981C0119E2D8E881BFE40FEAAFE4CCE8F6A]");
     point_set_str(y, "[13C9716E0ECB7466584B3F91802047C9E90EAD6963131D2E5CA638908134301A,242929DEFDD844A94DF3F487FCBEC3B95B71D472F012D3E7F0C5991F6D5500A7]");
 
-    mpz_set_str(scalar,"1C26BA60159C76F9C565E8716605BFBF2881FF4D82B2B4081F6EB20604CB1830", 16);
+    mpz_set_str(scalar, "1C26BA60159C76F9C565E8716605BFBF2881FF4D82B2B4081F6EB20604CB1830", 16);
 
     point_mul(z, scalar, x);
 
-    assert( point_cmp(z, y) == 0 );
+    assert(point_cmp(z, y) == 0);
 
     t1 = rdtsc();
-    for(i=0; i<M; i++) {
+    for (i = 0; i < M; i++) {
         point_mul(z, scalar, x);
     }
     t2 = rdtsc();
 
-    printf("point mul endomorphism: %.2lf [clock]\n", (double)(t2-t1)/M);
+    printf("point mul endomorphism: %.2lf [clock]\n", (double)(t2 - t1) / M);
 
-    for(i=1; i<100; i++)
+    for (i = 1; i < 100; i++)
     {
         point_random(x);
         point_set_infinity(w);
         mpz_set_ui(scalar, i);
 
-        for(j=0; j<i; j++) {
+        for (j = 0; j < i; j++) {
             point_add(w, w, x);
         }
 
         point_mul(z, scalar, x);
 
-        assert( point_cmp(z, w) == 0 );
+        assert(point_cmp(z, w) == 0);
     }
 
     mpz_set(scalar, ec->order);
 
-    for(i=0; i<100; i++)
+    for (i = 0; i < 100; i++)
     {
         point_random(x);
 
         ec_bn254_fp_mul(z, scalar, x);
 
-        assert( point_is_infinity(z) );
+        assert(point_is_infinity(z));
     }
 
     t1 = rdtsc();
-    for(i=0; i<M; i++) {
+    for (i = 0; i < M; i++) {
         ec_bn254_fp_mul(z, scalar, x);
     }
     t2 = rdtsc();
 
-    printf("point mul normal: %.2lf [clock]\n", (double)(t2-t1)/M);
+    printf("point mul normal: %.2lf [clock]\n", (double)(t2 - t1) / M);
 
     //-------------------
     //  clear
@@ -383,8 +383,8 @@ void test_map_to_point(const EC_GROUP ec)
     t2 = rdtsc();
 
     printf("point map to point in 128 security: %.2lf [clock]\n", (double)(t2 - t1) / N);
-    
-	point_clear(P);
+
+    point_clear(P);
     point_clear(Q);
 }
 
@@ -506,7 +506,7 @@ int main(void)
     curve_clear(eca);
     curve_clear(ecb);
 
-    fprintf(stderr,"ok\n");
+    fprintf(stderr, "ok\n");
 
     return 0;
 }

@@ -130,8 +130,8 @@ void bn254_fp_mulc(Element z, const Element x, const mpz_t c)
 void bn254_fp_div2(Element z, const Element x)
 {
     mpz_set(rep(z), rep(x));
-    if(mpz_odd_p(rep(z)))
-        mpz_add(rep(z), rep(z), order(z));
+    if (mpz_odd_p(rep(z)))
+    { mpz_add(rep(z), rep(z), order(z)); }
     mpz_fdiv_q_2exp(rep(z), rep(z), 1);
 }
 

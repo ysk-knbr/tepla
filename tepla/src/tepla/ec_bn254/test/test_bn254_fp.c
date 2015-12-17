@@ -62,8 +62,8 @@ void test_arithmetic_operation_beuchat(Field f)
     //--------------------
     element_set(d, c);
     element_sub(c, c, d);
-    
-	assert(element_is_zero(c));
+
+    assert(element_is_zero(c));
 
     //--------------------
     //  mul
@@ -179,15 +179,15 @@ void test_arithmetic_operation_aranha(Field f)
 
     element_add(c, a, b);
 
-    assert( element_cmp(c, d) == 0 );
+    assert(element_cmp(c, d) == 0);
 
     t1 = rdtsc();
-    for(i=0; i<N; i++) {
+    for (i = 0; i < N; i++) {
         element_add(c, a, b);
     }
     t2 = rdtsc();
 
-    printf("element add: %.2lf [clock]\n", (double)(t2-t1)/N);
+    printf("element add: %.2lf [clock]\n", (double)(t2 - t1) / N);
 
     //--------------------
     //  sub
@@ -195,22 +195,22 @@ void test_arithmetic_operation_aranha(Field f)
     element_set(d, c);
     element_sub(c, c, d);
 
-    assert( element_is_zero(c) );
+    assert(element_is_zero(c));
 
     //--------------------
     //  mul
     //--------------------
     element_mul(c, a, b);
     element_set_str(d, "C100D8F6E60A9C9CEA9C26A22FDC75486BCEBC00E12C7B67307DB79358EC3AA");
-    assert( element_cmp(c, d) == 0 );
+    assert(element_cmp(c, d) == 0);
 
     t1 = rdtsc();
-    for(i=0; i<N; i++) {
+    for (i = 0; i < N; i++) {
         element_mul(c, a, b);
     }
     t2 = rdtsc();
 
-    printf("element mul: %.2lf [clock]\n", (double)(t2-t1)/N);
+    printf("element mul: %.2lf [clock]\n", (double)(t2 - t1) / N);
 
     //--------------------
     //  random
@@ -227,16 +227,16 @@ void test_arithmetic_operation_aranha(Field f)
     element_inv(d, a);
     element_mul(d, a, d);
 
-    assert( element_cmp(c, a) == 0 );
-    assert( element_is_one(d) );
+    assert(element_cmp(c, a) == 0);
+    assert(element_is_one(d));
 
     t1 = rdtsc();
-    for(i=0; i<N; i++) {
+    for (i = 0; i < N; i++) {
         element_inv(b, a);
     }
     t2 = rdtsc();
 
-    printf("element inv: %.2lf [clock]\n", (double)(t2-t1)/N);
+    printf("element inv: %.2lf [clock]\n", (double)(t2 - t1) / N);
 
     //--------------------
     //  pow
@@ -246,31 +246,31 @@ void test_arithmetic_operation_aranha(Field f)
 
     element_set_one(b);
 
-    for(i=0; i<atoi(loop); i++) {
+    for (i = 0; i < atoi(loop); i++) {
         element_mul(b, b, a);
     }
 
     element_pow(c, a, exp);
 
-    assert( element_cmp(b, c) == 0 );
+    assert(element_cmp(b, c) == 0);
 
     mpz_set(exp, f->order);
 
-    for(i=0; i<100; i++)
+    for (i = 0; i < 100; i++)
     {
         element_random(a);
         element_pow(b, a, exp);
 
-        assert( element_cmp(a, b) == 0 );
+        assert(element_cmp(a, b) == 0);
     }
 
     t1 = rdtsc();
-    for(i=0; i<N; i++) {
+    for (i = 0; i < N; i++) {
         element_pow(b, a, exp);
     }
     t2 = rdtsc();
 
-    printf("element pow with order: %.2lf [clock]\n", (double)(t2-t1)/N);
+    printf("element pow with order: %.2lf [clock]\n", (double)(t2 - t1) / N);
 
     mpz_clear(exp);
 
@@ -432,7 +432,7 @@ int main(void)
     field_clear(fa);
     field_clear(fb);
 
-    fprintf(stderr,"ok\n");
+    fprintf(stderr, "ok\n");
 
     return 0;
 }

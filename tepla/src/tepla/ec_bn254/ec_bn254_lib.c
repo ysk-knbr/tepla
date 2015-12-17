@@ -32,7 +32,7 @@ void set_pairing_name(EC_PAIRING p, const char* name)
 {
     int len = strlen(name) + 1;
 
-    p->pairing_name = (char*)malloc(sizeof(char)*len);
+    p->pairing_name = (char*)malloc(sizeof(char) * len);
 
     strcpy(p->pairing_name, name);
 }
@@ -207,8 +207,8 @@ void ec_bn254_fp2a_new(Field f)
     //----------------------------------
     //  temporary element init
     //----------------------------------
-    f->tmp = (Element *)malloc(sizeof(Element)*TMP_NUM);
-    for(i=0; i<TMP_NUM; i++) {
+    f->tmp = (Element *)malloc(sizeof(Element) * TMP_NUM);
+    for (i = 0; i < TMP_NUM; i++) {
         element_init(f->tmp[i], f);
     }
 
@@ -395,8 +395,8 @@ void ec_bn254_fp12a_new(Field f)
     //----------------------------------
     //  temporary element init
     //----------------------------------
-    f->tmp = (Element *)malloc(sizeof(Element)*TMP_NUM);
-    for(i=0; i<TMP_NUM; i++) {
+    f->tmp = (Element *)malloc(sizeof(Element) * TMP_NUM);
+    for (i = 0; i < TMP_NUM; i++) {
         element_init(f->tmp[i], f);
     }
 
@@ -481,8 +481,8 @@ void ec_bn254_fpb_new(Field f)
     //----------------------------------
     //  temporary element init
     //----------------------------------
-    f->tmp = (Element *)malloc(sizeof(Element)*TMP_NUM);
-    for(i=0; i<TMP_NUM; i++) {
+    f->tmp = (Element *)malloc(sizeof(Element) * TMP_NUM);
+    for (i = 0; i < TMP_NUM; i++) {
         element_init(f->tmp[i], f);
     }
 
@@ -573,8 +573,8 @@ void ec_bn254_fp2b_new(Field f)
     //----------------------------------
     //  temporary element init
     //----------------------------------
-    f->tmp = (Element *)malloc(sizeof(Element)*TMP_NUM);
-    for(i=0; i<TMP_NUM; i++) {
+    f->tmp = (Element *)malloc(sizeof(Element) * TMP_NUM);
+    for (i = 0; i < TMP_NUM; i++) {
         element_init(f->tmp[i], f);
     }
 
@@ -668,8 +668,8 @@ void ec_bn254_fp6b_new(Field f)
     //----------------------------------
     //  temporary element init
     //----------------------------------
-    f->tmp = (Element *)malloc(sizeof(Element)*TMP_NUM);
-    for(i=0; i<TMP_NUM; i++) {
+    f->tmp = (Element *)malloc(sizeof(Element) * TMP_NUM);
+    for (i = 0; i < TMP_NUM; i++) {
         element_init(f->tmp[i], f);
     }
 
@@ -923,7 +923,7 @@ void ec_bn254_fpa_group_new(EC_GROUP ec)
     ec_bn254_fp_method_new(ec->method);
 
     point_init(ec->generator, ec);
-    point_set_str(ec->generator,"[1,d45589b158faaf6ab0e4ad38d998e9982e7ff63964ee1460342a592677cccb0]");
+    point_set_str(ec->generator, "[1,d45589b158faaf6ab0e4ad38d998e9982e7ff63964ee1460342a592677cccb0]");
 
     element_init(ec->a, ec->field);
     element_init(ec->b, ec->field);
@@ -959,7 +959,7 @@ void ec_bn254_fpb_group_new(EC_GROUP ec)
     ec_bn254_fp_method_new(ec->method);
 
     point_init(ec->generator, ec);
-    point_set_str(ec->generator,"[15F29C78629DD455F34C8D8E1B9C514FABAB45E7A5AD27E78C2B915DF4C6C264,1BCD3E98D7CAF1D0DA1524C2C07DE87B7D96C89B11B2E927FE6DEB90B2F7FA5]");
+    point_set_str(ec->generator, "[15F29C78629DD455F34C8D8E1B9C514FABAB45E7A5AD27E78C2B915DF4C6C264,1BCD3E98D7CAF1D0DA1524C2C07DE87B7D96C89B11B2E927FE6DEB90B2F7FA5]");
 
     element_init(ec->a, ec->field);
     element_init(ec->b, ec->field);
@@ -1029,7 +1029,7 @@ void ec_bn254_twa_group_new(EC_GROUP ec)
     ec_bn254_tw_method_new(ec->method);
 
     point_init(ec->generator, ec);
-    point_set_str(ec->generator,"[19b0bea4afe4c330da93cc3533da38a9f430b471c6f8a536e81962ed967909b5 a1cf585585a61c6e9880b1f2a5c539f7d906fff238fa6341e1de1a2e45c3f72,17abd366ebbd65333e49c711a80a0cf6d24adf1b9b3990eedcc91731384d2627 0ee97d6de9902a27d00e952232a78700863bc9aa9be960C32f5bf9fd0a32d345]");
+    point_set_str(ec->generator, "[19b0bea4afe4c330da93cc3533da38a9f430b471c6f8a536e81962ed967909b5 a1cf585585a61c6e9880b1f2a5c539f7d906fff238fa6341e1de1a2e45c3f72,17abd366ebbd65333e49c711a80a0cf6d24adf1b9b3990eedcc91731384d2627 0ee97d6de9902a27d00e952232a78700863bc9aa9be960C32f5bf9fd0a32d345]");
 
     element_init(ec->a, ec->field);
     element_init(ec->b, ec->field);
@@ -1062,7 +1062,7 @@ void ec_bn254_twb_group_new(EC_GROUP ec)
     ec_bn254_tw_method_new(ec->method);
 
     point_init(ec->generator, ec);
-    point_set_str(ec->generator,"[61a10bb519eb62feb8d8c7e8c61edb6a4648bbb4898bf0d91ee4224c803fb2b 516aaf9ba737833310aa78c5982aa5b1f4d746bae3784b70d8c34c1e7d54cf3,21897a06baf93439a90e096698c822329bd0ae6bdbe09bd19f0e07891cd2b9a ebb2b0e7c8b15268f6d4456f5f38d37b09006ffd739c9578a2d1aec6b3ace9b]");
+    point_set_str(ec->generator, "[61a10bb519eb62feb8d8c7e8c61edb6a4648bbb4898bf0d91ee4224c803fb2b 516aaf9ba737833310aa78c5982aa5b1f4d746bae3784b70d8c34c1e7d54cf3,21897a06baf93439a90e096698c822329bd0ae6bdbe09bd19f0e07891cd2b9a ebb2b0e7c8b15268f6d4456f5f38d37b09006ffd739c9578a2d1aec6b3ace9b]");
 
     element_init(ec->a, ec->field);
     element_init(ec->b, ec->field);
@@ -1151,7 +1151,7 @@ void ec_bn254_pairing_b_new(EC_PAIRING p)
 
 void ec_bn254_pairing_clear(EC_PAIRING p)
 {
-    if( p->precomp != NULL )
+    if (p->precomp != NULL)
     {
         pairing_precomp_p precomp = (pairing_precomp_p)(p->precomp);
 

@@ -167,7 +167,7 @@ void bn254_fp2_mul(Element z, const Element x, const Element y)
     //Element* t = (Element *)malloc(sizeof(Element)*10);
     //for(i=0;i<10;i++){ element_init(t[i], field(z)->base); }
 
-    if(strcmp(x->field->field_name, "bn254_fp2a") == 0)
+    if (strcmp(x->field->field_name, "bn254_fp2a") == 0)
     {
         bn254_fp_addn(t[1], rep0(x), rep1(x)); // t1 = x0 + x1
         bn254_fp_addn(t[2], rep0(y), rep1(y)); // t2 = y0 + y1
@@ -184,7 +184,7 @@ void bn254_fp2_mul(Element z, const Element x, const Element y)
         bn254_fp_mod(rep0(z), rep0(z));        // z0 = t1 - 5*t2
     }
 
-    if(strcmp(x->field->field_name, "bn254_fp2b") == 0)
+    if (strcmp(x->field->field_name, "bn254_fp2b") == 0)
     {
         bn254_fp_addn(t[1], rep0(x), rep1(x)); // t1 = x0 + x1
         bn254_fp_addn(t[2], rep0(y), rep1(y)); // t2 = y0 + y1
@@ -194,7 +194,7 @@ void bn254_fp2_mul(Element z, const Element x, const Element y)
         bn254_fp_subn(t[0], t[0], t[1]);       // (x0+x1)*(y0+y1)-x0*y0
         bn254_fp_subn(rep1(z), t[0], t[2]);    // z1 = x0*y1 + y0*x1
         bn254_fp_mod(rep1(z), rep1(z));        //
-        bn254_fp_sub(rep0(z),t[1],t[2]); 	   // x0*y0 - x1*y1
+        bn254_fp_sub(rep0(z), t[1], t[2]); 	 // x0*y0 - x1*y1
         bn254_fp_mod(rep0(z), rep0(z));        // z0 = t1 - t2
     }
 
@@ -260,7 +260,7 @@ void bn254_fp2_inv(Element z, const Element x)
 {
     Element* t = field(z)->base->tmp;
 
-    if(strcmp(x->field->field_name, "bn254_fp2a") == 0)
+    if (strcmp(x->field->field_name, "bn254_fp2a") == 0)
     {
         bn254_fp_muln(t[1], rep1(x), rep1(x)); // t1 = a1^2
         bn254_fp_addn(t[0], t[1], t[1]);
@@ -274,7 +274,7 @@ void bn254_fp2_inv(Element z, const Element x)
         bn254_fp_neg(rep1(z), rep1(z));       // c1 = -1*a1*t1
     }
 
-    if(strcmp(x->field->field_name, "bn254_fp2b") == 0)
+    if (strcmp(x->field->field_name, "bn254_fp2b") == 0)
     {
         bn254_fp_muln(t[1], rep1(x), rep1(x));// t1 = a1^2
         bn254_fp_muln(t[0], rep0(x), rep0(x));// t0 = a0^2
@@ -302,7 +302,7 @@ void bn254_fp2_xi_mul(Element z, const Element x)
 {
     Element* t = field(z)->base->tmp;
 
-    if(strcmp(x->field->field_name, "bn254_fp2a") == 0)
+    if (strcmp(x->field->field_name, "bn254_fp2a") == 0)
     {
         bn254_fp_add(t[0], rep1(x), rep1(x));
         bn254_fp_add(t[0], t[0], t[0]);
@@ -311,10 +311,10 @@ void bn254_fp2_xi_mul(Element z, const Element x)
         bn254_fp_neg(rep0(z), t[0]);
     }
 
-    if(strcmp(x->field->field_name, "bn254_fp2b") == 0)
+    if (strcmp(x->field->field_name, "bn254_fp2b") == 0)
     {
-        bn254_fp_sub(t[0],rep0(x), rep1(x));
-        bn254_fp_add(t[1],rep0(x), rep1(x));
+        bn254_fp_sub(t[0], rep0(x), rep1(x));
+        bn254_fp_add(t[1], rep0(x), rep1(x));
         bn254_fp_set(rep0(z), t[0]);
         bn254_fp_set(rep1(z), t[1]);
     }
@@ -324,8 +324,8 @@ void bn254_fp2_xi_mul_inv(Element z, const Element x)
 {
     Element* t = field(z)->base->tmp;
 
-    bn254_fp_add(t[0],rep0(x), rep1(x));
-    bn254_fp_sub(t[1],rep1(x), rep0(x));
+    bn254_fp_add(t[0], rep0(x), rep1(x));
+    bn254_fp_sub(t[1], rep1(x), rep0(x));
 
     bn254_fp_set(rep0(z), t[0]);
     bn254_fp_set(rep1(z), t[1]);
@@ -335,7 +335,7 @@ void bn254_fp2_sqr(Element z, const Element x)
 {
     Element* t = field(z)->base->tmp;
 
-    if(strcmp(x->field->field_name, "bn254_fp2a") == 0)
+    if (strcmp(x->field->field_name, "bn254_fp2a") == 0)
     {
         bn254_fp_addn(t[0], rep1(x), rep1(x)); //
         bn254_fp_muln(t[0], t[0], rep0(x));    // t0 = 2*x1*x0
@@ -352,7 +352,7 @@ void bn254_fp2_sqr(Element z, const Element x)
         bn254_fp_mod(rep0(z), t[1]);           // c0 = t1
     }
 
-    if(strcmp(x->field->field_name, "bn254_fp2b") == 0)
+    if (strcmp(x->field->field_name, "bn254_fp2b") == 0)
     {
         bn254_fp_addn(t[0], rep1(x), rep1(x)); // t0 = 2*x1
         bn254_fp_muln(t[0], t[0], rep0(x));    // t0 = 2*x1*x0

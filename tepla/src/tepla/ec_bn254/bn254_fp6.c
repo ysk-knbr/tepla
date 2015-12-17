@@ -261,7 +261,7 @@ void bn254_fp6_muln(Element z, const Element x, const Element y)
     bn254_fp_OP2(rep0(t[3]), rep0(t[3]));
     bn254_fp_subn(rep1(t[3]), rep1(t[3]), rep1(t[4]));
     bn254_fp_add(rep0(rep2(z)), rep0(t[3]), rep0(t[1]));
-    bn254_fp_OP2(rep0(rep2(z)),rep0(rep2(z)));
+    bn254_fp_OP2(rep0(rep2(z)), rep0(rep2(z)));
     bn254_fp_addn(rep1(rep2(z)), rep1(t[3]), rep1(t[1]));
 }
 
@@ -333,7 +333,7 @@ void bn254_fp6_mul_fp2_2(Element z, const Element x, const Element y1, const Ele
 //--------------------------------------------------------
 void bn254_fp6_mul_fp2_3(Element z, const Element x, const Element y)
 {
-    if( field(y)->ID != bn254_fp2 )
+    if (field(y)->ID != bn254_fp2)
     {
         fprintf(stderr, "error: input should be element in bn254_fp6\n");
         exit(200);
@@ -352,7 +352,7 @@ void bn254_fp6_mul_fp2_4(Element z, const Element x, const Element y1, const Ele
 {
     Element *v = field(z)->base->tmp;
 
-    if( field(y1)->ID != bn254_fp2 || field(y2)->ID != bn254_fp2 )
+    if (field(y1)->ID != bn254_fp2 || field(y2)->ID != bn254_fp2)
     {
         fprintf(stderr, "error: input should be element in bn254_fp6\n");
         exit(200);

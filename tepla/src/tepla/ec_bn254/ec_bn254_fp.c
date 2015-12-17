@@ -251,13 +251,13 @@ void ec_bn254_fp_add_formul(EC_POINT R, const EC_POINT P, const EC_POINT Q)
 {
     Element *t = field(R)->tmp;
 
-    if(strcmp(P->ec->curve_name, "ec_bn254_fpa") == 0)
+    if (strcmp(P->ec->curve_name, "ec_bn254_fpa") == 0)
     {
-        if ( point_is_infinity(P) ) {
+        if (point_is_infinity(P)) {
             point_set(R, Q);
             return;
         }
-        if ( point_is_infinity(Q) ) {
+        if (point_is_infinity(Q)) {
             point_set(R, P);
             return;
         }
@@ -269,9 +269,9 @@ void ec_bn254_fp_add_formul(EC_POINT R, const EC_POINT P, const EC_POINT Q)
         bn254_fp_sub(t[2], t[2], xcoord(P)); // E = C-Px
         bn254_fp_sub(t[1], t[1], ycoord(P)); // F = D-Py
 
-        if ( element_is_zero(t[2]) )
+        if (element_is_zero(t[2]))
         {
-            if ( element_is_zero(t[1]) )
+            if (element_is_zero(t[1]))
             {
                 ec_bn254_fp_dob_formul(R, P);
                 return;
@@ -297,18 +297,18 @@ void ec_bn254_fp_add_formul(EC_POINT R, const EC_POINT P, const EC_POINT Q)
         bn254_fp_sub(ycoord(R), ycoord(R), t[0]); // Ry = F*(I-Rx)-Py*H
     }
 
-    if(strcmp(P->ec->curve_name, "ec_bn254_fpb") == 0)
+    if (strcmp(P->ec->curve_name, "ec_bn254_fpb") == 0)
     {
-        if ( point_is_infinity(P) ) {
+        if (point_is_infinity(P)) {
             point_set(R, Q);
             return;
         }
-        if ( point_is_infinity(Q) ) {
+        if (point_is_infinity(Q)) {
             point_set(R, P);
             return;
         }
 
-        if ( point_cmp(P, Q) == 0 ) {
+        if (point_cmp(P, Q) == 0) {
             ec_bn254_fp_dob_formul(R, P);
             return;
         }
@@ -320,7 +320,7 @@ void ec_bn254_fp_add_formul(EC_POINT R, const EC_POINT P, const EC_POINT Q)
         bn254_fp_mul(t[4], t[1], ycoord(Q));  		// t4 = t1*Qy
         bn254_fp_mul(zcoord(R), zcoord(P), t[3]); 	// Rz = Pz*t3
 
-        if( bn254_fp_is_zero(zcoord(R)) )
+        if (bn254_fp_is_zero(zcoord(R)))
         {
             point_set_infinity(R);
             return;
@@ -352,7 +352,7 @@ void ec_bn254_fp_dob_formul(EC_POINT R, const EC_POINT P)
         return;
     }
 
-    if(strcmp(P->ec->curve_name, "ec_bn254_fpa") == 0)
+    if (strcmp(P->ec->curve_name, "ec_bn254_fpa") == 0)
     {
         bn254_fp_sqr(t[0], ycoord(P));     // A = Py^2
         bn254_fp_add(t[1], xcoord(P), xcoord(P));
@@ -378,7 +378,7 @@ void ec_bn254_fp_dob_formul(EC_POINT R, const EC_POINT P)
         bn254_fp_sub(ycoord(R), ycoord(R), t[0]);  // Ry = D*(B-Rx)-C
     }
 
-    if(strcmp(P->ec->curve_name, "ec_bn254_fpb") == 0)
+    if (strcmp(P->ec->curve_name, "ec_bn254_fpb") == 0)
     {
         bn254_fp_sqr(t[0], xcoord(P)); 				// t0 = Px^2
         bn254_fp_dob(t[1], t[0]);      				// t1 = 2*t0
@@ -555,22 +555,22 @@ void ec_bn254_fp_init_ec_data(EC_GROUP ec)
 
     d = (ec_data_fp)malloc(sizeof(struct ec_bn254_fp_ec_data_st));
 
-    if(strcmp(ec->curve_name, "ec_bn254_fpa") == 0)
+    if (strcmp(ec->curve_name, "ec_bn254_fpa") == 0)
     {
         element_init(d->beta, ec->field);
         element_set_str(d->beta, "2370FB049D410FBE074D0D4C437281205F408FD005FFFFFF40BFCFFFFFFFFFFF");
 
         mpz_init(lambda);
-        mpz_set_str(lambda, "2370FB049D410FBDC023FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF",16);
+        mpz_set_str(lambda, "2370FB049D410FBDC023FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF", 16);
     }
 
-    if(strcmp(ec->curve_name, "ec_bn254_fpb") == 0)
+    if (strcmp(ec->curve_name, "ec_bn254_fpb") == 0)
     {
         element_init(d->beta, ec->field);
         element_set_str(d->beta, "25236482400000017080EB4000000006181800000000000CD98000000000000B");
 
         mpz_init(lambda);
-        mpz_set_str(lambda, "252364824000000126CD8900000000024908FFFFFFFFFFFCF9FFFFFFFFFFFFF6",16);
+        mpz_set_str(lambda, "252364824000000126CD8900000000024908FFFFFFFFFFFCF9FFFFFFFFFFFFF6", 16);
     }
 
     mpz_init(d->n);

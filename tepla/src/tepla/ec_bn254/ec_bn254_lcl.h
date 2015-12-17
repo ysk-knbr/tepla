@@ -363,7 +363,7 @@ int  ec_bn254_fp2_is_on_curve(const EC_POINT P);
 int  ec_bn254_fp2_cmp(const EC_POINT x, const EC_POINT y);
 void ec_bn254_fp2_make_affine(EC_POINT z, const EC_POINT x);
 void ec_bn254_fp2_make_affine_homogeneous(EC_POINT z, const EC_POINT x);
-void ec_bn254_fp2_map_to_point(EC_POINT z, const char *s, size_t slen,int t);
+void ec_bn254_fp2_map_to_point(EC_POINT z, const char *s, size_t slen, int t);
 void ec_bn254_fp2_random(EC_POINT z);
 void ec_bn254_fp2_to_oct(unsigned char *os, size_t *size, const EC_POINT z);
 void ec_bn254_fp2_from_oct(EC_POINT z, const unsigned char *os, size_t size);

@@ -32,44 +32,44 @@
 void field_init(Field f, const char *param)
 {
     // Beuchat's parameter
-    if( strcmp(param, "bn254_fpa") == 0 )
+    if (strcmp(param, "bn254_fpa") == 0)
     {
         f->field_init  = ec_bn254_fpa_new;
         f->field_clear = ec_bn254_field_clear;
     }
-    else if( strcmp(param, "bn254_fp2a") == 0 )
+    else if (strcmp(param, "bn254_fp2a") == 0)
     {
         f->field_init  = ec_bn254_fp2a_new;
         f->field_clear = ec_bn254_field_clear;
     }
-    else if( strcmp(param, "bn254_fp6a") == 0 )
+    else if (strcmp(param, "bn254_fp6a") == 0)
     {
         f->field_init  = ec_bn254_fp6a_new;
         f->field_clear = ec_bn254_field_clear;
     }
-    else if( strcmp(param, "bn254_fp12a") == 0 )
+    else if (strcmp(param, "bn254_fp12a") == 0)
     {
         f->field_init  = ec_bn254_fp12a_new;
         f->field_clear = ec_bn254_field_clear;
     }
 
     // Aranha's parameter
-    else if( strcmp(param, "bn254_fpb") == 0 )
+    else if (strcmp(param, "bn254_fpb") == 0)
     {
         f->field_init  = ec_bn254_fpb_new;
         f->field_clear = ec_bn254_field_clear;
     }
-    else if( strcmp(param, "bn254_fp2b") == 0 )
+    else if (strcmp(param, "bn254_fp2b") == 0)
     {
         f->field_init  = ec_bn254_fp2b_new;
         f->field_clear = ec_bn254_field_clear;
     }
-    else if( strcmp(param, "bn254_fp6b") == 0 )
+    else if (strcmp(param, "bn254_fp6b") == 0)
     {
         f->field_init  = ec_bn254_fp6b_new;
         f->field_clear = ec_bn254_field_clear;
     }
-    else if( strcmp(param, "bn254_fp12b") == 0 )
+    else if (strcmp(param, "bn254_fp12b") == 0)
     {
         f->field_init  = ec_bn254_fp12b_new;
         f->field_clear = ec_bn254_field_clear;
@@ -242,7 +242,7 @@ void element_print(const Element x)
 {
     int len = element_get_str_length(x);
 
-    char *s = (char*)malloc(sizeof(char)*len);
+    char *s = (char*)malloc(sizeof(char) * len);
 
     element_get_str(s, x);
 
@@ -256,22 +256,22 @@ void element_print(const Element x)
 //============================================
 void curve_init(EC_GROUP ec, const char *param)
 {
-    if( strcmp(param, "ec_bn254_fpa") == 0 )
+    if (strcmp(param, "ec_bn254_fpa") == 0)
     {
         ec->curve_init = ec_bn254_fpa_group_new;
         ec->curve_clear = ec_bn254_group_clear;
     }
-    else if( strcmp(param, "ec_bn254_twa") == 0 )
+    else if (strcmp(param, "ec_bn254_twa") == 0)
     {
         ec->curve_init = ec_bn254_twa_group_new;
         ec->curve_clear = ec_bn254_group_clear;
     }
-    else if( strcmp(param, "ec_bn254_fpb") == 0 )
+    else if (strcmp(param, "ec_bn254_fpb") == 0)
     {
         ec->curve_init = ec_bn254_fpb_group_new;
         ec->curve_clear = ec_bn254_group_clear;
     }
-    else if( strcmp(param, "ec_bn254_twb") == 0 )
+    else if (strcmp(param, "ec_bn254_twb") == 0)
     {
         ec->curve_init = ec_bn254_twb_group_new;
         ec->curve_clear = ec_bn254_group_clear;
@@ -423,7 +423,7 @@ void point_print(const EC_POINT P)
 {
     int len = point_get_str_length(P);
 
-    char *s = (char*)malloc(sizeof(char)*len);
+    char *s = (char*)malloc(sizeof(char) * len);
 
     point_get_str(s, P);
 
@@ -437,24 +437,24 @@ void point_print(const EC_POINT P)
 //============================================
 void pairing_init(EC_PAIRING p, char *param)
 {
-    if ( strcmp(param, "ECBN254a") == 0 )
+    if (strcmp(param, "ECBN254a") == 0)
     {
         ec_bn254_pairing_a_new(p);
     }
-    else if ( strcmp(param, "ECBN254b") == 0 )
+    else if (strcmp(param, "ECBN254b") == 0)
     {
         ec_bn254_pairing_b_new(p);
     }
     else
     {
-        fprintf(stderr,"We donot suppoert the identity : %s\n", param);
+        fprintf(stderr, "We donot suppoert the identity : %s\n", param);
         exit(200);
     }
 }
 
 void pairing_clear(EC_PAIRING p)
 {
-    if( p->type == Pairing_ECBN254a || p->type == Pairing_ECBN254b )
+    if (p->type == Pairing_ECBN254a || p->type == Pairing_ECBN254b)
     {
         ec_bn254_pairing_clear(p);
     }

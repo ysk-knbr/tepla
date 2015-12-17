@@ -57,15 +57,15 @@ void test_arithmetic_operation_aranha(const EC_GROUP ec)
     //-------------------
     point_random(a);
 
-    assert( point_is_on_curve(a) );
+    assert(point_is_on_curve(a));
 
     t1 = rdtsc();
-    for(i=0; i<M; i++) {
+    for (i = 0; i < M; i++) {
         point_random(a);
     }
     t2 = rdtsc();
 
-    printf("point random: %.2lf [clock]\n", (double)(t2-t1)/M);
+    printf("point random: %.2lf [clock]\n", (double)(t2 - t1) / M);
 
     //-------------------
     //  add/dob
@@ -73,14 +73,14 @@ void test_arithmetic_operation_aranha(const EC_GROUP ec)
     point_add(b, b, a);
     point_add(c, b, c);
 
-    assert( point_cmp(b, a) == 0 );
-    assert( point_cmp(c, b) == 0 );
+    assert(point_cmp(b, a) == 0);
+    assert(point_cmp(c, b) == 0);
 
     point_set_infinity(d);
 
     point_dob(d, d);
 
-    assert( point_is_infinity(d) );
+    assert(point_is_infinity(d));
 
     point_set_str(a, "[CEA56EDB3F5855752214F0FB38227F5F05FEF183D568E3438FFA0C59662D934 1E3B3424F54E3041A2695E2DA8B74008C633E30964CC7E439667FFBA9AD4CA04,10B227CCDA6FE33B195E8486AFD1C260EF9FFB9560F40EA61795A9EC387A2894 BE95E1BD28C3A1664D253012E6342EBE66A41D3E56F38D0C8E2EBDECCE0F2B]");
     point_set_str(b, "[139EF51833157A9BD7D08CBF0733A2A7EFA1E332AF1F89A25E8FBF26366BA0A 10C7EF12DD56C5862AD7D23CD46003B298B44762C83D97C34DA4D06123D15E4A,14DCC68B6147E8195A42AE1DB063CEC65EC79FC5E7A721167725239567160A2C DC6FB2556E0A7894F356C21408AFF3E1F2F9FA4DF69250F8D2FB7A44C02F219]");
@@ -88,15 +88,15 @@ void test_arithmetic_operation_aranha(const EC_GROUP ec)
 
     point_add(c, a, b);
 
-    assert( point_cmp(c, d) == 0 );
+    assert(point_cmp(c, d) == 0);
 
     t1 = rdtsc();
-    for(i=0; i<N; i++) {
+    for (i = 0; i < N; i++) {
         point_add(c, a, b);
     }
     t2 = rdtsc();
 
-    printf("point add: %.2lf [clock]\n", (double)(t2-t1)/N);
+    printf("point add: %.2lf [clock]\n", (double)(t2 - t1) / N);
 
     element_init(dx, ec->field);
     element_init(dy, ec->field);
@@ -108,15 +108,15 @@ void test_arithmetic_operation_aranha(const EC_GROUP ec)
 
     point_dob(c, a);
 
-    assert( point_cmp(c, d) == 0 );
+    assert(point_cmp(c, d) == 0);
 
     t1 = rdtsc();
-    for(i=0; i<N; i++) {
+    for (i = 0; i < N; i++) {
         point_dob(c, a);
     }
     t2 = rdtsc();
 
-    printf("point dob: %.2lf [clock]\n", (double)(t2-t1)/N);
+    printf("point dob: %.2lf [clock]\n", (double)(t2 - t1) / N);
 
     //------------------
     // Frobenius
@@ -126,24 +126,24 @@ void test_arithmetic_operation_aranha(const EC_GROUP ec)
     point_set_xy(d, dx, dy);
 
     ec_bn254_tw_frob(c, a);
-    assert( point_is_on_curve(c) );
-    assert( point_cmp(c, d) == 0 );
+    assert(point_is_on_curve(c));
+    assert(point_cmp(c, d) == 0);
 
     element_set_str(dx, "1F835E7DD2D95DCD62608B01C379BAEE072FC32E2F4D308D6350F2A89C6B13C9 41049BCFAF4DE27009F18491A6A40B3ED5A3D139CC86A23085964F7BA8B184F");
     element_set_str(dy, "14713CB565901CC6A0D5C8F9502E3DA77181046A9F0BF16D8F6A5613C785D77F 2464CEA082D73C6053E7284FED19CBD9A2BA5BE2C1A90C869A71D1421331F0E8");
     point_set_xy(d, dx, dy);
 
     ec_bn254_tw_frob2(c, a);
-    assert( point_is_on_curve(c) );
-    assert( point_cmp(c, d) == 0 );
+    assert(point_is_on_curve(c));
+    assert(point_cmp(c, d) == 0);
 
     element_set_str(dx, "1E3B3424F54E3041A2695E2DA8B74008C633E30964CC7E439667FFBA9AD4CA04 CEA56EDB3F5855752214F0FB38227F5F05FEF183D568E3438FFA0C59662D934");
     element_set_str(dy, "17D17512DEC6E13231F3FBE8AE531BFCDA8EEA4BC3B6806EBB48D6D67C44C94 17E8C6E3655DBA55C8EB6D02A7E08CE9D619D286E4B50941B4C63BE373856D50");
     point_set_xy(d, dx, dy);
 
     ec_bn254_tw_frob3(c, a);
-    assert( point_is_on_curve(c) );
-    assert( point_cmp(c, d) == 0 );
+    assert(point_is_on_curve(c));
+    assert(point_cmp(c, d) == 0);
 
     element_clear(dx);
     element_clear(dy);
@@ -155,8 +155,8 @@ void test_arithmetic_operation_aranha(const EC_GROUP ec)
     point_add(d, a, c);
     point_sub(b, a, a);
 
-    assert( point_is_infinity(d) );
-    assert( point_is_infinity(b) );
+    assert(point_is_infinity(d));
+    assert(point_is_infinity(b));
 
     //-------------------
     //  mul
@@ -166,7 +166,7 @@ void test_arithmetic_operation_aranha(const EC_GROUP ec)
 
     mpz_set(scalar, ec->order);
 
-    for(i=0; i<100; i++)
+    for (i = 0; i < 100; i++)
     {
         point_random(a);
 
@@ -174,8 +174,8 @@ void test_arithmetic_operation_aranha(const EC_GROUP ec)
 
         ec_bn254_fp2_mul_end(c, scalar, a);
 
-        assert( point_is_infinity(b) );
-        assert( point_cmp(c, b) == 0 );
+        assert(point_is_infinity(b));
+        assert(point_cmp(c, b) == 0);
     }
 
     //-------------------
@@ -184,24 +184,24 @@ void test_arithmetic_operation_aranha(const EC_GROUP ec)
 
     //定義式は満たすが,G2に属さない点c
     point_set_str(c, "[1307ea577679b2e61d84508198bb1de6a498cf95c963f1da5fc5e7f99e6844ab ed34cf0a3f89214af672c6bbc5c362c5f48693015fe1a4ebe58ad8adfa66aea,29ea17af844d0d9444f92962d84a5ecacfd1aa3df4e6a54ec53a821c9fcbbb ac581e400ff84f829143eccfb72db63f61b47bade96812f15a079c87bed92cd]");
-    assert( point_is_on_curve(a) );
-    assert( point_is_on_curve(c) == 0);
+    assert(point_is_on_curve(a));
+    assert(point_is_on_curve(c) == 0);
 
     t1 = rdtsc();
-    for(i=0; i<M; i++) {
+    for (i = 0; i < M; i++) {
         ec_bn254_fp2_mul_end(b, scalar, a);
     }
     t2 = rdtsc();
 
-    printf("point mul with endomorphism: %.2lf [clock]\n", (double)(t2-t1)/M);
+    printf("point mul with endomorphism: %.2lf [clock]\n", (double)(t2 - t1) / M);
 
     t1 = rdtsc();
-    for(i=0; i<M; i++) {
+    for (i = 0; i < M; i++) {
         ec_bn254_fp2_mul(b, scalar, a);
     }
     t2 = rdtsc();
 
-    printf("point mul with binary method: %.2lf [clock]\n", (double)(t2-t1)/M);
+    printf("point mul with binary method: %.2lf [clock]\n", (double)(t2 - t1) / M);
 
     //-------------------
     //  clear
@@ -509,7 +509,7 @@ int main(void)
     curve_clear(eca);
     curve_clear(ecb);
 
-    fprintf(stderr,"ok\n");
+    fprintf(stderr, "ok\n");
 
     return 0;
 }

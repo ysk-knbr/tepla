@@ -20,8 +20,8 @@ void ec_bn254_pairing_precomp_beuchat(EC_PAIRING p)
 {
     pairing_precomp_p precomp;
 
-    int s[] = {0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,-1,-1,0,0,0,0,0,0,1,1};
-    int t[] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,-1,0,0,0,0,0,0,0,1};
+    int s[] = {0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1, 0, 0, 0, 0, 0, 0, 1, 1};
+    int t[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0, 0, 0, 1};
 
     int *sbuff, *tbuff;
 
@@ -37,7 +37,7 @@ void ec_bn254_pairing_precomp_beuchat(EC_PAIRING p)
     memcpy(tbuff, t, sizeof(t));
 
     precomp->ti = tbuff;
-    precomp->tlen = sizeof(t)/sizeof(*t);
+    precomp->tlen = sizeof(t) / sizeof(*t);
 
     p->precomp = (void*)precomp;
 }
@@ -46,8 +46,8 @@ void ec_bn254_pairing_precomp_aranha(EC_PAIRING p)
 {
     pairing_precomp_p precomp;
 
-    int s[] = {0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,1,1}; //65
-    int t[] = {-1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-1,0,0,0,0,0,0,-1}; //63
+    int s[] = {0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1}; //65
+    int t[] = { -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0, 0, -1}; //63
 
     int *sbuff, *tbuff;
 
@@ -57,13 +57,13 @@ void ec_bn254_pairing_precomp_aranha(EC_PAIRING p)
     memcpy(sbuff, s, sizeof(s));
 
     precomp->si = sbuff;
-    precomp->slen = sizeof(s)/sizeof(*s);
+    precomp->slen = sizeof(s) / sizeof(*s);
 
     tbuff = (int *)malloc(sizeof(t));
     memcpy(tbuff, t, sizeof(t));
 
     precomp->ti = tbuff;
-    precomp->tlen = sizeof(t)/sizeof(*t);
+    precomp->tlen = sizeof(t) / sizeof(*t);
 
     p->precomp = (void*)precomp;
 }
@@ -322,16 +322,16 @@ void ec_bn254_pairing_miller_beuchat(Element z, const EC_POINT Q, const EC_POINT
     //-------------------------------
     //  Miller loop
     //-------------------------------
-    for (i =len-2; i >= 0; i--)
+    for (i = len - 2; i >= 0; i--)
     {
         ec_bn254_pairing_dob_beuchat(T, l0, l3, l4, P);   //T = 2T, l = l(P)
 
         bn254_fp12_sqr(f, f);             // f = f^2*l
         bn254_fp12_mul_L(f, l0, l3, l4);  //
 
-        if ( s[i] )
+        if (s[i])
         {
-            if ( s[i] < 0 )
+            if (s[i] < 0)
             {
                 ec_bn254_pairing_add_beuchat(T, l0, l3, l4, R, P);   // T = T - Q, l = l(P)
             }
@@ -399,7 +399,7 @@ void ec_bn254_pairing_miller_aranha(Element z, const EC_POINT Q, const EC_POINT 
     element_init(l2, field(Q));
     element_init(l4, field(Q));
 
-    len = ((pairing_precomp_p)(p->precomp))->slen-1;  // s = PAIRING->precomp->si
+    len = ((pairing_precomp_p)(p->precomp))->slen - 1; // s = PAIRING->precomp->si
     s = ((pairing_precomp_p)(p->precomp))->si;
 
     ec_bn254_fp2_point_set(T, Q);
@@ -409,7 +409,7 @@ void ec_bn254_pairing_miller_aranha(Element z, const EC_POINT Q, const EC_POINT 
     ec_bn254_pairing_dob_aranha(T, l0, l2, l4, P); // T = 2Q, l = l(P)
     bn254_fp12_mul_L(d, l0, l2, l4);
 
-    if( s[len-1] )
+    if (s[len - 1])
     {
         ec_bn254_pairing_add_aranha(T, l0, l2, l4, Q, P); // T = T+Q
         bn254_fp12_mul_L(e, l0, l2, l4);
@@ -417,13 +417,13 @@ void ec_bn254_pairing_miller_aranha(Element z, const EC_POINT Q, const EC_POINT 
 
     bn254_fp12_mul(f, d, e);
 
-    for(i = len-2 ; i >= 0 ; i--)
+    for (i = len - 2 ; i >= 0 ; i--)
     {
         ec_bn254_pairing_dob_aranha(T, l0, l2, l4, P);   // T = 2T
         bn254_fp12_sqr(f, f);             		  // f = f^2*l
         bn254_fp12_mul_L(f, l0, l2, l4);
 
-        if( s[i] )
+        if (s[i])
         {
             ec_bn254_pairing_add_aranha(T, l0, l2, l4, Q, P); // T = T+Q
             bn254_fp12_mul_L(f, l0, l2, l4);
@@ -493,14 +493,14 @@ void ec_bn254_pairing_finalexp(Element z, const Element x, const EC_PAIRING p)
     //------------------------------------------------------------
     //	calculate x^{(p^6-1)(p^2+1)(p^4-p^2+1)/r}
     //------------------------------------------------------------
-    if(p->type == Pairing_ECBN254a)
+    if (p->type == Pairing_ECBN254a)
     {
         bn254_fp12_pow_forpairing_beuchat(t[7], z, u, len);		// t7 = z^t
         bn254_fp12_pow_forpairing_beuchat(t[8], t[7], u, len);	// t8 = z^(t^2)
         bn254_fp12_pow_forpairing_beuchat(t[9], t[8], u, len);	// t9 = z^(t^3)
     }
 
-    if(p->type == Pairing_ECBN254b)
+    if (p->type == Pairing_ECBN254b)
     {
         bn254_fp12_pow_forpairing_karabina(t[7], z, u, len);	// t7 = z^t
         bn254_fp12_pow_forpairing_karabina(t[8], t[7], u, len);	// t8 = z^(t^2)

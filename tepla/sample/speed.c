@@ -38,74 +38,74 @@ int main(void)
     mpz_set(order, *pairing_get_order(p));
 
     t_tmp = 0;
-    for(i=0; i<N; i++)
+    for (i = 0; i < N; i++)
     {
         point_random(P1);
         mpz_urandomm(exp, s, order);
         t1 = clock();
         point_mul(P2, exp, P1);
         t2 = clock();
-        t_tmp += t2-t1;
+        t_tmp += t2 - t1;
     }
-    printf("Scalar Multiplication on G1: %2.6lf [msec]\n", ((double)t_tmp*1000)/N/CLOCKS_PER_SEC);
+    printf("Scalar Multiplication on G1: %2.6lf [msec]\n", ((double)t_tmp * 1000) / N / CLOCKS_PER_SEC);
 
     t_tmp = 0;
-    for(i=0; i<N; i++)
+    for (i = 0; i < N; i++)
     {
         point_random(Q1);
         mpz_urandomm(exp, s, order);
         t1 = clock();
         point_mul(Q2, exp, Q1);
         t2 = clock();
-        t_tmp += t2-t1;
+        t_tmp += t2 - t1;
     }
-    printf("Scalar Multiplication on G2: %2.6lf [msec]\n", ((double)t_tmp*1000)/N/CLOCKS_PER_SEC);
+    printf("Scalar Multiplication on G2: %2.6lf [msec]\n", ((double)t_tmp * 1000) / N / CLOCKS_PER_SEC);
 
     t_tmp = 0;
-    for(i=0; i<N; i++)
+    for (i = 0; i < N; i++)
     {
         point_random(P1);
         point_random(Q1);
         t1 = clock();
         pairing_map(g, P1, Q1, p);
         t2 = clock();
-        t_tmp += t2-t1;
+        t_tmp += t2 - t1;
     }
-    printf("Pairing G2*G1->Gt: %2.6lf [msec]\n", ((double)t_tmp*1000)/N/CLOCKS_PER_SEC);
+    printf("Pairing G2*G1->Gt: %2.6lf [msec]\n", ((double)t_tmp * 1000) / N / CLOCKS_PER_SEC);
 
     t_tmp = 0;
-    for(i=0; i<N; i++)
+    for (i = 0; i < N; i++)
     {
         element_random(a);
         mpz_urandomm(exp, s, order);
         t1 = clock();
         element_pow(b, a, exp);
         t2 = clock();
-        t_tmp += t2-t1;
+        t_tmp += t2 - t1;
     }
-    printf("Power on Gt: %2.6lf [msec]\n", ((double)t_tmp*1000)/N/CLOCKS_PER_SEC);
+    printf("Power on Gt: %2.6lf [msec]\n", ((double)t_tmp * 1000) / N / CLOCKS_PER_SEC);
 
     t_tmp = 0;
-    for(i=0; i<N; i++)
+    for (i = 0; i < N; i++)
     {
         char msg[] = "abc";
         t1 = clock();
         point_map_to_point(P1, msg, sizeof(msg), 128);
         t2 = clock();
-        t_tmp += t2-t1;
+        t_tmp += t2 - t1;
     }
-    printf("Map to Point on G1: %2.6lf [msec]\n", ((double)t_tmp*1000)/N/CLOCKS_PER_SEC);
+    printf("Map to Point on G1: %2.6lf [msec]\n", ((double)t_tmp * 1000) / N / CLOCKS_PER_SEC);
 
     t_tmp = 0;
-    for(i=0; i<N; i++)
+    for (i = 0; i < N; i++)
     {
         char msg[] = "abc";
         t1 = clock();
         point_map_to_point(Q1, msg, sizeof(msg), 128);
         t2 = clock();
-        t_tmp += t2-t1;
+        t_tmp += t2 - t1;
     }
-    printf("Map to Point on G2: %2.6lf [msec]\n", ((double)t_tmp*1000)/N/CLOCKS_PER_SEC);
+    printf("Map to Point on G2: %2.6lf [msec]\n", ((double)t_tmp * 1000) / N / CLOCKS_PER_SEC);
 
     element_clear(a);
     element_clear(b);

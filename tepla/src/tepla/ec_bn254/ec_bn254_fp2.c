@@ -268,7 +268,7 @@ void ec_bn254_fp2_add_formul(EC_POINT R, const EC_POINT P, const EC_POINT Q)
         return;
     }
 
-    if(strcmp(P->ec->curve_name, "ec_bn254_twa") == 0)
+    if (strcmp(P->ec->curve_name, "ec_bn254_twa") == 0)
     {
         bn254_fp2_sqr(t[0], zcoord(P));       // A = Pz^2
         bn254_fp2_mul(t[1], t[0], zcoord(P)); // B = Pz^3
@@ -277,9 +277,9 @@ void ec_bn254_fp2_add_formul(EC_POINT R, const EC_POINT P, const EC_POINT Q)
         bn254_fp2_sub(t[2], t[2], xcoord(P)); // E = C-Px
         bn254_fp2_sub(t[1], t[1], ycoord(P)); // F = D-Py
 
-        if ( bn254_fp2_is_zero(t[2]) )
+        if (bn254_fp2_is_zero(t[2]))
         {
-            if ( bn254_fp2_is_zero(t[1]) ) {
+            if (bn254_fp2_is_zero(t[1])) {
                 ec_bn254_fp2_dob_formul(R, P);
                 return;
             }
@@ -304,9 +304,9 @@ void ec_bn254_fp2_add_formul(EC_POINT R, const EC_POINT P, const EC_POINT Q)
         bn254_fp2_sub(ycoord(R), ycoord(R), t[0]); // Ry = F*(I-Rx)-Py*H
     }
 
-    if(strcmp(P->ec->curve_name, "ec_bn254_twb") == 0)
+    if (strcmp(P->ec->curve_name, "ec_bn254_twb") == 0)
     {
-        if ( point_cmp(P, Q) == 0 ) {
+        if (point_cmp(P, Q) == 0) {
             ec_bn254_fp2_dob_formul(R, P);
             return;
         }
@@ -318,7 +318,7 @@ void ec_bn254_fp2_add_formul(EC_POINT R, const EC_POINT P, const EC_POINT Q)
         bn254_fp2_mul(t[4], t[1], ycoord(Q));  		// t4 = t1*Qy
         bn254_fp2_mul(zcoord(R), zcoord(P), t[3]); 	// Rz = Pz*t3
 
-        if( bn254_fp2_is_zero(zcoord(R)) )
+        if (bn254_fp2_is_zero(zcoord(R)))
         {
             point_set_infinity(R);
             return;
@@ -350,7 +350,7 @@ void ec_bn254_fp2_dob_formul(EC_POINT R, const EC_POINT P)
         return;
     }
 
-    if(strcmp(P->ec->curve_name, "ec_bn254_twa") == 0)
+    if (strcmp(P->ec->curve_name, "ec_bn254_twa") == 0)
     {
         bn254_fp2_sqr(t[0], ycoord(P));  // A = Py^2
         bn254_fp2_add(t[1], xcoord(P), xcoord(P));
@@ -376,7 +376,7 @@ void ec_bn254_fp2_dob_formul(EC_POINT R, const EC_POINT P)
         bn254_fp2_sub(ycoord(R), ycoord(R), t[0]);  // Ry = D*(B-Rx)-C
     }
 
-    if(strcmp(P->ec->curve_name, "ec_bn254_twb") == 0)
+    if (strcmp(P->ec->curve_name, "ec_bn254_twb") == 0)
     {
         bn254_fp2_sqr(t[0], xcoord(P)); 			// t0 = Px^2
         bn254_fp2_dob(t[1], t[0]);      			// t1 = 2*t0
@@ -609,13 +609,13 @@ void ec_bn254_tw_frob(EC_POINT Q, const EC_POINT P)
     bn254_fp2_frob_p(xcoord(Q), xcoord(P));
     bn254_fp2_frob_p(ycoord(Q), ycoord(P));
 
-    if(strcmp(P->ec->curve_name, "ec_bn254_twa") == 0)
+    if (strcmp(P->ec->curve_name, "ec_bn254_twa") == 0)
     {
         bn254_fp2_mul_p(xcoord(Q), xcoord(Q), d->vfrobx);
         bn254_fp2_mul_p(ycoord(Q), ycoord(Q), d->vfroby);
     }
 
-    if(strcmp(P->ec->curve_name, "ec_bn254_twb") == 0)
+    if (strcmp(P->ec->curve_name, "ec_bn254_twb") == 0)
     {
         bn254_fp2_mul(xcoord(Q), xcoord(Q), d->vfrobx);
         bn254_fp2_mul(ycoord(Q), ycoord(Q), d->vfroby);
@@ -642,13 +642,13 @@ void ec_bn254_tw_frob2(EC_POINT Q, const EC_POINT P)
 
     d = (ec_data_fp2)(curve(P)->ec_data);
 
-    if(strcmp(P->ec->curve_name, "ec_bn254_twa") == 0)
+    if (strcmp(P->ec->curve_name, "ec_bn254_twa") == 0)
     {
         bn254_fp2_mul_p(xcoord(Q), xcoord(P), d->vfrobx2);
         bn254_fp2_neg(ycoord(Q), ycoord(P));
     }
 
-    if(strcmp(P->ec->curve_name, "ec_bn254_twb") == 0)
+    if (strcmp(P->ec->curve_name, "ec_bn254_twb") == 0)
     {
         bn254_fp2_mul(xcoord(Q), xcoord(P), d->vfrobx2);
         bn254_fp2_mul(ycoord(Q), ycoord(P), d->vfroby2);
@@ -678,13 +678,13 @@ void ec_bn254_tw_frob3(EC_POINT Q, const EC_POINT P)
     bn254_fp2_frob_p(xcoord(Q), xcoord(P));
     bn254_fp2_frob_p(ycoord(Q), ycoord(P));
 
-    if(strcmp(P->ec->curve_name, "ec_bn254_twa") == 0)
+    if (strcmp(P->ec->curve_name, "ec_bn254_twa") == 0)
     {
         bn254_fp2_mul_p(xcoord(Q), xcoord(Q), d->vfrobx3);
         bn254_fp2_mul_p(ycoord(Q), ycoord(Q), d->vfroby3);
     }
 
-    if(strcmp(P->ec->curve_name, "ec_bn254_twb") == 0)
+    if (strcmp(P->ec->curve_name, "ec_bn254_twb") == 0)
     {
         bn254_fp2_mul(xcoord(Q), xcoord(Q), d->vfrobx3);
         bn254_fp2_mul(ycoord(Q), ycoord(Q), d->vfroby3);
@@ -723,7 +723,7 @@ void ec_bn254_fp2_mul_end(EC_POINT Q, const mpz_t s, const EC_POINT P)
     mpz_init(s2);
     mpz_init(s3);
 
-    if(ec_bn254_fp2_is_on_curve(P) == 0) {
+    if (ec_bn254_fp2_is_on_curve(P) == 0) {
         ec_bn254_fp2_mul_naf(Q, s, P);
         return;
     }
@@ -745,13 +745,13 @@ void ec_bn254_fp2_mul_end(EC_POINT Q, const mpz_t s, const EC_POINT P)
     point_sub(R[8], P, R[4]);
     ec_bn254_tw_frob3(R[8], R[8]);
 
-    if(strcmp(P->ec->curve_name, "ec_bn254_twa") == 0)
+    if (strcmp(P->ec->curve_name, "ec_bn254_twa") == 0)
     {
         point_add(R[2], R[2], R[8]);
         point_neg(R[2], R[2]);
     }
 
-    if(strcmp(P->ec->curve_name, "ec_bn254_twb") == 0)
+    if (strcmp(P->ec->curve_name, "ec_bn254_twb") == 0)
     {
         point_add(R[2], R[2], R[8]);
     }
@@ -851,7 +851,7 @@ int ec_bn254_fp2_is_on_curve(const EC_POINT P)
     Element x, y;
     EC_POINT R;
 
-    if( point_is_infinity(P) ) return TRUE;
+    if (point_is_infinity(P)) { return TRUE; }
 
     element_init(x, field(P));
     element_init(y, field(P));
@@ -864,7 +864,7 @@ int ec_bn254_fp2_is_on_curve(const EC_POINT P)
 
     ec_bn254_fp2_mul_naf(R, curve(P)->order, P);
 
-    hr = ( element_cmp(x, y) == 0  && point_is_infinity(R));
+    hr = (element_cmp(x, y) == 0  && point_is_infinity(R));
 
     element_clear(x);
     element_clear(y);
@@ -923,11 +923,11 @@ void ec_bn254_fp2_random(EC_POINT z)
             element_mul(t1, t1, t0); //
             element_add(t1, t1, curve(z)->b);
 
-        } while ( !element_sqrt(t2, t1) );
+        } while (!element_sqrt(t2, t1));
 
         ec_bn254_fp2_point_set_xy(z, t0, t2);
         ec_bn254_fp2_mul_naf(z, curve(z)->cofactor, z);  // cofactor mult
-    } while ( point_is_infinity(z) );
+    } while (point_is_infinity(z));
 
     element_clear(t0);
     element_clear(t1);
@@ -1006,8 +1006,8 @@ void ec_bn254_fp2_map_to_point(EC_POINT z, const char *s, size_t slen, int t)
 
     Element x0, y0, y1, y2, t0;
 
-    d = (unsigned char*)malloc(sizeof(unsigned char)*(t/4));
-    id = (unsigned char*)malloc(sizeof(unsigned char)*(t/4+2));
+    d = (unsigned char*)malloc(sizeof(unsigned char) * (t / 4));
+    id = (unsigned char*)malloc(sizeof(unsigned char) * (t / 4 + 2));
 
     mpz_init_set_ui(i, 0); // i = 0
 

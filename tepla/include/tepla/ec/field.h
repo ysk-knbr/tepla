@@ -64,12 +64,12 @@ typedef struct ec_field_st
     void (*sqr)(Element z, const Element x);
     void (*inv)(Element z, const Element x);
     void (*pow)(Element z, const Element x, const mpz_t exp);
-    int  (*sqrt)(Element z, const Element x);
+    int (*sqrt)(Element z, const Element x);
 
-    int  (*is_zero)(const Element x);
-    int  (*is_one)(const Element x);
-    int  (*is_sqr)(const Element x);
-    int  (*cmp)(const Element x, const Element y);
+    int (*is_zero)(const Element x);
+    int (*is_one)(const Element x);
+    int (*is_sqr)(const Element x);
+    int (*cmp)(const Element x, const Element y);
 
     void (*random)(Element x);
 
