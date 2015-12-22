@@ -136,16 +136,16 @@ void ec_bn254_pairing_dob_aranha(EC_POINT T, Element l0, Element l2, Element l4,
 	Element *t = field(T)->tmp;
 	// 2T = R
  	// calculate R and l
-    bn254_fp2_mul(t[0], zcoord(T), zcoord(T)); //t0 = z1*z1
+    bn254_fp2_sqr(t[0], zcoord(T));            //t0 = z1*z1
     bn254_fp2_mul(t[4], xcoord(T), ycoord(T)); //t4 = x1*y1
     bn254_fp2_sqr(t[1], ycoord(T));            //t1 = y1^2 
-    bn254_fp2_add(t[3], t[0], t[0]);           //t3 = t0+t0
+    bn254_fp2_dob(t[3], t[0], t[0]);           //t3 = t0+t0
     bn254_fp2_div_2(t[4], t[4]);               //t4 = t4/2
     bn254_fp2_add(t[5], t[0], t[1]);           //t5 = t0+t1
     bn254_fp2_add(t[0], t[0], t[3]);           //t0 = t0+t3
     bn254_fp2_xi_mul_inv(t[2], t[0]);          //t2 = b'*t0
     bn254_fp2_sqr(t[0], xcoord(T));            //t0 = x1^2
-    bn254_fp2_add(t[3], t[2], t[2]);           //t3 = t2+t2
+    bn254_fp2_dob(t[3], t[2]);                 //t3 = t2+t2
     bn254_fp2_add(t[3], t[2], t[3]);           //t3 = t2+t3
     bn254_fp2_addn(l2, t[0], t[0]);            //l2 = t0+t0
     bn254_fp2_add(t[3], t[1], t[3]);           //t3 = t1+t3
