@@ -260,7 +260,8 @@ void ec_bn254_fp2_add_formul(EC_POINT R, const EC_POINT P, const EC_POINT Q)
 		bn254_fp2_mul(ycoord(R), t[1], t[3]);
 		bn254_fp2_sub(ycoord(R), ycoord(R), t[0]); // Ry = F*(I-Rx)-Py*H
 	}
-
+   
+    // Jacobian coordinate proposed by Aranha et al.    
 	if(strcmp(P->ec->curve_name, "ec_bn254_twb") == 0)
 	{
 		if ( point_cmp(P, Q) == 0 ) { ec_bn254_fp2_dob_formul(R, P); return; }
@@ -326,7 +327,8 @@ void ec_bn254_fp2_dob_formul(EC_POINT R, const EC_POINT P)
 		bn254_fp2_mul(ycoord(R), ycoord(R), t[2]);
 		bn254_fp2_sub(ycoord(R), ycoord(R), t[0]);  // Ry = D*(B-Rx)-C
 	}
-
+ 
+    // Jacobian coordinate proposed by Aranha et al.    
 	if(strcmp(P->ec->curve_name, "ec_bn254_twb") == 0)
 	{
 		bn254_fp2_sqr(t[0], xcoord(P)); 			// t0 = Px^2

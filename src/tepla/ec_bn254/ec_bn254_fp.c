@@ -257,7 +257,8 @@ void ec_bn254_fp_add_formul(EC_POINT R, const EC_POINT P, const EC_POINT Q)
 		bn254_fp_mul(ycoord(R), t[1], t[3]);
 		bn254_fp_sub(ycoord(R), ycoord(R), t[0]); // Ry = F*(I-Rx)-Py*H
 	}
-
+    
+    // Jacoban coordinate proposed by Aranha et al.
 	if(strcmp(P->ec->curve_name, "ec_bn254_fpb") == 0)
 	{
 		if ( point_is_infinity(P) ) { point_set(R, Q); return; }
@@ -327,6 +328,7 @@ void ec_bn254_fp_dob_formul(EC_POINT R, const EC_POINT P)
 		bn254_fp_sub(ycoord(R), ycoord(R), t[0]);  // Ry = D*(B-Rx)-C
 	}
 
+    // Jacoban coordinate proposed by Aranha et al.
 	if(strcmp(P->ec->curve_name, "ec_bn254_fpb") == 0)
 	{
 		bn254_fp_sqr(t[0], xcoord(P)); 				// t0 = Px^2
