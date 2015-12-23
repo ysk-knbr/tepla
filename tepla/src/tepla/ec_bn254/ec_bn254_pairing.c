@@ -147,10 +147,8 @@ void ec_bn254_pairing_dob_aranha(EC_POINT T, Element l0, Element l2, Element l4,
     bn254_fp2_div_2(t[0], t[0]);				// t0 = t0/2
     bn254_fp2_mul(t[1], t[0], t[2]); 			// t1 = t0*t2
     bn254_fp2_mul(t[4], t[0], xcoord(T)); 		// t4 = t0*Tx
-
     bn254_fp_neg(k[0], xcoord(P)); 				// k0 = -Px
     bn254_fp2_mul_p(l2, t[1], k[0]);	 	// l2 = l_(1,0) = t1*k0
-
     bn254_fp2_sub(l4, t[4], t[3]);        		// l4 = l_(1,1) = t4-t3
     bn254_fp2_mul(t[2], zcoord(T), t[2]); 		// t2 = Rz*t2
     bn254_fp2_mul(t[1], t[3], xcoord(T)); 		// t1 = t3*Tx
@@ -159,7 +157,6 @@ void ec_bn254_pairing_dob_aranha(EC_POINT T, Element l0, Element l2, Element l4,
     bn254_fp2_sqr(xcoord(T), t[0]);       		// Tx = t0^2
     bn254_fp2_sub(xcoord(T), xcoord(T), ycoord(T)); // Rx = Tx-Ty
     bn254_fp2_sub(t[1], t[1], xcoord(T)); 		// t1 = t1-Rx
-
     bn254_fp2_muln(t[2], t[3], t[3]); 			// t2 = t3^2
     bn254_fp2_OP1_2(t[2], t[2]);
     bn254_fp2_muln(t[1], t[0], t[1]);			// t1 = t0*t1
