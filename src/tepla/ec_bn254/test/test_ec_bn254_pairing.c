@@ -111,7 +111,8 @@ void test_pairing(const EC_PAIRING p)
 		point_mul(S, b, Q);      // S = bQ
 
 		pairing_map(g, P, Q, p);  // g = e(Q, P)
-	
+        printf("g:");
+        element_print(g);	
 		element_pow(d, g, order);
 
 		assert( element_is_one(d) );
@@ -119,7 +120,8 @@ void test_pairing(const EC_PAIRING p)
 		pairing_map(f, R, Q, p);  // f = e( Q, aP)
 		pairing_map(h, P, S, p);  // h = e(bQ,  P)
 		pairing_map(e, R, S, p);  // e = e(bQ, aP)
-			
+	    printf("f:");
+        element_print(f);
 		element_pow(d, g, a);	 // d = e(Q, P)^a
 
 		assert( element_cmp(d, f) == 0 );

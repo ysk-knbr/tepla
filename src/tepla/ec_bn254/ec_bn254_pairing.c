@@ -168,7 +168,9 @@ void ec_bn254_pairing_dob_aranha(EC_POINT T, Element l0, Element l2, Element l4,
     bn254_fp2_mod(ycoord(T), t[6]);            //y3 = T0 mod p
     bn254_fp2_mul(zcoord(T), t[1], t[3]);      //z3 = t1*t3
     bn254_fp2_sub(t[2], t[2], t[1]);           //t2 = t2-t1
-    bn254_fp2_xi_mul(l0, t[2]);                //l0 = xi*t2
+    
+    bn254_fp2_set(l0, t[2]);
+    //bn254_fp2_xi_mul(l0, t[2]);                //l0 = xi*t2
     bn254_fp2_mul_p(l2, l2, xcoord(P));        //l2 = l2*Px
     bn254_fp2_mul_p(l4, l4, ycoord(P));        //l4 = l4*(-Py)
 }
@@ -277,8 +279,9 @@ void ec_bn254_pairing_add_aranha(EC_POINT T, Element l0, Element l2, Element l4,
     bn254_fp2_sub(t[6], t[6], t[7]);            //T1 = T1-T2
     bn254_fp2_OP2(t[6], t[6]);
     bn254_fp2_mod(t[2], t[6]);                  //t2 = T1 mod p
-    bn254_fp2_xi_mul(l0, t[2]);                 //l0 = xi*t2
-    bn254_fp2_mul_p(l4, t[1], ycoord(P));       //t4 = t1*(-Py)
+    bn254_fp2_set(l4, t[2]);
+    //bn254_fp2_xi_mul(l0, t[2]);                 //l0 = xi*t2
+    bn254_fp2_mul_p(l0, t[1], ycoord(P));       //t4 = t1*(-Py)
 }
 
 //-------------------------------------------
@@ -406,12 +409,12 @@ void ec_bn254_pairing_miller_aranha(Element z, const EC_POINT Q, const EC_POINT 
 	bn254_fp12_set_one(e);
 
 	ec_bn254_pairing_dob_aranha(T, l0, l2, l4, _P); // T = 2Q, l = l(P) 		
-	bn254_fp12_mul_L(d, l0, l2, l4);  
+	bn254_fp12_mul_L2(d, l0, l2, l4);  
 
 	if( s[len-1] )
 	{ 
 		ec_bn254_pairing_add_aranha(T, l0, l2, l4, Q, _P); // T = T+Q
-		bn254_fp12_mul_L(e, l0, l2, l4);
+		bn254_fp12_mul_L2(e, l0, l2, l4);
 	}
 
 	bn254_fp12_mul(f, d, e);
@@ -420,12 +423,12 @@ void ec_bn254_pairing_miller_aranha(Element z, const EC_POINT Q, const EC_POINT 
 	{
 		ec_bn254_pairing_dob_aranha(T, l0, l2, l4, _P);   // T = 2T
 		bn254_fp12_sqr(f, f);             		  // f = f^2*l
-		bn254_fp12_mul_L(f, l0, l2, l4);  
+		bn254_fp12_mul_L2(f, l0, l2, l4);  
 
 		if( s[i] )
 		{
 			ec_bn254_pairing_add_aranha(T, l0, l2, l4, Q, _P); // T = T+Q
-			bn254_fp12_mul_L(f, l0, l2, l4);  
+			bn254_fp12_mul_L2(f, l0, l2, l4);  
 		}
 	}
 
@@ -437,12 +440,12 @@ void ec_bn254_pairing_miller_aranha(Element z, const EC_POINT Q, const EC_POINT 
 
     ec_bn254_tw_frob(S, Q);
 	ec_bn254_pairing_add_aranha(T, l0, l2, l4, S, _P);   //addtion part 
-	bn254_fp12_mul_L(d, l0, l2, l4);
+	bn254_fp12_mul_L2(d, l0, l2, l4);
 
 	ec_bn254_tw_frob2(S, Q);
 	ec_bn254_fp2_neg(S, S);
 	ec_bn254_pairing_add_aranha(T, l0, l2, l4, S, _P);   //addtion part 
-	bn254_fp12_mul_L(e, l0, l2, l4);
+	bn254_fp12_mul_L2(e, l0, l2, l4);
 
 	bn254_fp12_mul(d, d, e); // d = d*e
 	bn254_fp12_mul(z, f, d); // f = f*d = f*(d*e)

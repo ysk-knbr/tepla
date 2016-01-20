@@ -214,9 +214,12 @@ void bn254_fp12_mul_L(Element z, Element x0, Element x1, Element x2)
 //----------------------------------------------------------
 void bn254_fp12_mul_L2(Element z, Element x0, Element x1, Element x2)
 {
+    Element *t = field(z0->tmp;
 	Element *v = field(z)->base->tmp;
-	
-	
+	Element *zero = field(z)->base->base->tmp;
+    element_set_zero(zero[0]);
+
+    /*
 	bn254_fp6_mul_fp2_4(v[0], rep0(z), x0, x1);			
 	bn254_fp6_mul_fp2_3(v[1], rep1(z), x2);	
 
@@ -228,6 +231,11 @@ void bn254_fp12_mul_L2(Element z, Element x0, Element x1, Element x2)
 	bn254_fp6_sub(rep1(z), rep1(z), v[1]);
 	bn254_fp6_gm_mul(rep0(z), v[1]);
 	bn254_fp6_add(rep0(z), rep0(z), v[0]);
+    */
+    bn254_fp6_set_fp2(v[0], x0, zero[0], x1);
+    bn254_fp6_set_fp2(v[1], zero[0], x2, zero[0]);
+    bn254_fp12_set_fp6(t[0], v[0], v[1]);
+    bn254_fp12_mul(z, z, t[0]);
 }
 
 void bn254_fp12_inv(Element z, const Element x)
