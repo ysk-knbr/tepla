@@ -214,7 +214,7 @@ void bn254_fp12_mul_L(Element z, Element x0, Element x1, Element x2)
 //----------------------------------------------------------
 void bn254_fp12_mul_L2(Element z, Element x0, Element x1, Element x2)
 {
-    Element *t = field(z0->tmp;
+    Element *t = field(z)->tmp;
 	Element *v = field(z)->base->tmp;
 	Element *zero = field(z)->base->base->tmp;
     element_set_zero(zero[0]);
