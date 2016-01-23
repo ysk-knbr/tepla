@@ -103,35 +103,37 @@ void test_pairing(const EC_PAIRING p)
 
 		mpz_mul(c, a, b);
 		mpz_mod(c, c, order);
-
-		point_random(P);
-		point_random(Q);
-		
-		point_mul(R, a, P);      // R = aP
+/*
+        if(strcmp(p->pairing_name, "ECBN254b") == 0)
+        {    
+            printf("ok\n");
+            point_set_str(P, "[2074A81D4402A0B63B947335C14B2FC3C28FEA2973860F686114BEC4670E4EB7,06A41108087B20038771FC89FB94A82B2006034A6E8D871B3BC284846631CBEB]");
+            point_set_str(Q, "[49EEDB108B71A87BFCFC9B65EB5CF1C2F89554E02DF4F8354E4A00F52183C77 1FB93AB676140E87D97226185BA05BF5EC088A9CC76D966697CFB8FA9AA8845D,CD04A1ED14AD3CDF6A1FE4453DA2BB9E686A637FB3FF8E2573644CC1EDF208A 11FF7795CF59D1A1A7D6EE3C3C2DFC765DEF1CAA9F14EA264E71BD7630A43C14]");
+        }
+        else
+        {
+		    point_random(P);
+		    point_random(Q);
+		}
+*/
+        point_random(P);
+        point_random(Q);
+        point_mul(R, a, P);      // R = aP
 		point_mul(S, b, Q);      // S = bQ
 
 		pairing_map(g, P, Q, p);  // g = e(Q, P)
-        printf("g:");
-        element_print(g);	
-		element_pow(d, g, order);
-
+        element_pow(d, g, order);
+        
 		assert( element_is_one(d) );
-		
 		pairing_map(f, R, Q, p);  // f = e( Q, aP)
 		pairing_map(h, P, S, p);  // h = e(bQ,  P)
 		pairing_map(e, R, S, p);  // e = e(bQ, aP)
-	    printf("f:");
-        element_print(f);
-		element_pow(d, g, a);	 // d = e(Q, P)^a
-
-		assert( element_cmp(d, f) == 0 );
-
+	   
+		element_pow(d, g, a);	 // d = e(Q, P)^a        
+        assert( element_cmp(d, f) == 0 );
 		element_pow(d, g, b);    // d = e(Q, P)^b
-
 		assert( element_cmp(d, h) == 0 );
-
 		element_pow(d, g, c);    // d = e(Q, P)^c
-
 		assert( element_cmp(d, e) == 0 );		
 	}
 
@@ -220,12 +222,12 @@ void test_pairing(const EC_PAIRING p)
 int main(void)
 {
 	EC_PAIRING pa, pb;
-
+    /*
 	pairing_init(pa, "ECBN254a");
 	test_feature(pa);
 	test_pairing(pa);
 	pairing_clear(pa);
-	
+	*/
 	pairing_init(pb, "ECBN254b");
 	test_feature(pb);
 	test_pairing(pb);
