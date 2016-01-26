@@ -98,7 +98,15 @@ void IHF1_SHA(mpz_t v, const unsigned char *s, size_t slen, const mpz_t n, int t
     //-----------------------------
     //  a1 = OS2IP(h1)
     //-----------------------------
+<<<<<<< HEAD
+<<<<<<< HEAD
     mpz_import(a1, size, 1, sizeof(*h1), 1, 0, h1);
+=======
+    mpz_import(a1, size, 1, sizeof(*h1), 0, 0, h1);
+>>>>>>> proj
+=======
+    mpz_import(a1, size, 1, sizeof(*h1), 0, 0, h1);
+>>>>>>> proj
 
     //-----------------------------
     //  t2 = h1 || s
@@ -114,7 +122,15 @@ void IHF1_SHA(mpz_t v, const unsigned char *s, size_t slen, const mpz_t n, int t
     //-----------------------------
     //  a2 = OS2IP(h2)
     //-----------------------------
+<<<<<<< HEAD
+<<<<<<< HEAD
     mpz_import(a2, size, 1, sizeof(*h2), 1, 0, h2);
+=======
+    mpz_import(a2, size, 1, sizeof(*h2), 0, 0, h2);
+>>>>>>> proj
+=======
+    mpz_import(a2, size, 1, sizeof(*h2), 0, 0, h2);
+>>>>>>> proj
 
     //-----------------------------
     //  v2 = 2^{2t}*a1 + a2
@@ -151,7 +167,15 @@ void IHF1_SHA(mpz_t v, const unsigned char *s, size_t slen, const mpz_t n, int t
 //      A size of d
 //	A size of d
 //------------------------------------------------------------------
+<<<<<<< HEAD
+<<<<<<< HEAD
 void mIHF_SHA(unsigned char *d, size_t *dlen, const char *s, size_t slen, int t)
+=======
+void mIHF_SHA(unsigned char *d, size_t *dlen, const char *s, size_t slen , int t)
+>>>>>>> proj
+=======
+void mIHF_SHA(unsigned char *d, size_t *dlen, const char *s, size_t slen , int t)
+>>>>>>> proj
 {
     Hash H = NULL;
 

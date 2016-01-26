@@ -94,17 +94,33 @@ void field_clear(Field f)
 //============================================
 const mpz_t* field_get_char(const Field f)
 {
+<<<<<<< HEAD
+<<<<<<< HEAD
     if (f->base != NULL) {
         return field_get_char(f->base);
     }
+=======
+    if (f->base != NULL) { return field_get_char(f->base); }
+>>>>>>> proj
+=======
+    if (f->base != NULL) { return field_get_char(f->base); }
+>>>>>>> proj
     return &(f->order);
 }
 
 int field_get_degree(const Field f)
 {
+<<<<<<< HEAD
+<<<<<<< HEAD
     if (f->base != NULL) {
         return f->irre_poly_deg * field_get_degree(f->base);
     }
+=======
+    if (f->base != NULL) { return f->irre_poly_deg * field_get_degree(f->base); }
+>>>>>>> proj
+=======
+    if (f->base != NULL) { return f->irre_poly_deg * field_get_degree(f->base); }
+>>>>>>> proj
     return f->irre_poly_deg;
 }
 
@@ -470,6 +486,16 @@ void pairing_double_map(Element g, const EC_POINT P1, const EC_POINT Q1, const E
     p->pairing_double(g, Q1, P1, Q2, P2, p);
 }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> proj
+=======
+
+
+>>>>>>> proj
 const mpz_t* pairing_get_order(const EC_PAIRING p)
 {
     return &(p->g1->order);

@@ -66,10 +66,14 @@ void ec_bn254_fp2_point_set_str(EC_POINT P, const char* s)
 
     char *tmp, *p1, *p2;
 
+<<<<<<< HEAD
     if (strcmp(s, infinity) == 0) {
         point_set_infinity(P);
         return;
     }
+=======
+    if (strcmp(s, infinity) == 0) { point_set_infinity(P); return; }
+>>>>>>> proj
 
     tmp = (char*)malloc(sizeof(char) * (len + 1));
 
@@ -81,6 +85,7 @@ void ec_bn254_fp2_point_set_str(EC_POINT P, const char* s)
 
     for (i = 0; i < len; i++)
     {
+<<<<<<< HEAD
         if (tmp[i] == '[') {
             p1 = &(tmp[i + 1]);
         }
@@ -92,6 +97,11 @@ void ec_bn254_fp2_point_set_str(EC_POINT P, const char* s)
             tmp[i] = '\0';
             hr = (p1 != NULL && p2 != NULL);
         }
+=======
+        if (tmp[i] == '[') { p1 = &(tmp[i + 1]); }
+        if (tmp[i] == ',') { p2 = &(tmp[i + 1]); tmp[i] = '\0'; }
+        if (tmp[i] == ']') { tmp[i] = '\0'; hr = (p1 != NULL && p2 != NULL); }
+>>>>>>> proj
     }
 
     if (!hr)
@@ -117,10 +127,14 @@ void ec_bn254_fp2_point_get_str(char *s, const EC_POINT P)
 
     EC_POINT T;
 
+<<<<<<< HEAD
     if (point_is_infinity(P)) {
         strcpy(s, infinity);
         return;
     }
+=======
+    if (point_is_infinity(P)) { strcpy(s, infinity); return; }
+>>>>>>> proj
 
     point_init(T, curve(P));
 
@@ -159,6 +173,7 @@ void ec_bn254_fp2_add(EC_POINT R, const EC_POINT P, const EC_POINT Q)
 {
     Element *t = field(R)->tmp;
 
+<<<<<<< HEAD
     if (point_is_infinity(P)) {
         point_set(R, Q);
         return;
@@ -174,6 +189,14 @@ void ec_bn254_fp2_add(EC_POINT R, const EC_POINT P, const EC_POINT Q)
             ec_bn254_fp2_dob(R, P);
             return;
         }
+=======
+    if (point_is_infinity(P)) { point_set(R, Q); return; }
+    if (point_is_infinity(Q)) { point_set(R, P); return; }
+
+    if (bn254_fp2_cmp(xcoord(P), xcoord(Q)) == 0)
+    {
+        if (bn254_fp2_cmp(ycoord(P), ycoord(Q)) == 0) { ec_bn254_fp2_dob(R, P); return; }
+>>>>>>> proj
         point_set_infinity(R);
         return;
     }
@@ -200,6 +223,7 @@ void ec_bn254_fp2_dob(EC_POINT R, const EC_POINT P)
 {
     Element *t = field(R)->tmp;
 
+<<<<<<< HEAD
     if (point_is_infinity(P)) {
         point_set_infinity(R);
         return;
@@ -208,6 +232,10 @@ void ec_bn254_fp2_dob(EC_POINT R, const EC_POINT P)
         point_set_infinity(R);
         return;
     }
+=======
+    if (point_is_infinity(P)) { point_set_infinity(R); return; }
+    if (bn254_fp2_is_zero(ycoord(P))) { point_set_infinity(R); return; }
+>>>>>>> proj
 
     bn254_fp2_add(t[0], ycoord(P), ycoord(P));
     bn254_fp2_inv(t[0], t[0]);
@@ -231,10 +259,14 @@ void ec_bn254_fp2_dob(EC_POINT R, const EC_POINT P)
 
 void ec_bn254_fp2_neg(EC_POINT Q, const EC_POINT P)
 {
+<<<<<<< HEAD
     if (point_is_infinity(P)) {
         point_set_infinity(Q);
         return;
     }
+=======
+    if (point_is_infinity(P)) { point_set_infinity(Q); return; }
+>>>>>>> proj
 
     bn254_fp2_set(xcoord(Q), xcoord(P));
     bn254_fp2_neg(ycoord(Q), ycoord(P));
@@ -259,6 +291,7 @@ void ec_bn254_fp2_add_formul(EC_POINT R, const EC_POINT P, const EC_POINT Q)
 {
     Element *t = field(R)->tmp;
 
+<<<<<<< HEAD
     if (point_is_infinity(P)) {
         point_set(R, Q);
         return;
@@ -267,6 +300,10 @@ void ec_bn254_fp2_add_formul(EC_POINT R, const EC_POINT P, const EC_POINT Q)
         point_set(R, P);
         return;
     }
+=======
+    if (point_is_infinity(P)) { point_set(R, Q); return; }
+    if (point_is_infinity(Q)) { point_set(R, P); return; }
+>>>>>>> proj
 
     if (strcmp(P->ec->curve_name, "ec_bn254_twa") == 0)
     {
@@ -279,10 +316,14 @@ void ec_bn254_fp2_add_formul(EC_POINT R, const EC_POINT P, const EC_POINT Q)
 
         if (bn254_fp2_is_zero(t[2]))
         {
+<<<<<<< HEAD
             if (bn254_fp2_is_zero(t[1])) {
                 ec_bn254_fp2_dob_formul(R, P);
                 return;
             }
+=======
+            if (bn254_fp2_is_zero(t[1])) { ec_bn254_fp2_dob_formul(R, P); return; }
+>>>>>>> proj
             point_set_infinity(R);
             return;
         }
@@ -304,12 +345,17 @@ void ec_bn254_fp2_add_formul(EC_POINT R, const EC_POINT P, const EC_POINT Q)
         bn254_fp2_sub(ycoord(R), ycoord(R), t[0]); // Ry = F*(I-Rx)-Py*H
     }
 
+    // Jacobian coordinate proposed by Aranha et al.
     if (strcmp(P->ec->curve_name, "ec_bn254_twb") == 0)
     {
+<<<<<<< HEAD
         if (point_cmp(P, Q) == 0) {
             ec_bn254_fp2_dob_formul(R, P);
             return;
         }
+=======
+        if (point_cmp(P, Q) == 0) { ec_bn254_fp2_dob_formul(R, P); return; }
+>>>>>>> proj
 
         bn254_fp2_sqr(t[1], zcoord(P));        		// t1 = Pz^2
         bn254_fp2_mul(t[3], xcoord(Q), t[1]); 		// t3 = Qx*t1
@@ -345,10 +391,14 @@ void ec_bn254_fp2_dob_formul(EC_POINT R, const EC_POINT P)
 {
     Element *t = field(R)->tmp;
 
+<<<<<<< HEAD
     if (point_is_infinity(P)) {
         point_set_infinity(R);
         return;
     }
+=======
+    if (point_is_infinity(P)) { point_set_infinity(R); return; }
+>>>>>>> proj
 
     if (strcmp(P->ec->curve_name, "ec_bn254_twa") == 0)
     {
@@ -376,6 +426,7 @@ void ec_bn254_fp2_dob_formul(EC_POINT R, const EC_POINT P)
         bn254_fp2_sub(ycoord(R), ycoord(R), t[0]);  // Ry = D*(B-Rx)-C
     }
 
+    // Jacobian coordinate proposed by Aranha et al.
     if (strcmp(P->ec->curve_name, "ec_bn254_twb") == 0)
     {
         bn254_fp2_sqr(t[0], xcoord(P)); 			// t0 = Px^2
@@ -454,12 +505,17 @@ void ec_bn254_fp2_mul_naf(EC_POINT Q, const mpz_t s, const EC_POINT P)
         ec_bn254_fp2_dob_formul(R, R);
         if (naf[i])
         {
+<<<<<<< HEAD
             if (naf[i] < 0) {
                 ec_bn254_fp2_add_formul(R, R, mP);
             }
             else {
                 ec_bn254_fp2_add_formul(R, R, P);
             }
+=======
+            if (naf[i] < 0) { ec_bn254_fp2_add_formul(R, R, mP); }
+            else { ec_bn254_fp2_add_formul(R, R, P); }
+>>>>>>> proj
         }
     }
 
@@ -585,7 +641,10 @@ void ec_bn254_fp2_decompose_scalar(mpz_t s0, mpz_t s1, mpz_t s2, mpz_t s3, const
     mpz_fdiv_qr(B, A, s, d->_6x2);   // s = A + B*[6x^2]
     mpz_fdiv_qr(s1, s0, A, d->_6x);  // A = s0 + s1*[6x]
     mpz_fdiv_qr(s3, s2, B, d->_6x);  // B = s2 + s3*[6x]
-
+<<<<<<< HEAD
+    
+=======
+>>>>>>> proj
     mpz_clear(A);
     mpz_clear(B);
 }
@@ -599,10 +658,14 @@ void ec_bn254_tw_frob(EC_POINT Q, const EC_POINT P)
 {
     ec_data_fp2 d;
 
+<<<<<<< HEAD
     if (point_is_infinity(P)) {
         point_set_infinity(Q);
         return;
     }
+=======
+    if (point_is_infinity(P)) { point_set_infinity(Q); return; }
+>>>>>>> proj
 
     d = (ec_data_fp2)(curve(P)->ec_data);
 
@@ -635,10 +698,14 @@ void ec_bn254_tw_frob2(EC_POINT Q, const EC_POINT P)
 {
     ec_data_fp2 d;
 
+<<<<<<< HEAD
     if (point_is_infinity(P)) {
         point_set_infinity(Q);
         return;
     }
+=======
+    if (point_is_infinity(P)) { point_set_infinity(Q); return; }
+>>>>>>> proj
 
     d = (ec_data_fp2)(curve(P)->ec_data);
 
@@ -668,10 +735,14 @@ void ec_bn254_tw_frob3(EC_POINT Q, const EC_POINT P)
 {
     ec_data_fp2 d;
 
+<<<<<<< HEAD
     if (point_is_infinity(P)) {
         point_set_infinity(Q);
         return;
     }
+=======
+    if (point_is_infinity(P)) { point_set_infinity(Q); return; }
+>>>>>>> proj
 
     d = (ec_data_fp2)(curve(P)->ec_data);
 
@@ -723,10 +794,14 @@ void ec_bn254_fp2_mul_end(EC_POINT Q, const mpz_t s, const EC_POINT P)
     mpz_init(s2);
     mpz_init(s3);
 
+<<<<<<< HEAD
     if (ec_bn254_fp2_is_on_curve(P) == 0) {
         ec_bn254_fp2_mul_naf(Q, s, P);
         return;
     }
+=======
+    if (ec_bn254_fp2_is_on_curve(P) == 0) { ec_bn254_fp2_mul_naf(Q, s, P); return; }
+>>>>>>> proj
 
     //--------------------------------------------
     // s = s0 + s1[6x] + s2[6x^2] + s3[36x^3]
@@ -736,9 +811,13 @@ void ec_bn254_fp2_mul_end(EC_POINT Q, const mpz_t s, const EC_POINT P)
     //--------------------------------------------
     // create table R:
     //--------------------------------------------
+<<<<<<< HEAD
     for (i = 0; i < 16; i++) {
         point_init(R[i], curve(P));
     }
+=======
+    for (i = 0; i < 16; i++) { point_init(R[i], curve(P)); }
+>>>>>>> proj
 
     ec_bn254_tw_frob(R[4], P);
     point_add(R[2], P, R[4]);
@@ -792,9 +871,13 @@ void ec_bn254_fp2_mul_end(EC_POINT Q, const mpz_t s, const EC_POINT P)
 
         index = catbit(mpz_tstbit(s0, i), mpz_tstbit(s1, i), mpz_tstbit(s2, i), mpz_tstbit(s3, i));
 
+<<<<<<< HEAD
         if (index) {
             ec_bn254_fp2_add_formul(Q, Q, R[index]);
         }
+=======
+        if (index) { ec_bn254_fp2_add_formul(Q, Q, R[index]); }
+>>>>>>> proj
     }
 
     point_make_affine(Q, Q);
@@ -802,9 +885,13 @@ void ec_bn254_fp2_mul_end(EC_POINT Q, const mpz_t s, const EC_POINT P)
     //--------------------------------------------
     //  release
     //--------------------------------------------
+<<<<<<< HEAD
     for (i = 0; i < 16; i++) {
         point_clear(R[i]);
     }
+=======
+    for (i = 0; i < 16; i++) { point_clear(R[i]); }
+>>>>>>> proj
 
     mpz_clear(s0);
     mpz_clear(s1);
@@ -817,10 +904,14 @@ void ec_bn254_fp2_mul_end(EC_POINT Q, const mpz_t s, const EC_POINT P)
 //---------------------------------------------------------
 void ec_bn254_fp2_frob_p(EC_POINT P, const EC_POINT Q)
 {
+<<<<<<< HEAD
     if (point_is_infinity(Q)) {
         point_set_infinity(P);
         return;
     }
+=======
+    if (point_is_infinity(Q)) { point_set_infinity(P); return; }
+>>>>>>> proj
 
     bn254_fp2_frob_p(xcoord(P), xcoord(Q));
     bn254_fp2_frob_p(ycoord(P), ycoord(Q));
@@ -837,9 +928,13 @@ int ec_bn254_fp2_cmp(const EC_POINT P, const EC_POINT Q)
 {
     if (bn254_fp2_cmp(xcoord(P), xcoord(Q)) == 0)
     {
+<<<<<<< HEAD
         if (bn254_fp2_cmp(ycoord(P), ycoord(Q)) == 0) {
             return 0;
         }
+=======
+        if (bn254_fp2_cmp(ycoord(P), ycoord(Q)) == 0) { return 0; }
+>>>>>>> proj
     }
     return 1;
 }
@@ -878,9 +973,13 @@ int ec_bn254_fp2_is_on_curve(const EC_POINT P)
 //-------------------------------------------
 void ec_bn254_fp2_make_affine(EC_POINT z, const EC_POINT x)
 {
+<<<<<<< HEAD
     if (point_is_infinity(x)) {
         point_set_infinity(z);
     }
+=======
+    if (point_is_infinity(x)) { point_set_infinity(z); }
+>>>>>>> proj
     else
     {
         Element iz, iz2;
@@ -974,6 +1073,7 @@ int bn254_fp2_compare(const Element x, const Element y)
 
     ret = mpz_cmp(elt_rep(x, 1), elt_rep(y, 1));
 
+<<<<<<< HEAD
     if (ret > 0) {
         return  1;
     }
@@ -989,6 +1089,15 @@ int bn254_fp2_compare(const Element x, const Element y)
     if (ret < 0) {
         return -1;
     }
+=======
+    if (ret > 0) { return  1; }
+    if (ret < 0) { return -1; }
+
+    ret = mpz_cmp(elt_rep(x, 0), elt_rep(y, 0));
+
+    if (ret > 0) { return  1; }
+    if (ret < 0) { return -1; }
+>>>>>>> proj
 
     return 0;
 }
@@ -1073,11 +1182,15 @@ void ec_bn254_fp2_to_oct(unsigned char *os, size_t *size, const EC_POINT P)
     unsigned char ox[64];
     unsigned char oy[64];
 
+<<<<<<< HEAD
     if (point_is_infinity(P)) {
         os[0] = 0x00;
         (*size) = 1;
         return;
     }
+=======
+    if (point_is_infinity(P)) { os[0] = 0x00; (*size) = 1; return; }
+>>>>>>> proj
 
     bn254_fp2_to_oct(ox, &sx, xcoord(P));
     bn254_fp2_to_oct(oy, &sy, ycoord(P));
@@ -1097,10 +1210,14 @@ void ec_bn254_fp2_to_oct(unsigned char *os, size_t *size, const EC_POINT P)
 void ec_bn254_fp2_from_oct(EC_POINT P, const unsigned char *os, size_t size)
 {
     if (size != 1 && size != 129)
+<<<<<<< HEAD
     {
         point_set_infinity(P);
         return;
     }
+=======
+    { point_set_infinity(P); return;}
+>>>>>>> proj
 
     switch (os[0])
     {

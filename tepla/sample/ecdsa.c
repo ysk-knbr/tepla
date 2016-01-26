@@ -5,7 +5,7 @@
 #include <tepla/ec.h>
 #include <openssl/sha.h>
 
-#define N SHA_DIGEST_LENGTH 
+#define N SHA_DIGEST_LENGTH
 
 void calc_sha1(mpz_t dst, const unsigned char * str)
 {
@@ -37,7 +37,7 @@ void ecdsa(mpz_t r, mpz_t s, const mpz_t d, const unsigned char * str)
     EC_GROUP ec;
     EC_POINT kG, G;
     mpz_t hm, k, q, tmp;
-  
+
     // init
     curve_init(ec, "ec_bn254_fpb");
     point_init(kG, ec);
@@ -48,21 +48,21 @@ void ecdsa(mpz_t r, mpz_t s, const mpz_t d, const unsigned char * str)
     mpz_init_set(q, *curve_get_order(ec));
     mpz_init(tmp);
 
-    // signature 
+    // signature
     mpz_rand(k, q);         // k = [1..q]
     point_mul(kG, k, G);    // kG = k * G
     mpz_set(r, kG->x->data);  // r = kG->x
-    
+
     calc_sha1(hm, str);     // buf = H(m)
-    
+
     mpz_mul(tmp, d, r);     // tmp = d * r
     mpz_add(s, hm, tmp);    // s = H(m) + d * r
     mpz_invert(tmp, k, q);  // tmp = k^-1 mod q
-    mpz_mul(s, s, tmp);     // s = (H(m) + d * r) * k^-1 
+    mpz_mul(s, s, tmp);     // s = (H(m) + d * r) * k^-1
     mpz_mod(s, s, q);       // s = (H(m) + d * r) * k^-1 mod q
 
-    gmp_printf("Signature:\n(r,s) = (%Zx,%Zx)\n",r,s);
-    
+    gmp_printf("Signature:\n(r,s) = (%Zx,%Zx)\n", r, s);
+
     // free
     mpz_clear(tmp);
     mpz_clear(q);
@@ -76,9 +76,9 @@ void ecdsa(mpz_t r, mpz_t s, const mpz_t d, const unsigned char * str)
 void verify(const mpz_t r, const mpz_t s, const EC_POINT Q, const unsigned char * str)
 {
     EC_GROUP ec;
-    EC_POINT S, T; 
+    EC_POINT S, T;
     mpz_t r2, hm, tmp1, tmp2;
-    
+
     // init
     curve_init(ec, "ec_bn254_fpb");
     point_init(S, ec);
@@ -98,14 +98,14 @@ void verify(const mpz_t r, const mpz_t s, const EC_POINT Q, const unsigned char 
     point_add(S, S, T);     // S = (s^-1 * H(m)) * G + (s^-1 * r) * Q
 
     mpz_set(r2, S->x->data);  // r2 = S->x
- 
-    gmp_printf("Verification:\n(r,r2) = (%Zx,%Zx)\n",r,r2);
 
-    if(mpz_cmp(r, r2) == 0)
+    gmp_printf("Verification:\n(r,r2) = (%Zx,%Zx)\n", r, r2);
+
+    if (mpz_cmp(r, r2) == 0)
     {
         printf("Successful Verification!\n");
     }
-    else 
+    else
     {
         printf("The Varidation failed\n");
     }
@@ -120,12 +120,12 @@ void verify(const mpz_t r, const mpz_t s, const EC_POINT Q, const unsigned char 
 }
 
 int main()
-{ 
+{
     EC_GROUP ec;
     EC_POINT G, Q;
     mpz_t r, s, d;
     unsigned char *str = (unsigned char*)"LCIS";
-  
+
     // init
     curve_init(ec, "ec_bn254_fpb");
     point_init(G, ec);
@@ -135,15 +135,15 @@ int main()
     mpz_init(s);
     mpz_init(d);
 
-    // signature 
+    // signature
     mpz_rand(d, *curve_get_order(ec));  // d is a verification key
- 
-    point_mul(Q, d, G);     // Q (= d * G) is a back door 
-    
-    ecdsa(r, s, d, str);    // create ECDSA 
 
-    verify(r, s, Q, str);   // verify ECDSA  
-    
+    point_mul(Q, d, G);     // Q (= d * G) is a back door
+
+    ecdsa(r, s, d, str);    // create ECDSA
+
+    verify(r, s, Q, str);   // verify ECDSA
+
     // clear
     mpz_clear(d);
     mpz_clear(s);

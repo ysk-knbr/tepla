@@ -129,11 +129,11 @@ void ec_bn254_pairing_dob_beuchat(EC_POINT T, Element l0, Element l3, Element l4
 
 //-------------------------------------------
 //  pairing (Aranha)
+<<<<<<< HEAD
 //  point doubling in Jacobian coordinates
 //-------------------------------------------
-void ec_bn254_pairing_dob_aranha(EC_POINT T, Element l0, Element l2, Element l4, const EC_POINT P)
+void ec_bn254_pairing_dob_aranha_jac(EC_POINT T, Element l0, Element l2, Element l4, const EC_POINT P)
 {
-    //printf("dob\n");
     Element *t = field(T)->tmp;
     Element *k = field(P)->tmp;
     // 2T = R
@@ -147,10 +147,8 @@ void ec_bn254_pairing_dob_aranha(EC_POINT T, Element l0, Element l2, Element l4,
     bn254_fp2_div_2(t[0], t[0]);				// t0 = t0/2
     bn254_fp2_mul(t[1], t[0], t[2]); 			// t1 = t0*t2
     bn254_fp2_mul(t[4], t[0], xcoord(T)); 		// t4 = t0*Tx
-
     bn254_fp_neg(k[0], xcoord(P)); 				// k0 = -Px
     bn254_fp2_mul_p(l2, t[1], k[0]);	 	// l2 = l_(1,0) = t1*k0
-
     bn254_fp2_sub(l4, t[4], t[3]);        		// l4 = l_(1,1) = t4-t3
     bn254_fp2_mul(t[2], zcoord(T), t[2]); 		// t2 = Rz*t2
     bn254_fp2_mul(t[1], t[3], xcoord(T)); 		// t1 = t3*Tx
@@ -159,7 +157,6 @@ void ec_bn254_pairing_dob_aranha(EC_POINT T, Element l0, Element l2, Element l4,
     bn254_fp2_sqr(xcoord(T), t[0]);       		// Tx = t0^2
     bn254_fp2_sub(xcoord(T), xcoord(T), ycoord(T)); // Rx = Tx-Ty
     bn254_fp2_sub(t[1], t[1], xcoord(T)); 		// t1 = t1-Rx
-
     bn254_fp2_muln(t[2], t[3], t[3]); 			// t2 = t3^2
     bn254_fp2_OP1_2(t[2], t[2]);
     bn254_fp2_muln(t[1], t[0], t[1]);			// t1 = t0*t1
@@ -167,6 +164,174 @@ void ec_bn254_pairing_dob_aranha(EC_POINT T, Element l0, Element l2, Element l4,
     bn254_fp2_subn(t[1], t[1], t[2]); 			// t1 = t1-t2
     bn254_fp2_OP2(t[1], t[1]);
     bn254_fp2_mod(ycoord(T), t[1]); 			// Ry = t1 mod p
+
+//-------------------------------------------
+//  point doubling in Projective coordinates
+//-------------------------------------------
+void ec_bn254_pairing_dob_aranha_proj(EC_POINT T, Element l0, Element l3, Element l4, const EC_POINT P)
+=======
+//  point doubling in Homogeneous coordinates
+//-------------------------------------------
+void ec_bn254_pairing_dob_aranha(EC_POINT T, Element l0, Element l3, Element l4, const EC_POINT P)
+>>>>>>> proj
+{
+    Element *t = field(T)->tmp;
+    // 2T = R
+    // calculate R and l
+    // 1
+    bn254_fp2_sqr(t[0], zcoord(T));            //t0 = z1*z1
+<<<<<<< HEAD
+    bn254_fp2_mul(t[4], xcoord(T), ycoord(T)); //t4 = x1*y1
+    bn254_fp2_sqr(t[1], ycoord(T));            //t1 = y1^2
+    // 2
+    bn254_fp2_dob(t[3], t[0]);                 //t3 = t0+t0
+    bn254_fp2_div_2(t[4], t[4]);               //t4 = t4/2
+    bn254_fp2_add(t[5], t[0], t[1]);           //t5 = t0+t1
+    // 3
+    bn254_fp2_add(t[0], t[0], t[3]);           //t0 = t0+t3
+    // 4
+    bn254_fp2_xi_mul_inv(t[2], t[0]);          //t2 = b'*t0
+    // 5
+    bn254_fp2_sqr(t[0], xcoord(T));            //t0 = x1^2
+    bn254_fp2_dob(t[3], t[2]);                 //t3 = t2+t2
+    // 6
+    bn254_fp2_add(t[3], t[2], t[3]);           //t3 = t2+t3
+    bn254_fp2_addn(l3, t[0], t[0]);            //l3 = t0+t0
+    // 7
+    bn254_fp2_sub(xcoord(T), t[1], t[3]);      //x3 = t1-t3
+    bn254_fp2_addn(l3, l3, t[0]);              //l3 = l3+t0
+    bn254_fp2_add(t[3], t[1], t[3]);           //t3 = t1+t3
+    // 8
+    bn254_fp2_mul(xcoord(T), t[4], xcoord(T)); //x3 = t4*x3
+    bn254_fp2_div_2(t[3], t[3]);               //t3 = t3/2
+    // 9
+    bn254_fp2_sqrn(t[6], t[3]);                //T0 = t3^2
+    bn254_fp2_sqrn(t[7], t[2]);                //T1 = t2^2
+    bn254_fp2_OP1_2(t[6], t[6]);
+    bn254_fp2_OP1_2(t[7], t[7]);
+    // 10
+    bn254_fp2_addn(t[8], t[7], t[7]);          //T2 = T1+T1
+    bn254_fp2_add(t[3], ycoord(T), zcoord(T)); //t3 = y1+z1
+    // 11
+    bn254_fp2_addn(t[8], t[7], t[8]);          //T2 = T1+T2
+    bn254_fp2_sqr(t[3], t[3]);                 //t3 = t3^2
+    // 12
+    bn254_fp2_sub(t[3], t[3], t[5]);           //t3 = t3-t5
+    // 13
+    bn254_fp2_sub(t[6], t[6], t[8]);           //T0 = T0-T2
+    bn254_fp2_OP2(t[6], t[6]);
+    // 14
+    bn254_fp2_mod(ycoord(T), t[6]);            //y3 = T0 mod p
+    bn254_fp2_mul(zcoord(T), t[1], t[3]);      //z3 = t1*t3
+    // 15
+    bn254_fp2_sub(l4, t[2], t[1]);             //l4 = t2-t1
+    // 16
+    bn254_fp2_mul_p(l3, l3, xcoord(P));        //l3 = l3*Px
+    // 17
+    bn254_fp2_mul_p(l0, t[3], ycoord(P));      //l0 = t3*(-Py)
+    // Extra
+    bn254_fp2_inv(t[9], t[3]);
+    bn254_fp2_neg(t[9], t[9]);
+    bn254_fp2_mul(l0, l0, t[9]);
+    bn254_fp2_mul(l3, l3, t[9]);
+    bn254_fp2_mul(l4, l4, t[9]);
+=======
+    //printf("t0:\n");element_print(t[0]);
+    bn254_fp2_mul(t[4], xcoord(T), ycoord(T)); //t4 = x1*y1
+    //printf("t4:\n");element_print(t[4]);
+    bn254_fp2_sqr(t[1], ycoord(T));            //t1 = y1^2
+    //printf("t1:\n");element_print(t[1]);
+    // 2
+    bn254_fp2_dob(t[3], t[0]);                 //t3 = t0+t0
+    //printf("t3:\n");element_print(t[3]);
+    bn254_fp2_div_2(t[4], t[4]);               //t4 = t4/2
+    //printf("t4:\n");element_print(t[4]);
+    bn254_fp2_add(t[5], t[0], t[1]);           //t5 = t0+t1
+    //printf("t5:\n");element_print(t[5]);
+    // 3
+    bn254_fp2_add(t[0], t[0], t[3]);           //t0 = t0+t3
+    //printf("t0:\n");element_print(t[0]);
+    // 4
+    bn254_fp2_xi_mul_inv(t[2], t[0]);          //t2 = b'*t0
+    //printf("t2:\n");element_print(t[2]);
+    // 5
+    bn254_fp2_sqr(t[0], xcoord(T));            //t0 = x1^2
+    //printf("t0:\n");element_print(t[0]);
+    bn254_fp2_dob(t[3], t[2]);                 //t3 = t2+t2
+    //printf("t3:\n");element_print(t[3]);
+    // 6
+    bn254_fp2_add(t[3], t[2], t[3]);           //t3 = t2+t3
+    //printf("t3:\n");element_print(t[3]);
+    bn254_fp2_addn(l3, t[0], t[0]);            //l3 = t0+t0
+    //bn254_fp2_dob(l3, t[0]);
+    //printf("l3:\n");element_print(l3);
+    // 7
+    bn254_fp2_sub(xcoord(T), t[1], t[3]);      //x3 = t1-t3
+    //printf("X3:\n");element_print(xcoord(T));
+    bn254_fp2_addn(l3, l3, t[0]);              //l3 = l3+t0
+    //bn254_fp2_add(l3,l3,t[0]);
+    //printf("l3:\n");element_print(l3);
+    bn254_fp2_add(t[3], t[1], t[3]);           //t3 = t1+t3
+    //printf("t3:\n");element_print(t[3]);
+    // 8
+    bn254_fp2_mul(xcoord(T), t[4], xcoord(T)); //x3 = t4*x3
+    //printf("X3:\n");element_print(xcoord(T));
+    bn254_fp2_div_2(t[3], t[3]);               //t3 = t3/2
+    //printf("t3:\n");element_print(t[3]);
+    // 9
+    bn254_fp2_sqrn(t[6], t[3]);                //T0 = t3^2
+    bn254_fp2_sqrn(t[7], t[2]);                //T1 = t2^2
+    //bn254_fp2_sqr(t[6], t[3]);
+    //bn254_fp2_sqr(t[7], t[2]);
+    bn254_fp2_OP1_2(t[6], t[6]);
+    //printf("T0:\n");element_print(t[6]);
+    bn254_fp2_OP1_2(t[7], t[7]);
+    //printf("T1:\n");element_print(t[7]);
+    // 10
+    bn254_fp2_addn(t[8], t[7], t[7]);          //T2 = T1+T1
+    //bn254_fp2_dob(t[8], t[7]);
+    //printf("T2:\n");element_print(t[8]);
+    bn254_fp2_add(t[3], ycoord(T), zcoord(T)); //t3 = y1+z1
+    //printf("t3:\n");element_print(t[3]);
+    // 11
+    bn254_fp2_addn(t[8], t[7], t[8]);          //T2 = T1+T2
+    //bn254_fp2_add(t[8], t[7], t[8]);
+    //printf("T2:\n");element_print(t[8]);
+    bn254_fp2_sqr(t[3], t[3]);                 //t3 = t3^2
+    //printf("t3:\n");element_print(t[3]);
+    // 12
+    bn254_fp2_sub(t[3], t[3], t[5]);           //t3 = t3-t5
+    //printf("t3:\n");element_print(t[3]);
+    // 13
+    bn254_fp2_sub(t[6], t[6], t[8]);           //T0 = T0-T2
+    bn254_fp2_OP2(t[6], t[6]);
+    //printf("T1:\n");element_print(t[6]);
+    // 14
+    bn254_fp2_mod(ycoord(T), t[6]);            //y3 = T0 mod p
+    //printf("Y3:\n");element_print(ycoord(T));
+    bn254_fp2_mul(zcoord(T), t[1], t[3]);      //z3 = t1*t3
+    //printf("Z3:\n");element_print(zcoord(T));
+    // 15
+    bn254_fp2_sub(l4, t[2], t[1]);             //l4 = t2-t1
+    //printf("l4:\n");element_print(l4);
+    // 16
+    bn254_fp2_mul_p(l3, l3, xcoord(P));        //l3 = l3*Px
+    //printf("l3:\n");element_print(l3);
+    // 17
+    bn254_fp2_mul_p(l0, t[3], ycoord(P));      //l0 = t3*(-Py)
+    //printf("l0:\n");element_print(l0);
+    // Extra
+    bn254_fp2_inv(t[9], t[3]);
+    //printf("ti:\n");element_print(t[9]);
+    bn254_fp2_neg(t[9], t[9]);
+    //printf("ti:\n");element_print(t[9]);
+    bn254_fp2_mul(l0, l0, t[9]);
+    //printf("l0:\n");element_print(l0);
+    bn254_fp2_mul(l3, l3, t[9]);
+    //printf("l3:\n");element_print(l3);
+    bn254_fp2_mul(l4, l4, t[9]);
+    //printf("l4:\n");element_print(l4);
+>>>>>>> proj
 }
 
 //-------------------------------------------
@@ -235,9 +400,10 @@ void ec_bn254_pairing_add_beuchat(EC_POINT T, Element l0, Element l3, Element l4
 
 //-------------------------------------------
 //  pairing (Aranha)
+<<<<<<< HEAD
 //  point addition in Jacobian coordinates
 //-------------------------------------------
-void ec_bn254_pairing_add_aranha(EC_POINT T, Element l0, Element l2, Element l4, const EC_POINT Q, const EC_POINT P)
+void ec_bn254_pairing_add_aranha_jac(EC_POINT T, Element l0, Element l2, Element l4, const EC_POINT Q, const EC_POINT P)
 {
     Element *t = field(T)->tmp;
     Element *k = field(P)->tmp;
@@ -276,6 +442,62 @@ void ec_bn254_pairing_add_aranha(EC_POINT T, Element l0, Element l2, Element l4,
     bn254_fp2_OP2(t[2], t[2]);
     bn254_fp2_mod(l4, t[2]);					// l4 = l_(1,1) = t2 mod p
     bn254_fp2_mul_p(l0, zcoord(T), ycoord(P)); 	// l0 = l_(0,0) = Rz*Py
+}
+
+//-------------------------------------------
+//  point addition in Homogeneous coordinates
+//-------------------------------------------
+void ec_bn254_pairing_add_aranha_proj(EC_POINT T, Element l0, Element l3, Element l4, const EC_POINT Q, const EC_POINT P)
+=======
+//  point addition in Homogeneous coordinates
+//-------------------------------------------
+void ec_bn254_pairing_add_aranha(EC_POINT T, Element l0, Element l3, Element l4, const EC_POINT Q, const EC_POINT P)
+>>>>>>> proj
+{
+    Element *t = field(T)->tmp;
+
+    // T + Q = R
+    bn254_fp2_mul(t[1], zcoord(T), xcoord(Q));  //t1 = Tz*Qx
+    bn254_fp2_mul(t[2], zcoord(T), ycoord(Q));  //t2 = Tz*Qy
+    bn254_fp2_sub(t[1], xcoord(T), t[1]);       //t1 = Tx-t1
+    bn254_fp2_sub(t[2], ycoord(T), t[2]);       //t2 = Ty-t2
+    bn254_fp2_sqr(t[3], t[1]);                  //t3 = t1^2
+    bn254_fp2_mul(xcoord(T), t[3], xcoord(T));  //Rx = t3*Tx
+    bn254_fp2_sqr(t[4], t[2]);                  //t4 = t2^2
+    bn254_fp2_mul(t[3], t[1], t[3]);            //t3 = t1*t3
+    bn254_fp2_mul(t[4], t[4], zcoord(T));       //t4 = t4*Tz
+    bn254_fp2_add(t[4], t[3], t[4]);            //t4 = t3+t4
+    bn254_fp2_sub(t[4], t[4], xcoord(T));       //t4 = t4-Rx
+    bn254_fp2_sub(t[4], t[4], xcoord(T));       //t4 = t4-Rx
+    bn254_fp2_sub(xcoord(T), xcoord(T), t[4]);  //Rx = Rx-t4
+    bn254_fp2_muln(t[6], t[2], xcoord(T));      //T1 = t2*Rx
+    bn254_fp2_muln(t[7], t[3], ycoord(T));      //T2 = t3*Ty
+    bn254_fp2_OP1_2(t[6], t[6]);
+    bn254_fp2_OP1_2(t[7], t[7]);
+    bn254_fp2_sub(t[7], t[6], t[7]);            //T2 = T1-T2
+    bn254_fp2_OP2(t[7], t[7]);
+    bn254_fp2_mod(ycoord(T), t[7]);             //Ry = T2 mod p
+    bn254_fp2_mul(xcoord(T), t[1], t[4]);       //Rx = t1*t4
+    bn254_fp2_mul(zcoord(T), t[3], zcoord(T));  //Rz = t3*Tz
+    bn254_fp2_mul_p(l3, t[2], xcoord(P));       //l3 = t3*Px
+    bn254_fp2_neg(l3, l3);                      //l3 = -l3
+    bn254_fp2_muln(t[6], t[2], xcoord(Q));      //T1 = t2*Qx
+    bn254_fp2_muln(t[7], t[1], ycoord(Q));      //T2 = t1*Qy
+    bn254_fp2_OP1_2(t[6], t[6]);
+    bn254_fp2_OP1_2(t[7], t[7]);
+    bn254_fp2_sub(t[6], t[6], t[7]);            //T1 = T1-T2
+    bn254_fp2_OP2(t[6], t[6]);
+    bn254_fp2_mod(l4, t[6]);                    //l4 = T1 mod p
+    bn254_fp2_mul_p(l0, t[1], ycoord(P));       //l0 = t1*Py
+
+    bn254_fp2_inv(t[9], t[1]);
+    bn254_fp2_mul(l0, l0, t[9]);
+    bn254_fp2_mul(l3, l3, t[9]);
+    bn254_fp2_mul(l4, l4, t[9]);
+<<<<<<< HEAD
+=======
+
+>>>>>>> proj
 }
 
 //-------------------------------------------
@@ -369,11 +591,12 @@ void ec_bn254_pairing_miller_beuchat(Element z, const EC_POINT Q, const EC_POINT
 
 //-------------------------------------------
 //  pairing (Aranha)
-//  miller's algorithm
+<<<<<<< HEAD
+//  miller's algorithm in Jacobian
 //-------------------------------------------
-void ec_bn254_pairing_miller_aranha(Element z, const EC_POINT Q, const EC_POINT P, const EC_PAIRING p)
+void ec_bn254_pairing_miller_aranha_jac(Element z, const EC_POINT Q, const EC_POINT P, const EC_PAIRING p)
 {
-    Element d, e, f, l0, l2, l4;
+    Element d, e, f, l0, l3, l4;
 
     int len, *s, i;
 
@@ -390,7 +613,7 @@ void ec_bn254_pairing_miller_aranha(Element z, const EC_POINT Q, const EC_POINT 
     point_init(S, curve(Q));
 
     element_init(l0, field(Q));
-    element_init(l2, field(Q));
+    element_init(l3, field(Q));
     element_init(l4, field(Q));
 
     len = ((pairing_precomp_p)(p->precomp))->slen - 1; // s = PAIRING->precomp->si
@@ -400,27 +623,27 @@ void ec_bn254_pairing_miller_aranha(Element z, const EC_POINT Q, const EC_POINT 
     bn254_fp12_set_one(d);
     bn254_fp12_set_one(e);
 
-    ec_bn254_pairing_dob_aranha(T, l0, l2, l4, P); // T = 2Q, l = l(P)
-    bn254_fp12_mul_L(d, l0, l2, l4);
+    ec_bn254_pairing_dob_aranha_jac(T, l0, l3, l4, P); // T = 2Q, l = l(P)
+    bn254_fp12_mul_L(d, l0, l3, l4);
 
     if (s[len - 1])
     {
-        ec_bn254_pairing_add_aranha(T, l0, l2, l4, Q, P); // T = T+Q
-        bn254_fp12_mul_L(e, l0, l2, l4);
+        ec_bn254_pairing_add_aranha_jac(T, l0, l3, l4, Q, P); // T = T+Q
+        bn254_fp12_mul_L(e, l0, l3, l4);
     }
 
     bn254_fp12_mul(f, d, e);
 
     for (i = len - 2 ; i >= 0 ; i--)
     {
-        ec_bn254_pairing_dob_aranha(T, l0, l2, l4, P);   // T = 2T
+        ec_bn254_pairing_dob_aranha_jac(T, l0, l3, l4, P);   // T = 2T
         bn254_fp12_sqr(f, f);             		  // f = f^2*l
-        bn254_fp12_mul_L(f, l0, l2, l4);
+        bn254_fp12_mul_L(f, l0, l3, l4);
 
         if (s[i])
         {
-            ec_bn254_pairing_add_aranha(T, l0, l2, l4, Q, P); // T = T+Q
-            bn254_fp12_mul_L(f, l0, l2, l4);
+            ec_bn254_pairing_add_aranha_jac(T, l0, l3, l4, Q, P); // T = T+Q
+            bn254_fp12_mul_L(f, l0, l3, l4);
         }
     }
 
@@ -431,13 +654,13 @@ void ec_bn254_pairing_miller_aranha(Element z, const EC_POINT Q, const EC_POINT 
     bn254_fp12_set_one(e);
 
     ec_bn254_tw_frob(S, Q);
-    ec_bn254_pairing_add_aranha(T, l0, l2, l4, S, P);   //addtion part
-    bn254_fp12_mul_L(d, l0, l2, l4);
+    ec_bn254_pairing_add_aranha_jac(T, l0, l3, l4, S, P);   //addtion part
+    bn254_fp12_mul_L(d, l0, l3, l4);
 
     ec_bn254_tw_frob2(S, Q);
     ec_bn254_fp2_neg(S, S);
-    ec_bn254_pairing_add_aranha(T, l0, l2, l4, S, P);   //addtion part
-    bn254_fp12_mul_L(e, l0, l2, l4);
+    ec_bn254_pairing_add_aranha_jac(T, l0, l3, l4, S, P);   //addtion part
+    bn254_fp12_mul_L(e, l0, l3, l4);
 
     bn254_fp12_mul(d, d, e); // d = d*e
     bn254_fp12_mul(z, f, d); // f = f*d = f*(d*e)
@@ -449,8 +672,148 @@ void ec_bn254_pairing_miller_aranha(Element z, const EC_POINT Q, const EC_POINT 
     element_clear(e);
     element_clear(f);
     element_clear(l0);
-    element_clear(l2);
+    element_clear(l3);
     element_clear(l4);
+    point_clear(_P);
+    point_clear(T);
+    point_clear(S);
+}
+
+void ec_bn254_pairing_miller_aranha_proj(Element z, const EC_POINT Q, const EC_POINT P, const EC_PAIRING p)
+=======
+//  miller's algorithm
+//-------------------------------------------
+void ec_bn254_pairing_miller_aranha(Element z, const EC_POINT Q, const EC_POINT P, const EC_PAIRING p)
+>>>>>>> proj
+{
+    Element d, e, f, l0, l3, l4;
+
+    int len, *s, i;
+
+    EC_POINT T, S, _P;
+
+    //--------------------------------
+    //   init
+    //--------------------------------
+    element_init(d, z->field);
+    element_init(e, z->field);
+    element_init(f, z->field);
+
+    point_init(T, curve(Q));
+    point_init(S, curve(Q));
+    point_init(_P, curve(P));
+
+    element_init(l0, field(Q));
+    element_init(l3, field(Q));
+    element_init(l4, field(Q));
+
+    len = ((pairing_precomp_p)(p->precomp))->slen - 1; // s = PAIRING->precomp->si
+    s = ((pairing_precomp_p)(p->precomp))->si;
+
+    ec_bn254_fp2_point_set(T, Q);
+    ec_bn254_fp_neg(_P, P);
+<<<<<<< HEAD
+
+    bn254_fp12_set_one(d);
+    bn254_fp12_set_one(e);
+
+    ec_bn254_pairing_dob_aranha_proj(T, l0, l3, l4, _P); // T = 2Q, l = l(P)
+    bn254_fp12_mul_L(d, l0, l3, l4);
+
+    if (s[len - 1])
+    {
+        ec_bn254_pairing_add_aranha_proj(T, l0, l3, l4, Q, P); // T = T+Q
+        bn254_fp12_mul_L(e, l0, l3, l4);
+    }
+
+    bn254_fp12_mul(f, d, e);
+
+    for (i = len - 2 ; i >= 0 ; i--)
+    {
+        ec_bn254_pairing_dob_aranha_proj(T, l0, l3, l4, _P);   // T = 2T
+=======
+    bn254_fp12_set_one(d);
+    bn254_fp12_set_one(e);
+
+    //printf("T: ");
+    //point_print(T);
+
+    ec_bn254_pairing_dob_aranha(T, l0, l3, l4, _P); // T = 2Q, l = l(P)
+    bn254_fp12_mul_L(d, l0, l3, l4);
+    //printf("T: ");
+    //point_print(T);
+    //printf("d: ");
+    //element_print(d);
+
+    if (s[len - 1])
+    {
+        ec_bn254_pairing_add_aranha(T, l0, l3, l4, Q, P); // T = T+Q
+        bn254_fp12_mul_L(e, l0, l3, l4);
+    }
+    //printf("T: ");
+    //point_print(T);
+    //printf("e: ");
+    //element_print(e);
+
+    bn254_fp12_mul(f, d, e);
+
+    //printf("f: ");
+    //element_print(f);
+
+    for (i = len - 2 ; i >= 0 ; i--)
+    {
+        ec_bn254_pairing_dob_aranha(T, l0, l3, l4, _P);   // T = 2T
+>>>>>>> proj
+        bn254_fp12_sqr(f, f);             		  // f = f^2*l
+        bn254_fp12_mul_L(f, l0, l3, l4);
+
+        if (s[i])
+        {
+<<<<<<< HEAD
+            ec_bn254_pairing_add_aranha_proj(T, l0, l3, l4, Q, P); // T = T+Q
+=======
+            ec_bn254_pairing_add_aranha(T, l0, l3, l4, Q, P); // T = T+Q
+>>>>>>> proj
+            bn254_fp12_mul_L(f, l0, l3, l4);
+        }
+    }
+
+    ec_bn254_fp2_neg(T, T); // T = -T
+    bn254_fp12_conj(f, f);  // f = f^(p^6)
+
+    bn254_fp12_set_one(d);
+    bn254_fp12_set_one(e);
+
+    ec_bn254_tw_frob(S, Q);
+<<<<<<< HEAD
+    ec_bn254_pairing_add_aranha_proj(T, l0, l3, l4, S, P);   //addtion part
+=======
+    ec_bn254_pairing_add_aranha(T, l0, l3, l4, S, P);   //addtion part
+>>>>>>> proj
+    bn254_fp12_mul_L(d, l0, l3, l4);
+
+    ec_bn254_tw_frob2(S, Q);
+    ec_bn254_fp2_neg(S, S);
+<<<<<<< HEAD
+    ec_bn254_pairing_add_aranha_proj(T, l0, l3, l4, S, P);   //addtion part
+=======
+    ec_bn254_pairing_add_aranha(T, l0, l3, l4, S, P);   //addtion part
+>>>>>>> proj
+    bn254_fp12_mul_L(e, l0, l3, l4);
+
+    bn254_fp12_mul(d, d, e); // d = d*e
+    bn254_fp12_mul(z, f, d); // f = f*d = f*(d*e)
+
+    //--------------------------------
+    //   relase
+    //--------------------------------
+    element_clear(d);
+    element_clear(e);
+    element_clear(f);
+    element_clear(l0);
+    element_clear(l3);
+    element_clear(l4);
+    point_clear(_P);
     point_clear(T);
     point_clear(S);
 }
@@ -541,9 +904,21 @@ void ec_bn254_pairing_finalexp(Element z, const Element x, const EC_PAIRING p)
 
 }
 
+<<<<<<< HEAD
+void ec_bn254_pairing_aranha_jac(Element z, const EC_POINT Q, const EC_POINT P, const EC_PAIRING p)
+{
+    ec_bn254_pairing_miller_aranha_jac(z, Q, P, p);
+    ec_bn254_pairing_finalexp(z, z, p);
+}
+
+void ec_bn254_pairing_aranha_proj(Element z, const EC_POINT Q, const EC_POINT P, const EC_PAIRING p)
+{
+    ec_bn254_pairing_miller_aranha_proj(z, Q, P, p);
+=======
 void ec_bn254_pairing_aranha(Element z, const EC_POINT Q, const EC_POINT P, const EC_PAIRING p)
 {
     ec_bn254_pairing_miller_aranha(z, Q, P, p);
+>>>>>>> proj
     ec_bn254_pairing_finalexp(z, z, p);
 }
 
@@ -568,15 +943,39 @@ void ec_bn254_double_pairing_beuchat(Element z, const EC_POINT Q1, const EC_POIN
     element_clear(z2);
 }
 
-
-void ec_bn254_double_pairing_aranha(Element z, const EC_POINT Q1, const EC_POINT P1, const EC_POINT Q2, const EC_POINT P2, const EC_PAIRING p)
+<<<<<<< HEAD
+void ec_bn254_double_pairing_aranha_jac(Element z, const EC_POINT Q1, const EC_POINT P1, const EC_POINT Q2, const EC_POINT P2, const EC_PAIRING p)
 {
     Element z1, z2;
     element_init(z1, p->g3);
     element_init(z2, p->g3);
 
+    ec_bn254_pairing_miller_aranha_jac(z1, Q1, P1, p);
+    ec_bn254_pairing_miller_aranha_jac(z2, Q2, P2, p);
+    bn254_fp12_mul(z, z1, z2);
+    ec_bn254_pairing_finalexp(z, z, p);
+
+    element_clear(z1);
+    element_clear(z2);
+}
+
+void ec_bn254_double_pairing_aranha_proj(Element z, const EC_POINT Q1, const EC_POINT P1, const EC_POINT Q2, const EC_POINT P2, const EC_PAIRING p)
+=======
+
+void ec_bn254_double_pairing_aranha(Element z, const EC_POINT Q1, const EC_POINT P1, const EC_POINT Q2, const EC_POINT P2, const EC_PAIRING p)
+>>>>>>> proj
+{
+    Element z1, z2;
+    element_init(z1, p->g3);
+    element_init(z2, p->g3);
+
+<<<<<<< HEAD
+    ec_bn254_pairing_miller_aranha_proj(z1, Q1, P1, p);
+    ec_bn254_pairing_miller_aranha_proj(z2, Q2, P2, p);
+=======
     ec_bn254_pairing_miller_aranha(z1, Q1, P1, p);
     ec_bn254_pairing_miller_aranha(z2, Q2, P2, p);
+>>>>>>> proj
     bn254_fp12_mul(z, z1, z2);
     ec_bn254_pairing_finalexp(z, z, p);
 

@@ -64,9 +64,13 @@ void test_arithmetic_operation_beuchat(const EC_GROUP ec)
     }
 
     t1 = rdtsc();
+<<<<<<< HEAD
     for (i = 0; i < M; i++) {
         point_random(x);
     }
+=======
+    for (i = 0; i < M; i++) { point_random(x); }
+>>>>>>> proj
     t2 = rdtsc();
 
     printf("point random: %.2lf [clock]\n", (double)(t2 - t1) / M);
@@ -94,9 +98,13 @@ void test_arithmetic_operation_beuchat(const EC_GROUP ec)
     assert(point_cmp(z, w) == 0);
 
     t1 = rdtsc();
+<<<<<<< HEAD
     for (i = 0; i < N; i++) {
         point_add(z, x, y);
     }
+=======
+    for (i = 0; i < N; i++) { point_add(z, x, y); }
+>>>>>>> proj
     t2 = rdtsc();
 
     printf("point add: %.2lf [clock]\n", (double)(t2 - t1) / N);
@@ -108,9 +116,13 @@ void test_arithmetic_operation_beuchat(const EC_GROUP ec)
     assert(point_cmp(z, w) == 0);
 
     t1 = rdtsc();
+<<<<<<< HEAD
     for (i = 0; i < N; i++) {
         point_dob(z, x);
     }
+=======
+    for (i = 0; i < N; i++) { point_dob(z, x); }
+>>>>>>> proj
     t2 = rdtsc();
 
     printf("point dob: %.2lf [clock]\n", (double)(t2 - t1) / N);
@@ -148,9 +160,13 @@ void test_arithmetic_operation_beuchat(const EC_GROUP ec)
     assert(point_cmp(z, y) == 0);
 
     t1 = rdtsc();
+<<<<<<< HEAD
     for (i = 0; i < M; i++) {
         point_mul(z, scalar, x);
     }
+=======
+    for (i = 0; i < M; i++) { point_mul(z, scalar, x); }
+>>>>>>> proj
     t2 = rdtsc();
 
     printf("point mul endomorphism: %.2lf [clock]\n", (double)(t2 - t1) / M);
@@ -161,9 +177,13 @@ void test_arithmetic_operation_beuchat(const EC_GROUP ec)
         point_set_infinity(w);
         mpz_set_ui(scalar, i);
 
+<<<<<<< HEAD
         for (j = 0; j < i; j++) {
             point_add(w, w, x);
         }
+=======
+        for (j = 0; j < i; j++) { point_add(w, w, x); }
+>>>>>>> proj
 
         point_mul(z, scalar, x);
 
@@ -182,9 +202,13 @@ void test_arithmetic_operation_beuchat(const EC_GROUP ec)
     }
 
     t1 = rdtsc();
+<<<<<<< HEAD
     for (i = 0; i < M; i++) {
         ec_bn254_fp_mul(z, scalar, x);
     }
+=======
+    for (i = 0; i < M; i++) { ec_bn254_fp_mul(z, scalar, x); }
+>>>>>>> proj
     t2 = rdtsc();
 
     printf("point mul normal: %.2lf [clock]\n", (double)(t2 - t1) / M);
@@ -230,9 +254,13 @@ void test_arithmetic_operation_aranha(const EC_GROUP ec)
     }
 
     t1 = rdtsc();
+<<<<<<< HEAD
     for (i = 0; i < M; i++) {
         point_random(x);
     }
+=======
+    for (i = 0; i < M; i++) { point_random(x); }
+>>>>>>> proj
     t2 = rdtsc();
 
     printf("point random: %.2lf [clock]\n", (double)(t2 - t1) / M);
@@ -257,9 +285,13 @@ void test_arithmetic_operation_aranha(const EC_GROUP ec)
     assert(point_cmp(z, w) == 0);
 
     t1 = rdtsc();
+<<<<<<< HEAD
     for (i = 0; i < N; i++) {
         point_add(z, x, y);
     }
+=======
+    for (i = 0; i < N; i++) { point_add(z, x, y); }
+>>>>>>> proj
     t2 = rdtsc();
 
     printf("point add: %.2lf [clock]\n", (double)(t2 - t1) / N);
@@ -271,9 +303,13 @@ void test_arithmetic_operation_aranha(const EC_GROUP ec)
     assert(point_cmp(z, w) == 0);
 
     t1 = rdtsc();
+<<<<<<< HEAD
     for (i = 0; i < N; i++) {
         point_dob(z, x);
     }
+=======
+    for (i = 0; i < N; i++) { point_dob(z, x); }
+>>>>>>> proj
     t2 = rdtsc();
 
     printf("point dob: %.2lf [clock]\n", (double)(t2 - t1) / N);
@@ -307,9 +343,13 @@ void test_arithmetic_operation_aranha(const EC_GROUP ec)
     assert(point_cmp(z, y) == 0);
 
     t1 = rdtsc();
+<<<<<<< HEAD
     for (i = 0; i < M; i++) {
         point_mul(z, scalar, x);
     }
+=======
+    for (i = 0; i < M; i++) { point_mul(z, scalar, x); }
+>>>>>>> proj
     t2 = rdtsc();
 
     printf("point mul endomorphism: %.2lf [clock]\n", (double)(t2 - t1) / M);
@@ -320,9 +360,13 @@ void test_arithmetic_operation_aranha(const EC_GROUP ec)
         point_set_infinity(w);
         mpz_set_ui(scalar, i);
 
+<<<<<<< HEAD
         for (j = 0; j < i; j++) {
             point_add(w, w, x);
         }
+=======
+        for (j = 0; j < i; j++) { point_add(w, w, x); }
+>>>>>>> proj
 
         point_mul(z, scalar, x);
 
@@ -341,9 +385,13 @@ void test_arithmetic_operation_aranha(const EC_GROUP ec)
     }
 
     t1 = rdtsc();
+<<<<<<< HEAD
     for (i = 0; i < M; i++) {
         ec_bn254_fp_mul(z, scalar, x);
     }
+=======
+    for (i = 0; i < M; i++) { ec_bn254_fp_mul(z, scalar, x); }
+>>>>>>> proj
     t2 = rdtsc();
 
     printf("point mul normal: %.2lf [clock]\n", (double)(t2 - t1) / M);
@@ -377,9 +425,13 @@ void test_map_to_point(const EC_GROUP ec)
     assert(point_cmp(Q, P) == 0);
 
     t1 = rdtsc();
+<<<<<<< HEAD
     for (i = 0; i < N; i++) {
         point_map_to_point(P, MAP_STR, sizeof(MAP_STR), t);
     }
+=======
+    for (i = 0; i < N; i++) { point_map_to_point(P, MAP_STR, sizeof(MAP_STR), t);}
+>>>>>>> proj
     t2 = rdtsc();
 
     printf("point map to point in 128 security: %.2lf [clock]\n", (double)(t2 - t1) / N);
@@ -428,17 +480,25 @@ void test_io(const EC_GROUP ec)
     }
 
     t1 = rdtsc();
+<<<<<<< HEAD
     for (i = 0; i < N; i++) {
         point_to_oct(os, &osize, P);
     }
+=======
+    for (i = 0; i < N; i++) { point_to_oct(os, &osize, P); }
+>>>>>>> proj
     t2 = rdtsc();
 
     printf("point to octet string: %.2lf [clock]\n", (double)(t2 - t1) / N);
 
     t1 = rdtsc();
+<<<<<<< HEAD
     for (i = 0; i < N; i++) {
         point_from_oct(Q, os, osize);
     }
+=======
+    for (i = 0; i < N; i++) { point_from_oct(Q, os, osize); }
+>>>>>>> proj
     t2 = rdtsc();
 
     printf("point from octet string: %.2lf [clock]\n", (double)(t2 - t1) / N);
@@ -462,17 +522,25 @@ void test_io(const EC_GROUP ec)
     }
 
     t1 = rdtsc();
+<<<<<<< HEAD
     for (i = 0; i < N; i++) {
         point_get_str(str, P);
     }
+=======
+    for (i = 0; i < N; i++) { point_get_str(str, P); }
+>>>>>>> proj
     t2 = rdtsc();
 
     printf("point get string: %.2lf [clock]\n", (double)(t2 - t1) / N);
 
     t1 = rdtsc();
+<<<<<<< HEAD
     for (i = 0; i < N; i++) {
         point_set_str(Q, str);
     }
+=======
+    for (i = 0; i < N; i++) { point_set_str(Q, str); }
+>>>>>>> proj
     t2 = rdtsc();
 
     printf("point set string: %.2lf [clock]\n", (double)(t2 - t1) / N);

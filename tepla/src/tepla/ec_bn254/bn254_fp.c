@@ -17,10 +17,14 @@ void bn254_fp_init(Element x)
 {
     x->data = (void *)malloc(sizeof(mpz_t));
 
+<<<<<<< HEAD
     if (x->data == NULL) {
         fprintf(stderr, "fail: allocate in fp init\n");
         exit(100);
     }
+=======
+    if (x->data == NULL) { fprintf(stderr, "fail: allocate in fp init\n"); exit(100); }
+>>>>>>> proj
 
     mpz_init(rep(x));
 }
@@ -30,7 +34,6 @@ void bn254_fp_clear(Element x)
     if (x->data != NULL)
     {
         mpz_clear(rep(x));
-
         free(x->data);
         x->data = NULL;
     }
@@ -229,9 +232,13 @@ int bn254_fp_sqrt(Element z, const Element x)
 {
     mpz_t V, P, Q, Q0, n, k, z1, z2, i2;
 
+<<<<<<< HEAD
     if (!bn254_fp_is_sqr(x)) {
         return FALSE;
     }
+=======
+    if (!bn254_fp_is_sqr(x)) { return FALSE; }
+>>>>>>> proj
 
     mpz_init_set(Q, rep(x));
     mpz_init_set_ui(P, 0);
@@ -257,9 +264,13 @@ int bn254_fp_sqrt(Element z, const Element x)
         mpz_mul(z2, z1, z1);
         mpz_mod(z2, z2, n);
 
+<<<<<<< HEAD
         if (mpz_cmp(z2, Q) == 0) {
             break;
         }
+=======
+        if (mpz_cmp(z2, Q) == 0) { break; }
+>>>>>>> proj
     }
 
     mpz_set(rep(z), z1);
@@ -325,9 +336,13 @@ int bn254_fp_is_sqr_general(const Element x)
     mpz_t q;
     Element t;
 
+<<<<<<< HEAD
     if (element_is_zero(x)) {
         return FALSE;
     }
+=======
+    if (element_is_zero(x)) { return FALSE; }
+>>>>>>> proj
 
     mpz_init(q);
     element_init(t, field(x));
@@ -366,6 +381,7 @@ void bn254_fp_random(Element z)
 //-------------------------------------------
 void bn254_fp_to_oct(unsigned char *os, size_t *size, const Element x)
 {
+<<<<<<< HEAD
     size_t stmp;
 
     unsigned char ostmp[32];
@@ -377,10 +393,14 @@ void bn254_fp_to_oct(unsigned char *os, size_t *size, const Element x)
     memcpy(&(os[32 - (int)stmp]), ostmp, stmp);
 
     (*size) = 32;
+=======
+    mpz_export(os, size, -1, sizeof(*os), 1, 0, rep(x));
+>>>>>>> proj
 }
 
 void bn254_fp_from_oct(Element x, const unsigned char *os, const size_t size)
 {
+<<<<<<< HEAD
     if (size < 32) {
         fprintf(stderr, "error: please set up the enought buffer for element\n");
         exit(300);
@@ -388,3 +408,7 @@ void bn254_fp_from_oct(Element x, const unsigned char *os, const size_t size)
 
     mpz_import(rep(x), size, 1, sizeof(*os), 1, 0, os);
 }
+=======
+    mpz_import(rep(x), size, -1, sizeof(*os), 1, 0, os);
+}
+>>>>>>> proj

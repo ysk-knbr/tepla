@@ -386,9 +386,14 @@ void ec_bn254_pairing_beuchat(Element z, const EC_POINT Q, const EC_POINT P, con
 void ec_bn254_double_pairing_beuchat(Element z, const EC_POINT Q1, const EC_POINT P1, const EC_POINT Q2, const EC_POINT P2, const EC_PAIRING p);
 
 void ec_bn254_pairing_precomp_aranha(EC_PAIRING p);
-void ec_bn254_pairing_dob_aranha(EC_POINT T, Element l0, Element l3, Element l4, const EC_POINT P);
-void ec_bn254_pairing_add_aranha(EC_POINT T, Element l0, Element l3, Element l4, const EC_POINT P, const EC_POINT Q);
-void ec_bn254_pairing_miller_aranha(Element z, const EC_POINT Q, const EC_POINT P, const EC_PAIRING p);
+void ec_bn254_pairing_dob_aranha_jac(EC_POINT T, Element l0, Element l3, Element l4, const EC_POINT P);
+void ec_bn254_pairing_add_aranha_jac(EC_POINT T, Element l0, Element l3, Element l4, const EC_POINT P, const EC_POINT Q);
+void ec_bn254_pairing_dob_aranha_proj(EC_POINT T, Element l0, Element l3, Element l4, const EC_POINT P);
+void ec_bn254_pairing_add_aranha_proj(EC_POINT T, Element l0, Element l3, Element l4, const EC_POINT P, const EC_POINT Q);
+void ec_bn254_pairing_miller_aranha_jac(Element z, const EC_POINT Q, const EC_POINT P, const EC_PAIRING p);
+void ec_bn254_pairing_miller_aranha_proj(Element z, const EC_POINT Q, const EC_POINT P, const EC_PAIRING p);
 void ec_bn254_pairing_finalexp(Element z, const Element x, const EC_PAIRING p);
-void ec_bn254_pairing_aranha(Element z, const EC_POINT Q, const EC_POINT P, const EC_PAIRING p);
-void ec_bn254_double_pairing_aranha(Element z, const EC_POINT Q1, const EC_POINT P1, const EC_POINT Q2, const EC_POINT P2, const EC_PAIRING p);
+void ec_bn254_pairing_aranha_jac(Element z, const EC_POINT Q, const EC_POINT P, const EC_PAIRING p);
+void ec_bn254_pairing_aranha_proj(Element z, const EC_POINT Q, const EC_POINT P, const EC_PAIRING p);
+void ec_bn254_double_pairing_aranha_jac(Element z, const EC_POINT Q1, const EC_POINT P1, const EC_POINT Q2, const EC_POINT P2, const EC_PAIRING p);
+void ec_bn254_double_pairing_aranha_proj(Element z, const EC_POINT Q1, const EC_POINT P1, const EC_POINT Q2, const EC_POINT P2, const EC_PAIRING p);

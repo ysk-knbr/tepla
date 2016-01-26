@@ -106,21 +106,27 @@ void test_pairing(const EC_PAIRING p)
 
         point_random(P);
         point_random(Q);
-
         point_mul(R, a, P);      // R = aP
         point_mul(S, b, Q);      // S = bQ
 
         pairing_map(g, P, Q, p);  // g = e(Q, P)
+<<<<<<< HEAD
 
         element_pow(d, g, order);
 
         assert(element_is_one(d));
 
+=======
+        element_pow(d, g, order);
+
+        assert(element_is_one(d));
+>>>>>>> proj
         pairing_map(f, R, Q, p);  // f = e( Q, aP)
         pairing_map(h, P, S, p);  // h = e(bQ,  P)
         pairing_map(e, R, S, p);  // e = e(bQ, aP)
 
         element_pow(d, g, a);	 // d = e(Q, P)^a
+<<<<<<< HEAD
 
         assert(element_cmp(d, f) == 0);
 
@@ -130,6 +136,12 @@ void test_pairing(const EC_PAIRING p)
 
         element_pow(d, g, c);    // d = e(Q, P)^c
 
+=======
+        assert(element_cmp(d, f) == 0);
+        element_pow(d, g, b);    // d = e(Q, P)^b
+        assert(element_cmp(d, h) == 0);
+        element_pow(d, g, c);    // d = e(Q, P)^c
+>>>>>>> proj
         assert(element_cmp(d, e) == 0);
     }
 
@@ -172,23 +184,35 @@ void test_pairing(const EC_PAIRING p)
 
 
     t1 = clock();
+<<<<<<< HEAD
     for (i = 0; i < N; i++) {
         p->pairing(g, Q, P, p);
     }
+=======
+    for (i = 0; i < N; i++) { p->pairing(g, Q, P, p); }
+>>>>>>> proj
     t2 = clock();
     printf("optimal ate pairing: %.5lf [msec]\n", (double)(t2 - t1) / (CLOCKS_PER_SEC) / N * 1000);
 
     t1 = clock();
+<<<<<<< HEAD
     for (i = 0; i < N; i++) {
         ec_bn254_pairing_miller_aranha(g, Q, P, p);
     }
+=======
+    for (i = 0; i < N; i++) { ec_bn254_pairing_miller_aranha(g, Q, P, p); }
+>>>>>>> proj
     t2 = clock();
     printf("optimal ate pairing miller loop: %.5lf [msec]\n", (double)(t2 - t1) / CLOCKS_PER_SEC / N * 1000);
 
     t1 = clock();
+<<<<<<< HEAD
     for (i = 0; i < N; i++) {
         ec_bn254_pairing_finalexp(f, g, p);
     }
+=======
+    for (i = 0; i < N; i++) { ec_bn254_pairing_finalexp(f, g, p); }
+>>>>>>> proj
     t2 = clock();
     printf("optimal ate pairing final exponentiation: %.5lf [msec]\n", (double)(t2 - t1) / CLOCKS_PER_SEC / N * 1000);
 
