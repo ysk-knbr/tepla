@@ -163,6 +163,7 @@ void ec_bn254_pairing_dob_aranha_jac(EC_POINT T, Element l0, Element l2, Element
     bn254_fp2_subn(t[1], t[1], t[2]); 			// t1 = t1-t2
     bn254_fp2_OP2(t[1], t[1]);
     bn254_fp2_mod(ycoord(T), t[1]); 			// Ry = t1 mod p
+}
 
 //-------------------------------------------
 //  point doubling in Projective coordinates
@@ -228,103 +229,6 @@ void ec_bn254_pairing_dob_aranha_proj(EC_POINT T, Element l0, Element l3, Elemen
     bn254_fp2_mul(l0, l0, t[9]);
     bn254_fp2_mul(l3, l3, t[9]);
     bn254_fp2_mul(l4, l4, t[9]);
-=======
-    //printf("t0:\n");element_print(t[0]);
-    bn254_fp2_mul(t[4], xcoord(T), ycoord(T)); //t4 = x1*y1
-    //printf("t4:\n");element_print(t[4]);
-    bn254_fp2_sqr(t[1], ycoord(T));            //t1 = y1^2
-    //printf("t1:\n");element_print(t[1]);
-    // 2
-    bn254_fp2_dob(t[3], t[0]);                 //t3 = t0+t0
-    //printf("t3:\n");element_print(t[3]);
-    bn254_fp2_div_2(t[4], t[4]);               //t4 = t4/2
-    //printf("t4:\n");element_print(t[4]);
-    bn254_fp2_add(t[5], t[0], t[1]);           //t5 = t0+t1
-    //printf("t5:\n");element_print(t[5]);
-    // 3
-    bn254_fp2_add(t[0], t[0], t[3]);           //t0 = t0+t3
-    //printf("t0:\n");element_print(t[0]);
-    // 4
-    bn254_fp2_xi_mul_inv(t[2], t[0]);          //t2 = b'*t0
-    //printf("t2:\n");element_print(t[2]);
-    // 5
-    bn254_fp2_sqr(t[0], xcoord(T));            //t0 = x1^2
-    //printf("t0:\n");element_print(t[0]);
-    bn254_fp2_dob(t[3], t[2]);                 //t3 = t2+t2
-    //printf("t3:\n");element_print(t[3]);
-    // 6
-    bn254_fp2_add(t[3], t[2], t[3]);           //t3 = t2+t3
-    //printf("t3:\n");element_print(t[3]);
-    bn254_fp2_addn(l3, t[0], t[0]);            //l3 = t0+t0
-    //bn254_fp2_dob(l3, t[0]);
-    //printf("l3:\n");element_print(l3);
-    // 7
-    bn254_fp2_sub(xcoord(T), t[1], t[3]);      //x3 = t1-t3
-    //printf("X3:\n");element_print(xcoord(T));
-    bn254_fp2_addn(l3, l3, t[0]);              //l3 = l3+t0
-    //bn254_fp2_add(l3,l3,t[0]);
-    //printf("l3:\n");element_print(l3);
-    bn254_fp2_add(t[3], t[1], t[3]);           //t3 = t1+t3
-    //printf("t3:\n");element_print(t[3]);
-    // 8
-    bn254_fp2_mul(xcoord(T), t[4], xcoord(T)); //x3 = t4*x3
-    //printf("X3:\n");element_print(xcoord(T));
-    bn254_fp2_div_2(t[3], t[3]);               //t3 = t3/2
-    //printf("t3:\n");element_print(t[3]);
-    // 9
-    bn254_fp2_sqrn(t[6], t[3]);                //T0 = t3^2
-    bn254_fp2_sqrn(t[7], t[2]);                //T1 = t2^2
-    //bn254_fp2_sqr(t[6], t[3]);
-    //bn254_fp2_sqr(t[7], t[2]);
-    bn254_fp2_OP1_2(t[6], t[6]);
-    //printf("T0:\n");element_print(t[6]);
-    bn254_fp2_OP1_2(t[7], t[7]);
-    //printf("T1:\n");element_print(t[7]);
-    // 10
-    bn254_fp2_addn(t[8], t[7], t[7]);          //T2 = T1+T1
-    //bn254_fp2_dob(t[8], t[7]);
-    //printf("T2:\n");element_print(t[8]);
-    bn254_fp2_add(t[3], ycoord(T), zcoord(T)); //t3 = y1+z1
-    //printf("t3:\n");element_print(t[3]);
-    // 11
-    bn254_fp2_addn(t[8], t[7], t[8]);          //T2 = T1+T2
-    //bn254_fp2_add(t[8], t[7], t[8]);
-    //printf("T2:\n");element_print(t[8]);
-    bn254_fp2_sqr(t[3], t[3]);                 //t3 = t3^2
-    //printf("t3:\n");element_print(t[3]);
-    // 12
-    bn254_fp2_sub(t[3], t[3], t[5]);           //t3 = t3-t5
-    //printf("t3:\n");element_print(t[3]);
-    // 13
-    bn254_fp2_sub(t[6], t[6], t[8]);           //T0 = T0-T2
-    bn254_fp2_OP2(t[6], t[6]);
-    //printf("T1:\n");element_print(t[6]);
-    // 14
-    bn254_fp2_mod(ycoord(T), t[6]);            //y3 = T0 mod p
-    //printf("Y3:\n");element_print(ycoord(T));
-    bn254_fp2_mul(zcoord(T), t[1], t[3]);      //z3 = t1*t3
-    //printf("Z3:\n");element_print(zcoord(T));
-    // 15
-    bn254_fp2_sub(l4, t[2], t[1]);             //l4 = t2-t1
-    //printf("l4:\n");element_print(l4);
-    // 16
-    bn254_fp2_mul_p(l3, l3, xcoord(P));        //l3 = l3*Px
-    //printf("l3:\n");element_print(l3);
-    // 17
-    bn254_fp2_mul_p(l0, t[3], ycoord(P));      //l0 = t3*(-Py)
-    //printf("l0:\n");element_print(l0);
-    // Extra
-    bn254_fp2_inv(t[9], t[3]);
-    //printf("ti:\n");element_print(t[9]);
-    bn254_fp2_neg(t[9], t[9]);
-    //printf("ti:\n");element_print(t[9]);
-    bn254_fp2_mul(l0, l0, t[9]);
-    //printf("l0:\n");element_print(l0);
-    bn254_fp2_mul(l3, l3, t[9]);
-    //printf("l3:\n");element_print(l3);
-    bn254_fp2_mul(l4, l4, t[9]);
-    //printf("l4:\n");element_print(l4);
->>>>>>> proj
 }
 
 //-------------------------------------------
@@ -656,7 +560,6 @@ void ec_bn254_pairing_miller_aranha_jac(Element z, const EC_POINT Q, const EC_PO
     element_clear(l0);
     element_clear(l3);
     element_clear(l4);
-    point_clear(_P);
     point_clear(T);
     point_clear(S);
 }
