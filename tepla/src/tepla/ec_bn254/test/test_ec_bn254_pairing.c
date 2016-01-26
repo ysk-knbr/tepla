@@ -176,20 +176,32 @@ void test_pairing(const EC_PAIRING p)
     t2 = clock();
     printf("optimal ate pairing: %.5lf [msec]\n", (double)(t2 - t1) / (CLOCKS_PER_SEC) / N * 1000);
 
-    t1 = clock();
-    for (i = 0; i < N; i++) {
-        ec_bn254_pairing_miller_aranha_proj(g, Q, P, p);
-    }
-    t2 = clock();
-    printf("optimal ate pairing miller loop (proj): %.5lf [msec]\n", (double)(t2 - t1) / CLOCKS_PER_SEC / N * 1000);
 
-    t1 = clock();
-    for (i = 0; i < N; i++) {
-        ec_bn254_pairing_miller_aranha_jac(g, Q, P, p);
+    if(strcmp(p->pairing_name, "ECBN254a") == 0)
+    {
+        t1 = clock();
+        for (i = 0; i < N; i++) {
+           ec_bn254_pairing_miller_beuchat(g, Q, P, p);
+        }
+        t2 = clock();
+        printf("optimal ate pairing miller loop (proj): %.5lf [msec]\n", (double)(t2 - t1) / CLOCKS_PER_SEC / N * 1000);
     }
-    t2 = clock();
-    printf("optimal ate pairing miller loop (jac): %.5lf [msec]\n", (double)(t2 - t1) / CLOCKS_PER_SEC / N * 1000);
+    else
+    {
+        t1 = clock();
+        for (i = 0; i < N; i++) {
+           ec_bn254_pairing_miller_aranha_proj(g, Q, P, p);
+        }
+        t2 = clock();
+        printf("optimal ate pairing miller loop (proj): %.5lf [msec]\n", (double)(t2 - t1) / CLOCKS_PER_SEC / N * 1000);
 
+        t1 = clock();
+        for (i = 0; i < N; i++) {
+            ec_bn254_pairing_miller_aranha_jac(g, Q, P, p);
+        }
+        t2 = clock();
+        printf("optimal ate pairing miller loop (jac): %.5lf [msec]\n", (double)(t2 - t1) / CLOCKS_PER_SEC / N * 1000);
+    }
     t1 = clock();
     for (i = 0; i < N; i++) {
         ec_bn254_pairing_finalexp(f, g, p);
