@@ -93,6 +93,23 @@ void test_pairing(const EC_PAIRING p)
 
     mpz_set(order, *pairing_get_order(p));
 
+    
+    t1 = clock();
+    for (i = 0; i < N; i++) {
+        pairing_init(p1, "ECBN254a");
+    }
+    t2 = clock();
+
+    printf("pairing init type (ECBN254a): %.5lf [msec]\n", (double)(t2 - t1) / CLOCKS_PER_SEC / N * 1000);
+
+    t1 = clock();
+    for (i = 0; i < N; i++) {
+        pairing_init(p1, "ECBN254b");
+    }
+    t2 = clock();
+
+    printf("pairing init type (ECBN254b): %.5lf [msec]\n", (double)(t2 - t1) / CLOCKS_PER_SEC / N * 1000);
+
     for (i = 0; i < 10; i++)
     {
         //-------------------
@@ -184,7 +201,7 @@ void test_pairing(const EC_PAIRING p)
            ec_bn254_pairing_miller_beuchat(g, Q, P, p);
         }
         t2 = clock();
-        printf("optimal ate pairing miller loop (proj): %.5lf [msec]\n", (double)(t2 - t1) / CLOCKS_PER_SEC / N * 1000);
+        printf("optimal ate pairing miller loop: %.5lf [msec]\n", (double)(t2 - t1) / CLOCKS_PER_SEC / N * 1000);
     }
     else
     {
