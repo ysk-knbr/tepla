@@ -225,17 +225,7 @@ void ec_bn254_pairing_dob_aranha_proj(EC_POINT T, Element l0, Element l3, Elemen
     // 16
     bn254_fp2_mul_p(l3, l3, xcoord(P));        //l3 = l3*Px
     // 17
-    //bn254_fp2_mul_p(l0, t[3], ycoord(P));      //l0 = t3*(-Py)
-    //bn254_fp2_set_fp(l0, ycoord(P), ycoord(P)); 
-    bn254_fp_set(rep0(l0), ycoord(P));
-    bn254_fp_set_zero(rep1(l0));
-
-    // Extra
-    bn254_fp2_inv(t[9], t[3]);
-    bn254_fp2_neg(t[9], t[9]);
-    //bn254_fp2_mul(l0, l0, t[9]);
-    bn254_fp2_mul(l3, l3, t[9]);
-    bn254_fp2_mul(l4, l4, t[9]);
+    bn254_fp2_mul_p(l0, t[3], ycoord(P));      //l0 = t3*(-Py)
 }
 
 //-------------------------------------------
@@ -405,15 +395,7 @@ void ec_bn254_pairing_add_aranha_proj(EC_POINT T, Element l0, Element l3, Elemen
     bn254_fp2_mod(l4, t[6]);                    //l4 = T1 mod p
     // 18
     // 19
-    //bn254_fp2_mul_p(l0, t[1], ycoord(P));       //l0 = t1*Py
-    //bn254_fp2_set_fp(l0, ycoord(P), ycoord(P));
-    bn254_fp_set(rep0(l0), ycoord(P));
-    bn254_fp_set_zero(rep1(l0));
-
-    bn254_fp2_inv(t[9], t[1]);
-    //bn254_fp2_mul(l0, l0, t[9]);
-    bn254_fp2_mul(l3, l3, t[9]);
-    bn254_fp2_mul(l4, l4, t[9]);
+    bn254_fp2_mul_p(l0, t[1], ycoord(P));       //l0 = t1*Py
 }
 
 //-------------------------------------------
@@ -599,7 +581,7 @@ void ec_bn254_pairing_miller_aranha_proj(Element z, const EC_POINT Q, const EC_P
 
     int len, *s, i;
 
-    EC_POINT T, S;
+    EC_POINT T, S, _P;
 
     //--------------------------------
     //   init
@@ -610,6 +592,9 @@ void ec_bn254_pairing_miller_aranha_proj(Element z, const EC_POINT Q, const EC_P
 
     point_init(T, curve(Q));
     point_init(S, curve(Q));
+    point_init(_P, curve(P));
+
+    point_neg(_P, P);
 
     element_init(l0, field(Q));
     element_init(l3, field(Q));
@@ -623,7 +608,7 @@ void ec_bn254_pairing_miller_aranha_proj(Element z, const EC_POINT Q, const EC_P
     bn254_fp12_set_one(d);
     bn254_fp12_set_one(e);
 
-    ec_bn254_pairing_dob_aranha_proj(T, l0, l3, l4, P); // T = 2Q, l = l(P)
+    ec_bn254_pairing_dob_aranha_proj(T, l0, l3, l4, _P); // T = 2Q, l = l(P)
     bn254_fp12_mul_L(d, l0, l3, l4);
 
     if (s[len - 1])
@@ -636,7 +621,7 @@ void ec_bn254_pairing_miller_aranha_proj(Element z, const EC_POINT Q, const EC_P
 
     for (i = len - 2 ; i >= 0 ; i--)
     {
-        ec_bn254_pairing_dob_aranha_proj(T, l0, l3, l4, P);   // T = 2T
+        ec_bn254_pairing_dob_aranha_proj(T, l0, l3, l4, _P);   // T = 2T
         bn254_fp12_sqr(f, f);             		  // f = f^2*l
         bn254_fp12_mul_L(f, l0, l3, l4);
 
@@ -674,6 +659,7 @@ void ec_bn254_pairing_miller_aranha_proj(Element z, const EC_POINT Q, const EC_P
     element_clear(l0);
     element_clear(l3);
     element_clear(l4);
+    point_clear(_P);
     point_clear(T);
     point_clear(S);
 }

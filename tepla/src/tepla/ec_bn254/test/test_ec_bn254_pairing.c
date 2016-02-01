@@ -58,6 +58,7 @@ void test_pairing(const EC_PAIRING p)
 {
     int i;
     unsigned long long int t1, t2;
+    EC_PAIRING p1;
     EC_POINT P, P1, P2, Q, Q1, Q2, R, S;
     Element d, e, f, g, h;
 
@@ -96,19 +97,11 @@ void test_pairing(const EC_PAIRING p)
     
     t1 = clock();
     for (i = 0; i < N; i++) {
-        pairing_init(p1, "ECBN254a");
+        pairing_init(p1, p->pairing_name);
     }
     t2 = clock();
 
-    printf("pairing init type (ECBN254a): %.5lf [msec]\n", (double)(t2 - t1) / CLOCKS_PER_SEC / N * 1000);
-
-    t1 = clock();
-    for (i = 0; i < N; i++) {
-        pairing_init(p1, "ECBN254b");
-    }
-    t2 = clock();
-
-    printf("pairing init type (ECBN254b): %.5lf [msec]\n", (double)(t2 - t1) / CLOCKS_PER_SEC / N * 1000);
+    printf("pairing init type (%s): %.5lf [msec]\n", pairing_get_name(p), (double)(t2 - t1) / CLOCKS_PER_SEC / N * 1000);
 
     for (i = 0; i < 10; i++)
     {
