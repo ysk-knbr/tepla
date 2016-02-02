@@ -391,7 +391,7 @@ void ec_bn254_pairing_add_aranha_proj(EC_POINT T, Element l0, Element l3, Elemen
     // 16
     bn254_fp2_sub(t[6], t[6], t[7]);            //T1 = T1-T2
     bn254_fp2_OP2(t[6], t[6]);
-    // 17   
+    // 17
     bn254_fp2_mod(l4, t[6]);                    //l4 = T1 mod p
     // 18
     // 19

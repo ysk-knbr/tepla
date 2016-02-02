@@ -11,7 +11,7 @@
 //============================================
 void test_init_field()
 {
-    
+
     fprintf(stderr, "filed init test\n");
     int i;
     unsigned long long int t1, t2;
@@ -33,7 +33,7 @@ void test_init_field()
     t2 = clock();
     printf("field init fp2a: %.5lf [msec]\n", (double)(t2 - t1) / N / CLOCKS_PER_SEC * 1000);
     field_clear(fa);
-    
+
     t1 = clock();
     for (i = 0; i < N; i++) {
         field_init(fa, "bn254_fp6a");
@@ -41,7 +41,7 @@ void test_init_field()
     t2 = clock();
     printf("field init fp6a: %.5lf [msec]\n", (double)(t2 - t1) / N / CLOCKS_PER_SEC * 1000);
     field_clear(fa);
-    
+
     t1 = clock();
     for (i = 0; i < N; i++) {
         field_init(fa, "bn254_fp12a");
@@ -57,7 +57,7 @@ void test_init_field()
     t2 = clock();
     printf("field init fpb: %.5lf [msec]\n", (double)(t2 - t1) / N / CLOCKS_PER_SEC * 1000);
     field_clear(fb);
-    
+
     t1 = clock();
     for (i = 0; i < N; i++) {
         field_init(fb, "bn254_fp2b");
@@ -65,7 +65,7 @@ void test_init_field()
     t2 = clock();
     printf("field init fp2b: %.5lf [msec]\n", (double)(t2 - t1) / N / CLOCKS_PER_SEC * 1000);
     field_clear(fb);
-    
+
     t1 = clock();
     for (i = 0; i < N; i++) {
         field_init(fb, "bn254_fp6b");
@@ -73,7 +73,7 @@ void test_init_field()
     t2 = clock();
     printf("field init fp6b: %.5lf [msec]\n", (double)(t2 - t1) / N / CLOCKS_PER_SEC * 1000);
     field_clear(fb);
-    
+
     t1 = clock();
     for (i = 0; i < N; i++) {
         field_init(fb, "bn254_fp12b");
@@ -86,13 +86,13 @@ void test_init_field()
 void test_init_element()
 {
     fprintf(stderr, "element init test\n");
-    
+
     int i;
     unsigned long long int t1, t2;
 
     Field fa, fb;
     Element a;
-    
+
     field_init(fa, "bn254_fpa");
     t1 = clock();
     for (i = 0; i < N; i++) {
@@ -112,7 +112,7 @@ void test_init_element()
     printf("element init fp2a: %.5lf [msec]\n", (double)(t2 - t1) / N / CLOCKS_PER_SEC * 1000);
     element_clear(a);
     field_clear(fa);
-    
+
     field_init(fa, "bn254_fp6a");
     t1 = clock();
     for (i = 0; i < N; i++) {
@@ -142,7 +142,7 @@ void test_init_element()
     printf("element init fpb: %.5lf [msec]\n", (double)(t2 - t1) / N / CLOCKS_PER_SEC * 1000);
     element_clear(a);
     field_clear(fb);
-    
+
     field_init(fb, "bn254_fp2b");
     t1 = clock();
     for (i = 0; i < N; i++) {
@@ -152,7 +152,7 @@ void test_init_element()
     printf("element init fp2b: %.5lf [msec]\n", (double)(t2 - t1) / N / CLOCKS_PER_SEC * 1000);
     element_clear(a);
     field_clear(fb);
-    
+
     field_init(fb, "bn254_fp6b");
     t1 = clock();
     for (i = 0; i < N; i++) {
@@ -177,12 +177,12 @@ void test_init_element()
 void test_init_curve()
 {
     fprintf(stderr, "curve init test\n");
-    
+
     int i;
     unsigned long long int t1, t2;
 
     EC_GROUP fp, tw;
-    
+
     t1 = clock();
     for (i = 0; i < N; i++) {
         curve_init(fp, "ec_bn254_fpa");
@@ -198,7 +198,7 @@ void test_init_curve()
     t2 = clock();
     printf("curve init twa: %.5lf [msec]\n", (double)(t2 - t1) / N / CLOCKS_PER_SEC * 1000);
     curve_clear(tw);
-    
+
     t1 = clock();
     for (i = 0; i < N; i++) {
         curve_init(fp, "ec_bn254_fpb");
@@ -219,7 +219,7 @@ void test_init_curve()
 void test_init_point()
 {
     fprintf(stderr, "point init test\n");
-    
+
     int i;
     unsigned long long int t1, t2;
 
@@ -245,7 +245,7 @@ void test_init_point()
     printf("point init twa: %.5lf [msec]\n", (double)(t2 - t1) / N / CLOCKS_PER_SEC * 1000);
     point_clear(Q);
     curve_clear(tw);
-    
+
     curve_init(fp, "ec_bn254_fpb");
     t1 = clock();
     for (i = 0; i < N; i++) {
@@ -270,12 +270,12 @@ void test_init_point()
 void test_init_pairing()
 {
     fprintf(stderr, "pairing init test\n");
-    
+
     int i;
     unsigned long long int t1, t2;
 
     EC_PAIRING p1, p2;
-    
+
     t1 = clock();
     for (i = 0; i < N; i++) {
         pairing_init(p1, "ECBN254a");
@@ -298,7 +298,7 @@ void test_init_pairing()
 int main(void)
 {
     test_init_field();
-    
+
     test_init_element();
 
     test_init_curve();

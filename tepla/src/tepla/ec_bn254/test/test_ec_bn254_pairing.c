@@ -94,7 +94,7 @@ void test_pairing(const EC_PAIRING p)
 
     mpz_set(order, *pairing_get_order(p));
 
-    
+
     t1 = clock();
     for (i = 0; i < N; i++) {
         pairing_init(p1, p->pairing_name);
@@ -137,7 +137,7 @@ void test_pairing(const EC_PAIRING p)
         assert(element_cmp(d, h) == 0);
 
         element_pow(d, g, c);    // d = e(Q, P)^c
-        
+
         assert(element_cmp(d, e) == 0);
     }
 
@@ -187,11 +187,11 @@ void test_pairing(const EC_PAIRING p)
     printf("optimal ate pairing: %.5lf [msec]\n", (double)(t2 - t1) / (CLOCKS_PER_SEC) / N * 1000);
 
 
-    if(strcmp(p->pairing_name, "ECBN254a") == 0)
+    if (strcmp(p->pairing_name, "ECBN254a") == 0)
     {
         t1 = clock();
         for (i = 0; i < N; i++) {
-           ec_bn254_pairing_miller_beuchat(g, Q, P, p);
+            ec_bn254_pairing_miller_beuchat(g, Q, P, p);
         }
         t2 = clock();
         printf("optimal ate pairing miller loop: %.5lf [msec]\n", (double)(t2 - t1) / CLOCKS_PER_SEC / N * 1000);
@@ -200,7 +200,7 @@ void test_pairing(const EC_PAIRING p)
     {
         t1 = clock();
         for (i = 0; i < N; i++) {
-           ec_bn254_pairing_miller_aranha_proj(g, Q, P, p);
+            ec_bn254_pairing_miller_aranha_proj(g, Q, P, p);
         }
         t2 = clock();
         printf("optimal ate pairing miller loop (proj): %.5lf [msec]\n", (double)(t2 - t1) / CLOCKS_PER_SEC / N * 1000);
