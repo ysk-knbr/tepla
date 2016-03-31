@@ -745,8 +745,8 @@ void bn254_fp12_pow_forpairing_beuchat(Element z, const Element x, const int *t,
 void bn254_fp12_precomp_frob_aranha(field_precomp_frob_p pf, const Field f)
 {
     int i;
-    mpz_t  t, u;
-    Element xi, tmp1, tmp2;
+    //mpz_t  t, u;
+    //Element xi, tmp1, tmp2;
 
     //---------------------------------
     //  allocate buffer
@@ -765,12 +765,13 @@ void bn254_fp12_precomp_frob_aranha(field_precomp_frob_p pf, const Field f)
         element_init(g1[i], fp2);
         element_init(g2[i], fp2);
         element_init(g3[i], fp2);
-        element_init(tmp2, fp2);
+        //element_init(tmp2, fp2);
     }
 
     //---------------------------------
     //  xi = xi^{(p-1)/6}
     //---------------------------------
+    /* 
     mpz_init(t);
     mpz_init(u);
     mpz_sub_ui(t, fp2->base->order, 1);
@@ -780,12 +781,12 @@ void bn254_fp12_precomp_frob_aranha(field_precomp_frob_p pf, const Field f)
     element_init(tmp1, fp2);
     element_set_str(xi, "1 1");
     element_pow(tmp1, xi, t);
-
+    */
     //---------------------------------
     //  set gamma 1, 2, 3
     //---------------------------------
-    element_set(g1[0], tmp1);
-
+    //element_set(g1[0], tmp1);
+    /*
     for (i = 1; i < 5; i++) {
         element_mul(g1[i], g1[i - 1], g1[0]);
     }
@@ -797,26 +798,45 @@ void bn254_fp12_precomp_frob_aranha(field_precomp_frob_p pf, const Field f)
     for (i = 0; i < 5; i++) {
         element_mul(g3[i], g1[i], g2[i]);
     }
+    */
 
+    element_set_str(g1[0], "1b377619212e7c8cb6499b50a846953f850974924d3f77c2e17de6c06f2a6de9 9ebee691ed1837503eab22f57b96ac8dc178b6db2c08850c582193f90d5922a");
+    element_set_str(g1[1], "0 25236482400000017080eb4000000006181800000000000cd98000000000000b");
+    element_set_str(g1[2], "23dfc9d1a39f4db8c69b87a8848aa075a7333a0e62d78cbf4b1b8eeae58b81c5 23dfc9d1a39f4db8c69b87a8848aa075a7333a0e62d78cbf4b1b8eeae58b81c5");
+    element_set_str(g1[3], "25236482400000017080eb4000000006181800000000000cd98000000000000c 0");
+    element_set_str(g1[4], "19f3db6884cdca43c2b0d5792cd135accb1baea0b017046e859975ab54b5ef9b b2f8919bb3235bdf7837806d32eca5b9605515f4fe8fba521668a54ab4a1078");
+
+    element_set_str(g2[0], "49b36240000000024909000000000006cd80000000000008 0");
+    element_set_str(g2[1], "49b36240000000024909000000000006cd80000000000007 0");
+    element_set_str(g2[2], "2523648240000001ba344d80000000086121000000000013a700000000000012 0");
+    element_set_str(g2[3], "25236482400000017080eb4000000006181800000000000cd98000000000000b 0");
+    element_set_str(g2[4], "25236482400000017080eb4000000006181800000000000cd98000000000000c 0");
+    
+    element_set_str(g3[0], "1439ab09c60b248f398c5d77b755f92b9edc5f19d2873545be471151a747e4e 23dfc9d1a39f4db8c69b87a8848aa075a7333a0e62d78cbf4b1b8eeae58b81c5");
+    element_set_str(g3[1], "0 1");
+    element_set_str(g3[2], "1439ab09c60b248f398c5d77b755f92b9edc5f19d2873545be471151a747e4e 1439ab09c60b248f398c5d77b755f92b9edc5f19d2873545be471151a747e4e");
+    element_set_str(g3[3], "2523648240000001ba344d80000000086121000000000013a700000000000012 0");
+    element_set_str(g3[4], "23dfc9d1a39f4db8c69b87a8848aa075a7333a0e62d78cbf4b1b8eeae58b81c5 1439ab09c60b248f398c5d77b755f92b9edc5f19d2873545be471151a747e4e");
+    
     pf->gamma1 = g1;
     pf->gamma2 = g2;
     pf->gamma3 = g3;
 
     pf->glen1 = pf->glen2 = pf->glen3 = 5;
 
-    mpz_clear(t);
-    mpz_clear(u);
+    //mpz_clear(t);
+    //mpz_clear(u);
 
-    element_clear(xi);
-    element_clear(tmp1);
-    element_clear(tmp2);
+    //element_clear(xi);
+    //element_clear(tmp1);
+    //element_clear(tmp2);
 }
 
 void bn254_fp12_precomp_frob_beuchat(field_precomp_frob_p pf, const Field f)
 {
     int i;
-    mpz_t  t, u;
-    Element xi, tmp;
+    //mpz_t  t, u;
+    //Element xi, tmp;
 
     //---------------------------------
     //  allocate buffer
@@ -826,7 +846,7 @@ void bn254_fp12_precomp_frob_beuchat(field_precomp_frob_p pf, const Field f)
     Element *g3 = (Element *)malloc(sizeof(Element) * 5);
 
     struct ec_field_st *fp  = f->base->base->base;
-    struct ec_field_st *fp2 = f->base->base;
+    //struct ec_field_st *fp2 = f->base->base;
 
     //---------------------------------
     //  initialization
@@ -841,6 +861,7 @@ void bn254_fp12_precomp_frob_beuchat(field_precomp_frob_p pf, const Field f)
     //---------------------------------
     //  xi = xi^{(p-1)/6}
     //---------------------------------
+    /*
     mpz_init(t);
     mpz_init(u);
     mpz_sub_ui(t, fp->order, 1);
@@ -850,10 +871,11 @@ void bn254_fp12_precomp_frob_beuchat(field_precomp_frob_p pf, const Field f)
     element_init(tmp, fp2);
     element_set_str(xi, "0 1");
     element_pow(tmp, xi, t);
-
+    */
     //---------------------------------
     //  set gamma 1, 2, 3
     //---------------------------------
+    /*
     element_set(g1[0], ((Element*)tmp->data)[0]);
 
     for (i = 1; i < 5; i++) {
@@ -865,6 +887,25 @@ void bn254_fp12_precomp_frob_beuchat(field_precomp_frob_p pf, const Field f)
     for (i = 0; i < 5; i++) {
         element_mul(g3[i], g1[i], g2[i]);
     }
+    */
+    
+    element_set_str(g1[0], "bf9d59617679d84765b517ae4e5f4229a8932f9b1b3e4ff3cae11335a6abeb2");
+    element_set_str(g1[1], "2370fb049d410fbe074d0d4c437281205f408fd005ffffff40bfd00000000000");
+    element_set_str(g1[2], "a6a168991bf611a1a4dba88bb5c4b1a96e9f8336a4488b464d5aa9b1e46a58e");
+    element_set_str(g1[3], "2370fb049d410fbe074d0d4c437281205f408fd005ffffff40bfcfffffffffff");
+    element_set_str(g1[4], "21e13bf81798d353f26883a65d5b593979630479d090a3b6a6a7f967c3dbe6dd");
+
+    element_set_str(g2[0], "2370fb049d410fbe074d0d4c437281205f408fd005ffffff40bfd00000000000");
+    element_set_str(g2[1], "2370fb049d410fbe074d0d4c437281205f408fd005ffffff40bfcfffffffffff");
+    element_set_str(g2[2], "2370fb049d410fbe4e761a9886e502417d023f40180000017e80600000000000");
+    element_set_str(g2[3], "47290d4c437281211dc1af70120000023dc0900000000001");
+    element_set_str(g2[4], "47290d4c437281211dc1af70120000023dc0900000000002");
+    
+    element_set_str(g3[0], "a6a168991bf611a1a4dba88bb5c4b1a96e9f8336a4488b464d5aa9b1e46a58e");
+    element_set_str(g3[1], "2370fb049d410fbe4e761a9886e502417d023f40180000017e80600000000000");
+    element_set_str(g3[2], "1906e47b0b81aea43428600fcb88b726e618470cadbb774d19aab564e1b95a73");
+    element_set_str(g3[3], "1");
+    element_set_str(g3[4], "a6a168991bf611a1a4dba88bb5c4b1a96e9f8336a4488b464d5aa9b1e46a58e");
 
     pf->gamma1 = g1;
     pf->gamma2 = g2;
@@ -872,11 +913,11 @@ void bn254_fp12_precomp_frob_beuchat(field_precomp_frob_p pf, const Field f)
 
     pf->glen1 = pf->glen2 = pf->glen3 = 5;
 
-    mpz_clear(t);
-    mpz_clear(u);
+    //mpz_clear(t);
+    //mpz_clear(u);
 
-    element_clear(xi);
-    element_clear(tmp);
+    //element_clear(xi);
+    //element_clear(tmp);
 }
 
 //---------------------------------------------------------
