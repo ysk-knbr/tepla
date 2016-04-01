@@ -100,14 +100,10 @@ void ec_bn254_fpa_new(Field f)
     mpz_init_set_str(f->OP1_2, "0", 16);
     mpz_init_set_str(f->OP2, "0", 16);
 
-    <<< <<< < HEAD
-    == == == =
-
-        >>>>>>> proj
-        //-----------------------------------------
-        //  irreducible polynomial
-        //-----------------------------------------
-        f->irre_poly_num = 0;
+    //-----------------------------------------
+    //  irreducible polynomial
+    //-----------------------------------------
+    f->irre_poly_num = 0;
     f->irre_poly_deg = 1;
     f->irre_poly = NULL;
 
@@ -120,13 +116,9 @@ void ec_bn254_fpa_new(Field f)
     //  temporary element init
     //----------------------------------
     f->tmp = (Element *)malloc(sizeof(Element) * TMP_NUM);
-    <<< <<< < HEAD
     for (i = 0; i < TMP_NUM; i++) {
         element_init(f->tmp[i], f);
     }
-    == == == =
-    for (i = 0; i < TMP_NUM; i++) { element_init(f->tmp[i], f); }
-    >>> >>> > proj
 
     return;
 }
@@ -216,13 +208,9 @@ void ec_bn254_fp2a_new(Field f)
     //  temporary element init
     //----------------------------------
     f->tmp = (Element *)malloc(sizeof(Element) * TMP_NUM);
-    <<< <<< < HEAD
     for (i = 0; i < TMP_NUM; i++) {
         element_init(f->tmp[i], f);
     }
-    == == == =
-    for (i = 0; i < TMP_NUM; i++) { element_init(f->tmp[i], f); }
-    >>> >>> > proj
 
     return;
 }
@@ -315,13 +303,9 @@ void ec_bn254_fp6a_new(Field f)
     //  temporary element init
     //----------------------------------
     f->tmp = (Element *)malloc(sizeof(Element) * TMP_NUM);
-    <<< <<< < HEAD
     for (i = 0; i < TMP_NUM; i++) {
         element_init(f->tmp[i], f);
     }
-    == == == =
-    for (i = 0; i < TMP_NUM; i++) { element_init(f->tmp[i], f); }
-    >>> >>> > proj
 
     return;
 }
@@ -412,13 +396,9 @@ void ec_bn254_fp12a_new(Field f)
     //  temporary element init
     //----------------------------------
     f->tmp = (Element *)malloc(sizeof(Element) * TMP_NUM);
-    <<< <<< < HEAD
     for (i = 0; i < TMP_NUM; i++) {
         element_init(f->tmp[i], f);
     }
-    == == == =
-    for (i = 0; i < TMP_NUM; i++) { element_init(f->tmp[i], f); }
-    >>> >>> > proj
 
     return;
 }
@@ -502,13 +482,9 @@ void ec_bn254_fpb_new(Field f)
     //  temporary element init
     //----------------------------------
     f->tmp = (Element *)malloc(sizeof(Element) * TMP_NUM);
-    <<< <<< < HEAD
     for (i = 0; i < TMP_NUM; i++) {
         element_init(f->tmp[i], f);
     }
-    == == == =
-    for (i = 0; i < TMP_NUM; i++) { element_init(f->tmp[i], f); }
-    >>> >>> > proj
 
     return;
 }
@@ -598,13 +574,9 @@ void ec_bn254_fp2b_new(Field f)
     //  temporary element init
     //----------------------------------
     f->tmp = (Element *)malloc(sizeof(Element) * TMP_NUM);
-    <<< <<< < HEAD
     for (i = 0; i < TMP_NUM; i++) {
         element_init(f->tmp[i], f);
     }
-    == == == =
-    for (i = 0; i < TMP_NUM; i++) { element_init(f->tmp[i], f); }
-    >>> >>> > proj
 
     return;
 }
@@ -697,13 +669,9 @@ void ec_bn254_fp6b_new(Field f)
     //  temporary element init
     //----------------------------------
     f->tmp = (Element *)malloc(sizeof(Element) * TMP_NUM);
-    <<< <<< < HEAD
     for (i = 0; i < TMP_NUM; i++) {
         element_init(f->tmp[i], f);
     }
-    == == == =
-    for (i = 0; i < TMP_NUM; i++) { element_init(f->tmp[i], f); }
-    >>> >>> > proj
 
     return;
 }
@@ -794,13 +762,9 @@ void ec_bn254_fp12b_new(Field f)
     //  temporary element init
     //----------------------------------
     f->tmp = (Element *)malloc(sizeof(Element) * TMP_NUM);
-    <<< <<< < HEAD
     for (i = 0; i < TMP_NUM; i++) {
         element_init(f->tmp[i], f);
     }
-    == == == =
-    for (i = 0; i < TMP_NUM; i++) { element_init(f->tmp[i], f); }
-    >>> >>> > proj
 
     return;
 }
@@ -828,7 +792,6 @@ void ec_bn254_field_clear(Field f)
 
         if (pf != NULL)
         {
-            <<< <<< < HEAD
             for (i = 0; i < pf->glen1; i++) {
                 element_clear(pf->gamma1[i]);
             }
@@ -838,11 +801,6 @@ void ec_bn254_field_clear(Field f)
             for (i = 0; i < pf->glen3; i++) {
                 element_clear(pf->gamma3[i]);
             }
-            == == == =
-            for (i = 0; i < pf->glen1; i++) { element_clear(pf->gamma1[i]); }
-            for (i = 0; i < pf->glen2; i++) { element_clear(pf->gamma2[i]); }
-            for (i = 0; i < pf->glen3; i++) { element_clear(pf->gamma3[i]); }
-            >>> >>> > proj
             free(pf->gamma1);
             free(pf->gamma2);
             free(pf->gamma3);
@@ -853,13 +811,9 @@ void ec_bn254_field_clear(Field f)
 
     if (f->irre_poly != NULL)
     {
-        <<< <<< < HEAD
         for (i = 0, j = f->irre_poly_num; i < j; i++) {
             element_clear(f->irre_poly[i]);
         }
-        == == == =
-        for (i = 0, j = f->irre_poly_num; i < j; i++) { element_clear(f->irre_poly[i]); }
-        >>> >>> > proj
         f->irre_poly_num = 0;
         f->irre_poly_deg = 0;
         SAFE_FREE(f->irre_poly);
@@ -867,13 +821,9 @@ void ec_bn254_field_clear(Field f)
 
     if (f->tmp != NULL)
     {
-        <<< <<< < HEAD
         for (i = 0; i < TMP_NUM; i++) {
             element_clear(f->tmp[i]);
         }
-        == == == =
-        for (i = 0; i < TMP_NUM; i++) { element_clear(f->tmp[i]); }
-        >>> >>> > proj
         SAFE_FREE(f->tmp);
     }
 
@@ -1024,11 +974,6 @@ void ec_bn254_fpb_group_new(EC_GROUP ec)
     ec_bn254_fp_init_ec_data(ec);
 }
 
-<<< <<< < HEAD
-== == == =
-
-
-    >>>>>>> proj
 //----------------------------------------------
 //  function generating elliptic curve method
 //----------------------------------------------
@@ -1191,13 +1136,8 @@ void ec_bn254_pairing_b_new(EC_PAIRING p)
 
     set_pairing_name(p, "ECBN254b");
 
-    <<< <<< < HEAD
     p->pairing = ec_bn254_pairing_aranha_proj;
     p->pairing_double = ec_bn254_double_pairing_aranha_proj;
-    == == == =
-        p->pairing = ec_bn254_pairing_aranha;
-    p->pairing_double = ec_bn254_double_pairing_aranha;
-    >>> >>> > proj
 
     curve_init(p->g1, "ec_bn254_fpb");
     curve_init(p->g2, "ec_bn254_twb");
