@@ -230,7 +230,7 @@ void bn254_fp12_mul_L(Element z, Element x0, Element x1, Element x2)
 void bn254_fp12_mul_L2(Element z, Element x0, Element x1, Element x2)
 {
     Element *v = field(z)->base->tmp;
-
+    
     bn254_fp6_mul_fp2_4(v[0], rep0(z), x0, x1);
     bn254_fp6_mul_fp2_3(v[1], rep1(z), x2);
 

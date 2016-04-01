@@ -120,7 +120,6 @@ void test_pairing(const EC_PAIRING p)
         point_mul(S, b, Q);      // S = bQ
 
         pairing_map(g, P, Q, p);  // g = e(Q, P)
-
         element_pow(d, g, order);
 
         assert(element_is_one(d));

@@ -12,7 +12,6 @@
 
 #define rep0(x) (((Element *)x->data)[0])
 #define rep1(x) (((Element *)x->data)[1])
-
 #define field(p)   (p->ec->field)
 #define curve(p)   (p->ec)
 

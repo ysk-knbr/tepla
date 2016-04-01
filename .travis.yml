@@ -19,4 +19,8 @@ before_script:
 script: make -j 4 check
 # after_failure:
 #     - "pwd"
+<<<<<<< HEAD
 #     - "cat config.log"
+=======
+#     - "cat config.log"
+>>>>>>> proj
